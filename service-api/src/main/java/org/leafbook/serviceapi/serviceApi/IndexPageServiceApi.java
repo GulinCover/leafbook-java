@@ -8,6 +8,7 @@ import org.leafbook.api.testModel.indexPage.TestModel;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class IndexPageServiceApi {
@@ -22,5 +23,13 @@ public class IndexPageServiceApi {
 
     public List<BrowseHistoryAbs> postSelectMeBrowseHistoryTopics(Long userId) {
         return TestModel.createBrowseHistoryAbsList();
+    }
+
+    public List<TopicAbs> postSelectMeTopics(Map<String, String> form) {
+        return TestModel.createTopicAbs();
+    }
+
+    public List<TopicAbs> getSelectTopic(String name) {
+        return TestModel.createTopicAbs();
     }
 }

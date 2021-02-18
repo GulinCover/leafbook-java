@@ -13,6 +13,6 @@ public class ExceptPageConfig {
     public String except(Exception e) {
         if (e.getClass() == MissingRequestHeaderException.class)
             return "未登录";
-        return "except";
+        return e.getClass().toString();
     }
 }

@@ -3,24 +3,22 @@ package org.leafbook.serviceapi.ControllerApi;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.HttpStatusCode.HttpStatusCode;
+import org.leafbook.api.respAbs.common.SearchDataResp;
 import org.leafbook.api.respAbs.common.SearchHistoryAbs;
 import org.leafbook.api.respAbs.common.TopBarSearchResp;
-import org.leafbook.api.respAbs.indexPage.BrowseHistoryAbs;
-import org.leafbook.api.respAbs.indexPage.RightBrowseHistoryResp;
-import org.leafbook.api.respAbs.indexPage.TopicAbs;
-import org.leafbook.api.respAbs.indexPage.TopicListResp;
+import org.leafbook.api.respAbs.indexPage.*;
 import org.leafbook.serviceapi.serviceApi.IndexPageServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-@CrossOrigin
+@CrossOrigin("*")
 @Api("IndexControllerApi")
 @RestController
 public class IndexControllerApi {
@@ -81,4 +79,43 @@ public class IndexControllerApi {
         resp.setCode(HttpStatus.OK.toString());
         return resp;
     }
+
+    //模糊搜素自己的topic
+    @ApiOperation("/api/post/select/search/me/topics")
+    @PostMapping(value = "/api/post/select/search/me/topics",produces = MediaType.APPLICATION_JSON_VALUE)
+    public LeftTopicResp postSelectMeTopicsApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+        LeftTopicResp resp = new LeftTopicResp();
+
+        form.put("user_id",userId.toString());
+        List<TopicAbs> topicAbsList = indexPageServiceApi.postSelectMeTopics(form);
+        if (Objects.isNull(topicAbsList)) {
+            resp.setCode(HttpStatus.FAILED_DEPENDENCY.toString());
+            return resp;
+        }
+
+        resp.setTopicAbsList(topicAbsList);
+        resp.setCode(HttpStatus.OK.toString());
+        return resp;
+    }
+
+    //模糊搜索全局topic
+    @ApiOperation("/api/post/select/search/global/topic")
+    @GetMapping("/api/post/select/search/global/topic")
+    public SearchDataResp getSelectTopicApi(@PathParam("name")String name) {
+        SearchDataResp resp = new SearchDataResp();
+        List<TopicAbs> topicAbsList = indexPageServiceApi.getSelectTopic(name);
+
+        resp.setTopicAbsList(topicAbsList);
+        resp.setCode(HttpStatus.OK.toString());
+        return resp;
+    }
 }
+
+
+
+
+
+
+
+
+
