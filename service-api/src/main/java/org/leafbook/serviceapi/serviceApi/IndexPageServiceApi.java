@@ -14,7 +14,7 @@ import java.util.Map;
 public class IndexPageServiceApi {
 
     public List<TopicAbs> postSelectUserTopics(Long userId) {
-        return TestModel.createTopicAbs();
+        return TestModel.createTopicAbsList();
     }
 
     public List<SearchHistoryAbs> postSelectMeSearchHistoryTopics(Long userId) {
@@ -26,10 +26,10 @@ public class IndexPageServiceApi {
     }
 
     public List<TopicAbs> postSelectMeTopics(Map<String, String> form) {
-        return TestModel.createTopicAbs();
+        return TestModel.createTopicAbsList();
     }
 
     public List<TopicAbs> getSelectTopic(String name) {
-        return TestModel.createTopicAbs();
+        return TestModel.createTopicAbsList();
     }
 }
