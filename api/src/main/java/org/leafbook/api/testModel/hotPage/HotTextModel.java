@@ -42,4 +42,16 @@ public class HotTextModel extends TestModel {
         }
         return entryAbsList;
     }
+
+    public static List<EntryAbs> createAllHotEntryAbsByTopicId() {
+        List<EntryAbs> entryAbsList = new LinkedList<EntryAbs>();
+        for (int i = 0; i < 30; ++i) {
+            EntryAbs entryAbs = new EntryAbs();
+            entryAbs.setEntryId((long) i);
+            entryAbs.setEntryName(randomWord(4));
+
+            entryAbsList.add(entryAbs);
+        }
+        return entryAbsList;
+    }
 }

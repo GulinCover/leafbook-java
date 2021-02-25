@@ -17,4 +17,8 @@ public class HotPageServiceApi {
     public List<EntryAbs> getSelectEntryInfoByTopicId(Long topicId) {
         return HotTextModel.createEntryAbsByTopicId();
     }
+
+    public List<EntryAbs> getSelectAllHotEntryListApi() {
+        return HotTextModel.createAllHotEntryAbsByTopicId();
+    }
 }
