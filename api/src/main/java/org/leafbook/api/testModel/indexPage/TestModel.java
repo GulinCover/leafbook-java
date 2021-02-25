@@ -96,7 +96,7 @@ public class TestModel {
         return entryAbsList;
     }
 
-    private static StringBuilder randomString() {
+    public static StringBuilder randomString() {
         StringBuilder str = new StringBuilder();
         for (int i = 0; i < new Random().nextInt(8)+5; ++i) {
             str.append(randomWord(4));
@@ -106,7 +106,7 @@ public class TestModel {
         return str;
     }
 
-    private static String randomWord(int max) {
+    public static String randomWord(int max) {
         int length = 5 + (int) (Math.random() * max);
         String word = "";
         for (int i = 0; i < length; i++) {
@@ -115,7 +115,7 @@ public class TestModel {
         return word;
     }
 
-    private static String randomWord() {
+    public static String randomWord() {
         int length = 5 +  (int) (Math.random() * 9);
         String word = "";
         for (int i = 0; i < length; i++) {
@@ -124,7 +124,7 @@ public class TestModel {
         return word;
     }
 
-    private static byte randomChar() {
+    public static byte randomChar() {
         int flag = (int) (Math.random() * 2);// 0小写字母1大写字母
         byte resultBt;
         if (flag == 0) {
