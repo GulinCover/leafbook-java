@@ -2,10 +2,8 @@ package org.leafbook.serviceapi.ControllerApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.leafbook.api.respAbs.marketplacePage.ArticleInfosResp;
-import org.leafbook.api.respAbs.marketplacePage.EntryArticleInfosResp;
-import org.leafbook.api.respAbs.marketplacePage.EntryInfosResp;
-import org.leafbook.api.respAbs.marketplacePage.TypeResp;
+import org.apache.commons.collections.map.LinkedMap;
+import org.leafbook.api.respAbs.marketplacePage.*;
 import org.leafbook.serviceapi.serviceApi.MarketplacePageServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @CrossOrigin("*")
 @Api("MarketplacePageControllerApi")
@@ -94,39 +94,30 @@ public class MarketplacePageControllerApi {
     entry_name:词条名
     entry:词条类型all,hot,official,custom
     type:拍卖品类型all,topic,nickname
-    hot:热门关键词
-    public_time:desc按时间查找从新到旧
+    public_time:desc按时间查找,以~分割
     blurry:模糊搜索
      */
     @ApiOperation("/api/get/select/search/entry/articleInfos")
     @GetMapping("/api/get/select/search/entry/articleInfos")
-    public void getSelectArticleInfosBySearchApi(
-            @RequestParam("entry_name")String entryName,
-            @RequestParam("entry")String entry,
-            @RequestParam("type")String type,
-            @RequestParam("hot")String hot,
-            @RequestParam("recent")String recent,
-            @RequestParam("public_time") Date publicTime,
-            @RequestParam("blurry")String content,
-            @RequestParam("page")Integer page
-            ) {
+    public SearchArticleInfosResp getSelectArticleInfosBySearchApi(
+            @RequestParam("entry_name") String entryName,
+            @RequestParam("entry") String entry,
+            @RequestParam("type") String type,
+            @RequestParam("public_time") String publicTime,
+            @RequestParam("blurry") String content,
+            @RequestParam("page") Integer page
+    ) {
+        SearchArticleInfosResp resp = new SearchArticleInfosResp();
         if (!entryName.isEmpty()) {
-            //按照词条名称查询
-            if (!entry.isEmpty()) {
-                //按照词条名称 和 词条类型查询
-            } else {
-                //按照词条名称查询全部
-            }
-        } else if (!hot.isEmpty()) {
-            //查询热门词条
-        } else if (!recent.isEmpty()) {
-            if (!publicTime.toString().isEmpty()) {
-                //按照时间查询最近上架的全部
-            }
-            //查询最近上架
+            resp.setArticleInfosAbsList(marketplacePageServiceApi.getSelectArticleInfosBySearch());
+            resp.setMaxPage(40);
+            resp.setCode(HttpStatus.OK.toString());
         } else {
-            //模糊查询
+            resp.setMaxPage(50);
+            resp.setArticleInfosAbsList(marketplacePageServiceApi.getSelectArticleInfosBySearch());
+            resp.setCode(HttpStatus.SERVICE_UNAVAILABLE.toString());
         }
+        return resp;
     }
 
 }

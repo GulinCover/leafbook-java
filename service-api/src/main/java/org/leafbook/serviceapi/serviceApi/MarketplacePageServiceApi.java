@@ -34,6 +34,10 @@ public class MarketplacePageServiceApi {
     public List<ArticleInfosAbs> getSelectRandomArticleInfosByEntryInfos() {
         return MarketplaceTestModel.createRandomArticleInfosAbsList();
     }
+
+    public List<ArticleInfosAbs> getSelectArticleInfosBySearch() {
+        return MarketplaceTestModel.createRandomArticleInfosAbsList();
+    }
 }
 
 
