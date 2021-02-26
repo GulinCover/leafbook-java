@@ -3,7 +3,6 @@ package org.leafbook.serviceapi.ControllerApi;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.respAbs.hotPage.AllTopicInfosResp;
-import org.leafbook.api.respAbs.hotPage.EntryAbs;
 import org.leafbook.api.respAbs.hotPage.EntryAbsListResp;
 import org.leafbook.api.respAbs.hotPage.SearchTopicsResp;
 import org.leafbook.serviceapi.serviceApi.HotPageServiceApi;
