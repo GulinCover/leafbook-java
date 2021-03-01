@@ -13,6 +13,8 @@ import java.util.Random;
 
 @Data
 public class TestModel {
+    public static String Picture = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg";
+
     public static List<TopicAbs> createTopicAbsList() {
         List<TopicAbs> topicAbsList = new LinkedList<TopicAbs>();
         for (int i = 0; i < (new Random().nextInt(15)) + 5; ++i) {

@@ -2,7 +2,6 @@ package org.leafbook.serviceapi.ControllerApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.leafbook.api.HttpStatusCode.HttpStatusCode;
 import org.leafbook.api.respAbs.common.SearchDataResp;
 import org.leafbook.api.respAbs.common.SearchHistoryAbs;
 import org.leafbook.api.respAbs.common.TopBarSearchResp;
