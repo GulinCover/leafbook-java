@@ -2,6 +2,7 @@ package org.leafbook.serviceapi.ControllerApi.userManager;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.respAbs.common.MessageResp;
 import org.leafbook.api.respAbs.common.UserInfoResp;
 import org.leafbook.api.respAbs.userManagerPage.UserLoginInfoResp;
 import org.leafbook.serviceapi.serviceApi.userManager.SecurityPageServiceApi;
@@ -21,20 +22,29 @@ public class SecurityPageControllerApi {
     //更改密码
     @ApiOperation("/api/post/update/password")
     @PostMapping("/api/post/update/password")
-    public String postUpdatePasswordApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
-        return HttpStatus.OK.toString();
+    public MessageResp postUpdatePasswordApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+        resp.setMsg("密码修改成功");
+        resp.setCode(HttpStatus.OK.toString());
+        return resp;
     }
     //更改email
     @ApiOperation("/api/post/update/email")
     @PostMapping("/api/post/update/email")
-    public String postUpdateEmailApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
-        return HttpStatus.OK.toString();
+    public MessageResp postUpdateEmailApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+        resp.setMsg("email修改成功");
+        resp.setCode(HttpStatus.OK.toString());
+        return resp;
     }
     //更改phone
     @ApiOperation("/api/post/update/phone")
     @PostMapping("/api/post/update/phone")
-    public String postUpdatePhoneApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
-        return HttpStatus.OK.toString();
+    public MessageResp postUpdatePhoneApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+        resp.setMsg("phone修改成功");
+        resp.setCode(HttpStatus.OK.toString());
+        return resp;
     }
 
     //剔除某项登录信息

@@ -25,7 +25,7 @@ public class FileControllerApi {
         String url = fileServiceApi.postInsertPicture();
         UploadPictureResp resp = new UploadPictureResp();
         resp.setCode(HttpStatus.OK.toString());
-        resp.setFileUrl("http://localhost/api/get/select/picture/"+url);
+        resp.setFileUrl("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2809052415,518307309&fm=26&gp=0.jpg");
         return resp;
     }
 }

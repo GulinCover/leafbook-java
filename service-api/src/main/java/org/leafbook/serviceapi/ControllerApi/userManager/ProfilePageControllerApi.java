@@ -18,7 +18,7 @@ public class ProfilePageControllerApi {
     private ProfilePageServiceApi profilePageServiceApi;
 
     /*
-    user_avatar:图片url
+    user_avatar:图片url;单独修改
     user_desc:
     user_location:
     user_sex:
