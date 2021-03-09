@@ -15,7 +15,7 @@ public class ExplorePageServiceApi {
 
     public UserReplyDataResp postSelectUserReplyNumber(Long userId) {
         UserReplyDataResp userReplyDataResp = new UserReplyDataResp();
-        userReplyDataResp.setAvatar("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg");
+        userReplyDataResp.setUserAvatar("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg");
         userReplyDataResp.setUUID("asfw-2324-asfs");
         userReplyDataResp.setUsername("Alex");
 

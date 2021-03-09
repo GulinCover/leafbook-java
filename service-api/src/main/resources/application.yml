@@ -1,4 +1,4 @@
 swagger:
   base-package: org.leafbook.serviceapi
   description: "hello world"
-  group-name: "hahha"
+  group-name: "api"

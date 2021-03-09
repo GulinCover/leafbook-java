@@ -7,7 +7,7 @@ public class UserReplyDataResp {
     private String code;
     private String username;
     private String UUID;
-    private String avatar;
+    private String userAvatar;
     private Integer topicReplyNumber;
     private Integer commentReplyNumber;
     private Integer talkReplyNumber;
