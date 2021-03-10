@@ -2,14 +2,14 @@ package org.leafbook.serviceapi.ControllerApi.common;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.respAbs.common.MessageResp;
 import org.leafbook.api.respAbs.common.UserInfoResp;
 import org.leafbook.serviceapi.serviceApi.common.UserInfoServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @CrossOrigin("*")
 @Api("UserInfoControllerApi")
@@ -23,6 +23,42 @@ public class UserInfoControllerApi {
     @PostMapping("/api/post/select/me/userInfo")
     public UserInfoResp postSelectUserInfoApi(@RequestHeader("user_id")Long userId) {
         UserInfoResp resp = userInfoServiceApi.postSelectUserInfo();
+        resp.setCode(HttpStatus.OK.toString());
+        return resp;
+    }
+
+    //添加关注
+    /*
+    attention_user_id:要关注的用户id
+    topic_id:
+    comment_id:
+    talk_id:
+    talkComment_id:
+    type:user,topic,comment,talk,talkComment
+     */
+    @ApiOperation("/api/post/insert/attention")
+    @PostMapping("/api/post/insert/attention")
+    public MessageResp postInsertAttentionApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+        resp.setMsg("关注成功");
+        resp.setCode(HttpStatus.OK.toString());
+        return resp;
+    }
+
+    //添加点赞
+    /*
+    topic_id:
+    comment_id:
+    talk_id:
+    talkComment_id:
+    entry_id:
+    type:topic,comment,talk,talkComment,entry
+     */
+    @ApiOperation("/api/post/insert/liked")
+    @PostMapping("/api/post/insert/liked")
+    public MessageResp postInsertLikedApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+        resp.setMsg("点赞成功");
         resp.setCode(HttpStatus.OK.toString());
         return resp;
     }

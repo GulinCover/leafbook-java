@@ -35,6 +35,8 @@ public class TopicEntryTestModel extends TestModel {
 
             topicAbs.setUserId((long)i);
             topicAbs.setUsername(randomWord());
+            topicAbs.setUpdateTime(new Date().toString());
+            topicAbs.setLikedNumber(String.valueOf(new Random().nextInt(5000)));
 
             ContentAbs contentAbs = new ContentAbs();
             contentAbs.setTopicDesc(randomString().toString());
