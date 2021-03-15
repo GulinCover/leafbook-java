@@ -25,7 +25,7 @@ public class SecurityPageControllerApi {
     public MessageResp postUpdatePasswordApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("密码修改成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
     //更改email
@@ -34,7 +34,7 @@ public class SecurityPageControllerApi {
     public MessageResp postUpdateEmailApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("email修改成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
     //更改phone
@@ -43,7 +43,7 @@ public class SecurityPageControllerApi {
     public MessageResp postUpdatePhoneApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("phone修改成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -53,8 +53,10 @@ public class SecurityPageControllerApi {
      */
     @ApiOperation("/api/post/delete/userLogin")
     @PostMapping("/api/post/delete/userLogin")
-    public String postDeleteWeedOutUserLoginInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
-        return HttpStatus.OK.toString();
+    public MessageResp postDeleteWeedOutUserLoginInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+        resp.setCode(200);
+        return resp;
     }
 
     //获取登录信息
@@ -63,7 +65,7 @@ public class SecurityPageControllerApi {
     public UserLoginInfoResp postSelectUserLoginInfoApi(@RequestHeader("user_id")Long userId) {
         UserLoginInfoResp resp = new UserLoginInfoResp();
         resp.setUserLoginAbsList(securityPageServiceApi.postSelectUserLoginInfo());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class PolicyInfoResp {
-    private String code;
+    private Integer code;
     private String content;
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class BillInfosResp {
-    private String code;
+    private Integer code;
     private String balance;
     private List<BillAbs> billAbsList;
 }

@@ -29,7 +29,7 @@ public class HotPageControllerApi {
         AllTopicInfosResp resp = new AllTopicInfosResp();
 
         resp.setTopicInfoAbsList(hotPageServiceApi.getSelectAllHotTopicInfos(page));
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -40,7 +40,7 @@ public class HotPageControllerApi {
         EntryAbsListResp resp = new EntryAbsListResp();
 
         resp.setEntryAbsList(hotPageServiceApi.getSelectAllHotEntryListApi());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -56,7 +56,7 @@ public class HotPageControllerApi {
         SearchTopicsResp resp = new SearchTopicsResp();
 
         resp.setTopicInfoAbsList(hotPageServiceApi.getSelectAllHotTopicInfos(page));
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 

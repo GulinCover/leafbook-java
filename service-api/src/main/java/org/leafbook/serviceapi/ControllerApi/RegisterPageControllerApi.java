@@ -32,7 +32,7 @@ public class RegisterPageControllerApi {
     public MessageResp postCreateAccountApi(@RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("注册成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -44,7 +44,7 @@ public class RegisterPageControllerApi {
     @PostMapping("/api/post/select/account/code")
     public MessageResp postSelectAccountCodeApi(@RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

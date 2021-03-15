@@ -25,7 +25,7 @@ public class LoginPageControllerApi {
     public MessageResp postInsertUserLogin(@RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("user.jwt");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

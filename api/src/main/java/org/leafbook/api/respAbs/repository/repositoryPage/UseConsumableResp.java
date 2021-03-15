@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class UseConsumableResp {
-    private String code;
+    private Integer code;
     private String message;
 }

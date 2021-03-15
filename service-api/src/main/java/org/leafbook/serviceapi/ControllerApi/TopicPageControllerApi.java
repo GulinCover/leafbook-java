@@ -26,7 +26,7 @@ public class TopicPageControllerApi {
         RecommendedEntriesResp resp = new RecommendedEntriesResp();
 
         resp.setEntryAbsList(topicPageServiceApi.getSelectRecommendedEntriesInfo());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -37,7 +37,7 @@ public class TopicPageControllerApi {
         AllEntriesResp resp = new AllEntriesResp();
 
         resp.setEntryAbsList(topicPageServiceApi.getSelectAllEntriesInfo(page));
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 

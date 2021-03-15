@@ -27,11 +27,11 @@ public class MarketplaceDetailPageControllerApi {
         ArticleInfoResp resp = marketplaceDetailPageServiceApi.getSelectArticleInfo(articleId);
         if (Objects.isNull(resp)) {
             ArticleInfoResp articleInfoResp = new ArticleInfoResp();
-            articleInfoResp.setCode(HttpStatus.OK.toString());
+            articleInfoResp.setCode(200);
             return articleInfoResp;
         }
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -47,7 +47,7 @@ public class MarketplaceDetailPageControllerApi {
             @RequestBody Map<String, String> form
             ) {
         BidingResp resp = new BidingResp();
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         resp.setMessage("竞拍成功");
         return resp;
     }

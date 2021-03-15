@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class TypeResp {
-    private String code;
+    private Integer code;
     private List<String> typeList;
 }

@@ -27,7 +27,7 @@ public class PublicTopicPageControllerApi {
 
         resp.setPublicTopicAbsList(publicTopicPageServiceApi.postSelectPublicTopicInfo());
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -39,7 +39,7 @@ public class PublicTopicPageControllerApi {
 
         resp.setEntryAbsList(publicTopicPageServiceApi.postSelectPublicTopicInfoAllEntryList());
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -59,7 +59,7 @@ public class PublicTopicPageControllerApi {
 
         resp.setPublicTopicAbsList(publicTopicPageServiceApi.postSelectPublicTopicInfo());
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

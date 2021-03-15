@@ -31,7 +31,7 @@ public class WalletPageControllerApi {
         resp.setBillAbsList(walletPageServiceApi.postSelectBillInfos());
 
         resp.setBalance(String.valueOf(new Random().nextInt(500)));
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -43,7 +43,7 @@ public class WalletPageControllerApi {
 
         resp.setEntryAbsList(walletPageServiceApi.postSelectPublicTopicInfoAllEntryList());
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

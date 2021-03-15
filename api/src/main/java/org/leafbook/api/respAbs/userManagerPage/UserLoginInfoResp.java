@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class UserLoginInfoResp {
-    private String code;
+    private Integer code;
     private List<UserLoginAbs> userLoginAbsList;
 }

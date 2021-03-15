@@ -23,7 +23,7 @@ public class ForgotPageControllerApi {
     public MessageResp postSelectSendEmailCodeApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("请验证您的电子邮箱");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -37,7 +37,7 @@ public class ForgotPageControllerApi {
     public MessageResp postUpdatePasswordApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("修改成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

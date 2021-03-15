@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class RightBrowseHistoryResp {
-    private String code;
+    private Integer code;
     private List<BrowseHistoryAbs> browseHistoryAbsList;
 }

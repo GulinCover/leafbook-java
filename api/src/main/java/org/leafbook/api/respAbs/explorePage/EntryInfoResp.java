@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class EntryInfoResp {
-    private String code;
+    private Integer code;
     private String entryName;
     private String isLeft;
     private Long entryId;

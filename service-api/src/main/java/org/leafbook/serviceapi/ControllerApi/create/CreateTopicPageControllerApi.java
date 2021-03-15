@@ -31,7 +31,7 @@ public class CreateTopicPageControllerApi {
     public MessageResp postCreateTopicInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, Object> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("312312");//返回创建的topicId
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -41,7 +41,7 @@ public class CreateTopicPageControllerApi {
     public EntryInfosResp getSelectOfficialEntryInfosApi() {
         EntryInfosResp resp = new EntryInfosResp();
         resp.setEntryAbsList(createTopicPageServiceApi.getSelectOfficialEntryInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -51,7 +51,7 @@ public class CreateTopicPageControllerApi {
     public EntryInfosResp getSelectNonofficialEntryInfosApi() {
         EntryInfosResp resp = new EntryInfosResp();
         resp.setEntryAbsList(createTopicPageServiceApi.getSelectNonofficialEntryInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

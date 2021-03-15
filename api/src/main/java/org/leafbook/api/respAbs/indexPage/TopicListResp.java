@@ -8,6 +8,6 @@ import java.util.List;
 
 @Data
 public class TopicListResp {
-    private String code;
+    private Integer code;
     private List<TopicAbs> topicAbsList;
 }

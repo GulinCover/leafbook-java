@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class TopBarSearchResp {
-    private String code;
+    private Integer code;
     private List<SearchHistoryAbs> searchHistories;
 }

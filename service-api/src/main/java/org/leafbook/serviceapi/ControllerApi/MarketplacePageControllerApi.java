@@ -30,7 +30,7 @@ public class MarketplacePageControllerApi {
         TypeResp resp = new TypeResp();
 
         resp.setTypeList(marketplacePageServiceApi.getSelectSellType());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -41,7 +41,7 @@ public class MarketplacePageControllerApi {
         EntryInfosResp resp = new EntryInfosResp();
 
         resp.setEntryAbsList(marketplacePageServiceApi.getSelectOfficialEntryInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -52,7 +52,7 @@ public class MarketplacePageControllerApi {
         EntryInfosResp resp = new EntryInfosResp();
 
         resp.setEntryAbsList(marketplacePageServiceApi.getSelectRandomFourOfficialEntryInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -63,7 +63,7 @@ public class MarketplacePageControllerApi {
         ArticleInfosResp resp = new ArticleInfosResp();
 
         resp.setArticleInfoAbsList(marketplacePageServiceApi.getSelectRandomPopularArticleInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -74,7 +74,7 @@ public class MarketplacePageControllerApi {
         ArticleInfosResp resp = new ArticleInfosResp();
 
         resp.setArticleInfoAbsList(marketplacePageServiceApi.getSelectRandomPopularArticleInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -85,7 +85,7 @@ public class MarketplacePageControllerApi {
         EntryArticleInfosResp resp = new EntryArticleInfosResp();
 
         resp.setArticleInfosAbsList(marketplacePageServiceApi.getSelectRandomArticleInfosByEntryInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -111,11 +111,11 @@ public class MarketplacePageControllerApi {
         if (!entryName.isEmpty()) {
             resp.setArticleInfosAbsList(marketplacePageServiceApi.getSelectArticleInfosBySearch());
             resp.setMaxPage(40);
-            resp.setCode(HttpStatus.OK.toString());
+            resp.setCode(200);
         } else {
             resp.setMaxPage(50);
             resp.setArticleInfosAbsList(marketplacePageServiceApi.getSelectArticleInfosBySearch());
-            resp.setCode(HttpStatus.SERVICE_UNAVAILABLE.toString());
+            resp.setCode(200);
         }
         return resp;
     }

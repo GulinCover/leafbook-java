@@ -23,7 +23,7 @@ public class ExplorePageControllerApi {
     @PostMapping("/api/post/select/userReplyData")
     public UserReplyDataResp postSelectUserReplyDataApi(@RequestHeader("user_id")Long userId) {
         UserReplyDataResp resp = explorePageServiceApi.postSelectUserReplyNumber(userId);
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -34,7 +34,7 @@ public class ExplorePageControllerApi {
         EntryInfosResp resp = new EntryInfosResp();
 
         resp.setEntryAbsList(explorePageServiceApi.getSelectEntryInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -45,7 +45,7 @@ public class ExplorePageControllerApi {
         TopicInfosResp resp = new TopicInfosResp();
 
         resp.setTopicAbsList(explorePageServiceApi.getSelectTopicInfosByEntryIds(entryIds));
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -59,7 +59,7 @@ public class ExplorePageControllerApi {
         resp.setEntryId(10L);
         resp.setEntryName("Alex");
         resp.setIsLeft("1");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -74,7 +74,7 @@ public class ExplorePageControllerApi {
         resp.setEntryName("Alex");
         resp.setIsLeft("0");
         resp.setEntryAbsList(explorePageServiceApi.getSelectEntryInfosSimple());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -85,7 +85,7 @@ public class ExplorePageControllerApi {
         EntryInfosResp resp = new EntryInfosResp();
 
         resp.setEntryAbsList(explorePageServiceApi.getSelectEntryInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 

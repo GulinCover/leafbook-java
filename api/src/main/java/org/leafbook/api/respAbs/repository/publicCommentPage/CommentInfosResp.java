@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class CommentInfosResp {
-    private String code;
+    private Integer code;
     private List<CommentInfoAbs> commentInfoAbsList;
 }

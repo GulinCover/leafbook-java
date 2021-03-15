@@ -28,7 +28,7 @@ public class ProfilePageControllerApi {
     public UserInfoResp postUpdateUserInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         UserInfoResp resp = profilePageServiceApi.postUpdateUserInfo(form);
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 

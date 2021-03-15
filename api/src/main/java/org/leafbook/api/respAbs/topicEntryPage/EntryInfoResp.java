@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class EntryInfoResp {
-    private String code;
+    private Integer code;
     private Long entryId;
     private String entryName;
     private String entryDesc;

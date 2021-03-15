@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class TopicInfosResp {
-    private String code;
+    private Integer code;
     private List<TopicDetailAbs> topicDetailAbsList;
 }

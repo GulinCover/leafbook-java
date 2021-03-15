@@ -27,7 +27,7 @@ public class CreateHotPageControllerApi {
     public MessageResp postCreateHotInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("创建成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

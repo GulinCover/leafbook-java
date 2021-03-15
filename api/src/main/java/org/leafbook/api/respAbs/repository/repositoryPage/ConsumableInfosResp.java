@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class ConsumableInfosResp {
-    private String code;
+    private Integer code;
     private List<ConsumableInfoAbs> consumableInfoAbsList;
 }

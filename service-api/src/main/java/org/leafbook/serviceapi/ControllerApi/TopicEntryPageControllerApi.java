@@ -23,7 +23,7 @@ public class TopicEntryPageControllerApi {
     @GetMapping("/api/get/select/entryInfo/{id}")
     public EntryInfoResp getSelectEntryInfoApi(@PathVariable("id")Long entryId) {
         EntryInfoResp resp = topicEntryPageServiceApi.getSelectEntryInfo(entryId);
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -33,7 +33,7 @@ public class TopicEntryPageControllerApi {
     public TopicInfosResp getSelectTopicInfosApi(@PathVariable("id")Long entryId) {
         TopicInfosResp resp = new TopicInfosResp();
         resp.setTopicDetailAbsList(topicEntryPageServiceApi.getSelectTopicInfos());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

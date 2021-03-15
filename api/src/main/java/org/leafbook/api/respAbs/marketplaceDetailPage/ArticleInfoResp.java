@@ -6,7 +6,7 @@ import java.util.List;
 
 @Data
 public class ArticleInfoResp {
-    private String code;
+    private Integer code;
     private Long articleId;
     private String articleUUID;
     private String startPrice;

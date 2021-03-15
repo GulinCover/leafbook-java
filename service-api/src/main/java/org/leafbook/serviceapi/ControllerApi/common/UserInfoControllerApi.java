@@ -23,7 +23,7 @@ public class UserInfoControllerApi {
     @PostMapping("/api/post/select/me/userInfo")
     public UserInfoResp postSelectUserInfoApi(@RequestHeader("user_id")Long userId) {
         UserInfoResp resp = userInfoServiceApi.postSelectUserInfo();
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -41,7 +41,7 @@ public class UserInfoControllerApi {
     public MessageResp postInsertAttentionApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("关注成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -59,7 +59,7 @@ public class UserInfoControllerApi {
     public MessageResp postInsertLikedApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("点赞成功");
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 

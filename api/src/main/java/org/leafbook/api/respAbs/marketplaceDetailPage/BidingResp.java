@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class BidingResp {
-    private String code;
+    private Integer code;
     private String message;
 }
 

@@ -34,12 +34,12 @@ public class IndexPageControllerApi {
 
         List<TopicAbs> topicAbsList = indexPageServiceApi.postSelectUserTopics(userId);
         if (Objects.isNull(topicAbsList)) {
-            resp.setCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+            resp.setCode(500);
             return resp;
         }
 
         resp.setTopicAbsList(topicAbsList);
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -52,12 +52,12 @@ public class IndexPageControllerApi {
 
         List<SearchHistoryAbs> searchHistoryAbs = indexPageServiceApi.postSelectMeSearchHistoryTopics(userId);
         if (Objects.isNull(searchHistoryAbs)) {
-            resp.setCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+            resp.setCode(500);
             return resp;
         }
 
         resp.setSearchHistories(searchHistoryAbs);
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -70,12 +70,12 @@ public class IndexPageControllerApi {
 
         List<BrowseHistoryAbs> browseHistoryAbs = indexPageServiceApi.postSelectMeBrowseHistoryTopics(userId);
         if (Objects.isNull(browseHistoryAbs)) {
-            resp.setCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+            resp.setCode(500);
             return resp;
         }
 
         resp.setBrowseHistoryAbsList(browseHistoryAbs);
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -88,12 +88,12 @@ public class IndexPageControllerApi {
         form.put("user_id",userId.toString());
         List<TopicAbs> topicAbsList = indexPageServiceApi.postSelectMeTopics(form);
         if (Objects.isNull(topicAbsList)) {
-            resp.setCode(HttpStatus.FAILED_DEPENDENCY.toString());
+            resp.setCode(500);
             return resp;
         }
 
         resp.setTopicAbsList(topicAbsList);
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -105,7 +105,7 @@ public class IndexPageControllerApi {
         List<TopicAbs> topicAbsList = indexPageServiceApi.getSelectTopic(name);
 
         resp.setTopicAbsList(topicAbsList);
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

@@ -28,7 +28,7 @@ public class PublicCommentPageControllerApi {
 
         resp.setCommentInfoAbsList(publicCommentPageServiceApi.postSelectPublicCommentInfoAllEntryList());
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -40,7 +40,7 @@ public class PublicCommentPageControllerApi {
 
         resp.setEntryAbsList(publicCommentPageServiceApi.postSelectPublicTopicInfoAllEntryList());
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 
@@ -60,7 +60,7 @@ public class PublicCommentPageControllerApi {
 
         resp.setCommentInfoAbsList(publicCommentPageServiceApi.postSelectPublicCommentInfoAllEntryList());
 
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

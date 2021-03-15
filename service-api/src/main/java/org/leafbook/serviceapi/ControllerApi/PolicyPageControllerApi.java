@@ -25,7 +25,7 @@ public class PolicyPageControllerApi {
         PolicyInfoResp resp = new PolicyInfoResp();
 
         resp.setContent(policyPageServiceApi.getSelectPolicyInfo());
-        resp.setCode(HttpStatus.OK.toString());
+        resp.setCode(200);
         return resp;
     }
 }

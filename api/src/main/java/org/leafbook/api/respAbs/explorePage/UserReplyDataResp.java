@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserReplyDataResp {
-    private String code;
+    private Integer code;
     private String username;
     private String UUID;
     private String userAvatar;

@@ -6,6 +6,6 @@ import java.util.List;
 
 @Data
 public class RecommendedEntriesResp {
-    private String code;
+    private Integer code;
     private List<EntryAbs> entryAbsList;
 }

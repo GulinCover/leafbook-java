@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class UploadPictureResp {
-    private String code;
+    private Integer code;
     private String fileUrl;
 }
