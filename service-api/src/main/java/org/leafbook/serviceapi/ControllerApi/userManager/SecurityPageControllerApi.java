@@ -19,7 +19,12 @@ public class SecurityPageControllerApi {
     @Autowired
     private SecurityPageServiceApi securityPageServiceApi;
 
-    //更改密码
+    /**
+     * 更改密码
+     * @param userId
+     * @param form:old_password,new_password,code
+     * @return 响应状态
+     */
     @ApiOperation("/api/post/update/password")
     @PostMapping("/api/post/update/password")
     public MessageResp postUpdatePasswordApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {

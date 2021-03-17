@@ -20,7 +20,7 @@ public class UserModel {
     private String phone;
     private String email;
     private String password;
-    private String loginInfo;//登录信息,;1;2;3;4;,例.踢出2号登录信息
+    private String loginMark;//登录信息,;1;2;3;4;,例.踢出2号登录信息
 
     private Date updateTime;
     private Date publicTime;

@@ -54,6 +54,13 @@ public class UserInfoControllerApi {
     entry_id:
     type:topic,comment,talk,talkComment,entry
      */
+
+    /**
+     *
+     * @param userId
+     * @param form
+     * @return
+     */
     @ApiOperation("/api/post/insert/liked")
     @PostMapping("/api/post/insert/liked")
     public MessageResp postInsertLikedApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {

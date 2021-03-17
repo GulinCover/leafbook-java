@@ -15,7 +15,13 @@ public class TouchStarControllerRpc {
     @Autowired
     private TouchStarServiceRpc touchStarServiceRpc;
 
-    //点赞
+    /**
+     * 点赞
+     * @param userId
+     * @param objectId
+     * @param type
+     * @return code
+     */
     @ApiOperation("/rpc/post/insert/touch/star")
     @PostMapping("/rpc/post/insert/touch/star")
     public int postInsertTouchStarRpc(Long userId,Long objectId,String type) {

@@ -17,7 +17,7 @@ public class UserModelMapper {
             userModel.setEmail("958803486@qq.com");
             userModel.setLevel(4001);
             userModel.setLocation("shanghai");
-            userModel.setLoginInfo(";1;2;");
+            userModel.setLoginMark(";1;2;");
             userModel.setPhone("130123456789");
             userModel.setSex(1);
             userModel.setUsername("Alex");
@@ -37,6 +37,26 @@ public class UserModelMapper {
     }
 
     public int updateSingleUserInfoUsername(Long userId, String username) {
+        return new Random().nextInt(2);
+    }
+
+    public int updateSingleUserInfoPassword(Long userId, String password) {
+        return new Random().nextInt(2);
+    }
+
+    public int updateSingleUserInfoPhone(Long userId, String phone) {
+        return new Random().nextInt(2);
+    }
+
+    public int updateSingleUserInfoEmail(Long userId, String email) {
+        return new Random().nextInt(2);
+    }
+
+    public String selectSingleUserInfoLoginMark(Long userId) {
+        return ";1;2;3;4;5;";
+    }
+
+    public int updateSingleUserInfoLoginMark(Long userId, String loginMark) {
         return new Random().nextInt(2);
     }
 }

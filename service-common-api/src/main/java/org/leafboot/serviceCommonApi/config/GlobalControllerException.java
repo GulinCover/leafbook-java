@@ -15,7 +15,8 @@ public class GlobalControllerException {
     public int exception(Exception e) {
         if (e.getClass() == HttpRequestMethodNotSupportedException.class) {
             return 4000;
+        } else {
+            return 0;
         }
-        return 0;
     }
 }
