@@ -2,3 +2,5 @@ swagger:
   base-package: org.leafbook.serviceapi
   description: "hello world"
   group-name: "api"
+server:
+  port: 9000

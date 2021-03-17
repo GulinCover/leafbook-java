@@ -11,6 +11,17 @@
         <module>utils-tools</module>
         <module>api</module>
         <module>service-api</module>
+
+        <module>service-topic-api</module>
+<!--        PORT:11000-->
+        <module>service-user-api</module>
+
+        <module>service-entry-api</module>
+
+<!--        PORT:10000-->
+        <module>service-common-api</module>
+
+        <module>service-file-api</module>
     </modules>
 
     <packaging>pom</packaging>
