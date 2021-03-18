@@ -10,9 +10,11 @@
         <module name="service-topic-api" />
         <module name="utils-tools" />
         <module name="service-file-api" />
+        <module name="service-marketplace-api" />
         <module name="service-common-api" />
         <module name="api" />
         <module name="service-user-api" />
+        <module name="service-record-api" />
         <module name="service-entry-api" />
         <module name="service-api" />
       </profile>

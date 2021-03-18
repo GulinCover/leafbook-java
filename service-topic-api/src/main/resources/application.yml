@@ -3,3 +3,7 @@ server:
 spring:
   application:
     name: service-topic-api
+swagger:
+  base-package: org.leafbook.serviceTopicApi
+  description: "serviceTopicApi"
+  group-name: "serviceTopicApi"

@@ -11,6 +11,10 @@
     <file url="file://$PROJECT_DIR$/service-entry-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-file-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-file-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-marketplace-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-marketplace-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-record-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/service-record-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-topic-api/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-topic-api/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/service-user-api/src/main/java" charset="UTF-8" />

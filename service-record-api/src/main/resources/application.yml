@@ -1,0 +1,9 @@
+server:
+  port: 13000
+spring:
+  application:
+    name: servie-record-api
+swagger:
+  base-package: org.leafbook.serviceRecordApi
+  description: "serviceRecordApi"
+  group-name: "serviceRecordApi"
