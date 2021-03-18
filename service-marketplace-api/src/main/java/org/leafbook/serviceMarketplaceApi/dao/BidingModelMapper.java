@@ -1,13 +1,14 @@
 package org.leafbook.serviceMarketplaceApi.dao;
 
-import org.leafbook.api.modelApi.billInfo.BillModel;
+import org.leafbook.api.modelApi.billInfo.BidingModel;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
 
 @Service
-public class BillModelMapper {
-    public int insert(BillModel billModel) {
+public class BidingModelMapper {
+
+    public int insertSingleModel(BidingModel bidingModel) {
         return new Random().nextInt(100);
     }
 }

@@ -51,8 +51,9 @@ public class UserRelatedServiceRpc {
     }
 
     /**
-     * @param form
-     * form: desc,location,sex,avatar,backdrop
+     * 用户数据更新
+     *
+     * @param form form: desc,location,sex,avatar,backdrop
      * @return code
      */
     public int postUpdateSingleUserInfo(Map<String, String> form) {
@@ -65,12 +66,16 @@ public class UserRelatedServiceRpc {
     }
 
     /**
-     * 更改用户名
+     * 更改用户名,
+     * 储存到曾用名
      * @param userId
      * @return code
      */
     public int postUpdateSingleUserInfoUsername(Long userId,String username) {
-        return userModelMapper.updateSingleUserInfoUsername(userId, username);
+        UserModel userModel = userModelMapper.selectSingleUserInfo(userId);
+        userModel.setUsedName(userModel.getUsedName()+userModel.getUsername()+";");
+        userModel.setUsername(username);
+        return userModelMapper.updateSingleUserInfoUsername(userModel);
     }
 
     /**

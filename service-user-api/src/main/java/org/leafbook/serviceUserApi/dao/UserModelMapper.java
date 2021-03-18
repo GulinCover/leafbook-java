@@ -36,7 +36,7 @@ public class UserModelMapper {
         return new Random().nextInt(2);
     }
 
-    public int updateSingleUserInfoUsername(Long userId, String username) {
+    public int updateSingleUserInfoUsername(UserModel userModel) {
         return new Random().nextInt(2);
     }
 

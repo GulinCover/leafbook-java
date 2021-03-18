@@ -7,6 +7,7 @@ import org.leafbook.api.modelApi.common.Model;
 public class UserModel extends Model {
     private Long id;
     private String username;
+    private String usedName;
     private String uuid;
 
     private String desc;

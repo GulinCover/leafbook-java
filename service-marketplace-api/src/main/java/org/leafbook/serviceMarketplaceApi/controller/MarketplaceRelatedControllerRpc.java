@@ -36,13 +36,86 @@ public class MarketplaceRelatedControllerRpc {
      * @param entryId
      * @return
      */
-    @ApiOperation("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}")
-    @GetMapping("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}")
-    public List<AuctionModel> getSelectMultiAuctionInfoByEntryIdRpc(@PathVariable("entryId")Long entryId) {
-        return marketplaceRelatedServiceRpc.getSelectMultiAuctionInfoByEntryId(entryId);
+    @ApiOperation("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}/{page}")
+    @GetMapping("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}/{page}")
+    public List<AuctionModel> getSelectMultiAuctionInfoByEntryIdRpc(@PathVariable("entryId")Long entryId,@PathVariable("page")Integer page) {
+        return marketplaceRelatedServiceRpc.getSelectMultiAuctionInfoByEntryId(entryId,page);
     }
 
+    /**
+     * 购买改名卡
+     * @param userId
+     * @param uuid
+     * @return code
+     */
+    @ApiOperation("/rpc/post/buy/single/renameCard")
+    @PostMapping("/rpc/post/buy/single/renameCard")
+    public int postBuySingleRenameCardRpc(@RequestParam("userId")Long userId,@RequestParam("uuid")String uuid) {
+        return marketplaceRelatedServiceRpc.postBuySingleRenameCard(userId,uuid);
+    }
 
+    /**
+     * 上架物品
+     * @param userId
+     * @param auctionId
+     * @param price
+     * @param expireTimestamp
+     * @return code
+     */
+    @ApiOperation("/rpc/post/auction/single/resInfo")
+    @PostMapping("/rpc/post/auction/single/resInfo")
+    public int postAuctionSingleResInfoRpc(@RequestParam("userId")Long userId,@RequestParam("auctionId")Long auctionId,@RequestParam("price")Long price,@RequestParam("expireTimestamp")Long expireTimestamp) {
+        return marketplaceRelatedServiceRpc.postAuctionSingleResInfo(userId,auctionId,price,expireTimestamp);
+    }
+
+    /**
+     * 使用改名卡，并将名称存储下来
+     * @param userId
+     * @param auctionId
+     * @param newNickname
+     * @return code
+     */
+    @ApiOperation("/rpc/post/use/single/renameCard")
+    @PostMapping("/rpc/post/use/single/renameCard")
+    public int postUseSingleRenameCardRpc(@RequestParam("userId")Long userId,@RequestParam("auctionId")Long auctionId,@RequestParam("newNickname")String newNickname) {
+        return marketplaceRelatedServiceRpc.postUseSingleRenameCard(userId,auctionId,newNickname);
+    }
+
+    /**
+     * 查询用户下所有物品
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/multi/resInfo/by/userId")
+    @PostMapping("/rpc/post/select/multi/resInfo/by/userId")
+    public List<AuctionModel> postSelectMultiResInfoRpc(Long userId) {
+        return marketplaceRelatedServiceRpc.postSelectMultiResInfo(userId);
+    }
+
+    /**
+     * 查询校验
+     * @param userId
+     * @param auctionId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/single/resInfo/userId/and/auctionId")
+    @PostMapping("/rpc/post/select/single/resInfo/userId/and/auctionId")
+    public AuctionModel postSelectSingleResInfoRpc(Long userId,Long auctionId) {
+        return marketplaceRelatedServiceRpc.postSelectSingleResInfo(userId,auctionId);
+    }
+
+    /**
+     * 竞拍物品
+     * @param userId
+     * @param auctionId
+     * @param price
+     * @return code
+     */
+    @ApiOperation("/rpc/post/biding/single/auctionInfo")
+    @PostMapping("/rpc/post/biding/single/auctionInfo")
+    public int postBidingSingleAuctionInfoRpc(@RequestParam("userId")Long userId,@RequestParam("auctionId") Long auctionId,Long price) {
+        return marketplaceRelatedServiceRpc.postBidingSingleAuctionInfo(userId,auctionId,price);
+    }
 }
 
 
