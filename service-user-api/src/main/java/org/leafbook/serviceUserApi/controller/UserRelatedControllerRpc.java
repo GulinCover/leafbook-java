@@ -2,8 +2,8 @@ package org.leafbook.serviceUserApi.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.leafbook.api.modelApi.LoginInfoModel;
-import org.leafbook.api.modelApi.UserModel;
+import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
+import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceUserApi.service.UserRelatedServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

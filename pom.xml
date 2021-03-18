@@ -11,7 +11,7 @@
         <module>utils-tools</module>
         <module>api</module>
         <module>service-api</module>
-
+<!--        PORT:12000-->
         <module>service-topic-api</module>
 <!--        PORT:11000-->
         <module>service-user-api</module>

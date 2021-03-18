@@ -1,6 +1,6 @@
 package org.leafbook.serviceUserApi.dao;
 
-import org.leafbook.api.modelApi.LoginInfoModel;
+import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;

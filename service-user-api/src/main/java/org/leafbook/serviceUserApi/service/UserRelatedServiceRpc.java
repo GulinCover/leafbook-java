@@ -1,8 +1,8 @@
 package org.leafbook.serviceUserApi.service;
 
-import org.leafbook.api.modelApi.CodeModel;
-import org.leafbook.api.modelApi.LoginInfoModel;
-import org.leafbook.api.modelApi.UserModel;
+import org.leafbook.api.modelApi.common.CodeModel;
+import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
+import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceUserApi.dao.CodeModelMapper;
 import org.leafbook.serviceUserApi.dao.LoginInfoModelMapper;
 import org.leafbook.serviceUserApi.dao.UserModelMapper;

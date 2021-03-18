@@ -1,9 +1,9 @@
-package org.leafbook.api.modelApi;
+package org.leafbook.api.modelApi.common;
 
 import lombok.Data;
 
 @Data
-public class TreadModel {
+public class StarModel {
     private Long starId;
     private Long userId;
     private Long topicId;

@@ -1,4 +1,4 @@
-package org.leafbook.api.modelApi;
+package org.leafbook.api.modelApi.userInfo;
 
 import lombok.Data;
 

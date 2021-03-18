@@ -1,6 +1,6 @@
 package org.leafbook.serviceUserApi.dao;
 
-import org.leafbook.api.modelApi.CodeModel;
+import org.leafbook.api.modelApi.common.CodeModel;
 import org.springframework.stereotype.Service;
 
 @Service

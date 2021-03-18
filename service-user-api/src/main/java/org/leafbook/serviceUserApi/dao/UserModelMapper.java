@@ -1,6 +1,6 @@
 package org.leafbook.serviceUserApi.dao;
 
-import org.leafbook.api.modelApi.UserModel;
+import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;

@@ -1,11 +1,10 @@
-package org.leafbook.api.modelApi;
+package org.leafbook.api.modelApi.userInfo;
 
 import lombok.Data;
-
-import java.util.Date;
+import org.leafbook.api.modelApi.common.Model;
 
 @Data
-public class UserModel {
+public class UserModel extends Model {
     private Long id;
     private String username;
     private String uuid;
@@ -21,9 +20,4 @@ public class UserModel {
     private String email;
     private String password;
     private String loginMark;//登录信息,;1;2;3;4;,例.踢出2号登录信息
-
-    private Date updateTime;
-    private Date publicTime;
-    private Integer version;
-    private Integer isBlack;
 }
