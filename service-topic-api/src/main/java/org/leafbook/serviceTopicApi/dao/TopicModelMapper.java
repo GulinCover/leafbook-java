@@ -15,10 +15,8 @@ public class TopicModelMapper {
         TopicModel topicModel = new TopicModel();
         topicModel.setUserId(1111L);
         topicModel.setTopicId(topicId);
-        topicModel.setLikedNumber(6468L);
         topicModel.setTopicDesc(TestModel.randomString().toString());
         topicModel.setTopicTitle(TestModel.randomWord());
-        topicModel.setTreadNumber(546L);
         return topicModel;
     }
 
@@ -42,4 +40,9 @@ public class TopicModelMapper {
     public int updateForEntryIdsByTopicId(Long topicId,String entryIds) {
         return new Random().nextInt(100);
     }
+
+    public int updateByModel(TopicModel topicModel) {
+        return new Random().nextInt(100);
+    }
+
 }

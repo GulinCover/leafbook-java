@@ -2,6 +2,7 @@ package org.leafbook.serviceTopicApi.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.modelApi.topicInfo.DirectoryModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.serviceTopicApi.service.TopicRelatedServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,19 @@ public class TopicRelatedControllerRpc {
     }
 
     /**
+     * 更换著述封面
+     * @param userId
+     * @param topicId
+     * @param cover
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/single/topicInfo/cover")
+    @PostMapping("/rpc/post/update/single/topicInfo/cover")
+    public int postUpdateSingleTopicInfoForCoverRpc(@RequestParam("userId") Long userId,@RequestParam("topicId")Long topicId,@RequestParam("cover")String  cover) {
+        return topicRelatedServiceRpc.postUpdateSingleTopicInfoForCover(userId, topicId, cover);
+    }
+
+    /**
      * 更改著述描述
      * @param userId
      * @param topicId
@@ -61,8 +75,37 @@ public class TopicRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/update/single/topicInfo/desc")
     @PostMapping("/rpc/post/update/single/topicInfo/desc")
-    public int postUpdateTopicInfoDescRpc(@RequestParam("userId") Long userId,@RequestParam("topicId")Long topicId,@RequestParam("topicDesc")String topicDesc) {
+    public int postUpdateTopicInfoDescRpc(@RequestParam("userId")Long userId,@RequestParam("topicId")Long topicId,@RequestParam("topicDesc")String topicDesc) {
         return topicRelatedServiceRpc.postUpdateTopicInfoDesc(userId, topicId, topicDesc);
+    }
+
+    /**
+     * 查询著述下默认文章目录顺序
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/directoryInfo/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/directoryInfo/by/topicId/{topicId}")
+    public List<DirectoryModel> getSelectDirectoryInfoRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectDirectoryInfo(topicId);
+    }
+
+    /**
+     * 修改著述默认文章顺序
+     * @param userId
+     * @param topicId
+     * @param pageId
+     * @param articleId
+     * @return code
+     */
+    @ApiOperation("/rpc/post/update/directoryInfo/by/topicId/{topicId}")
+    @GetMapping("/rpc/post/update/directoryInfo/by/topicId/{topicId}")
+    public int postUpdateDirectoryInfoRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("topicId")Long topicId,
+            @RequestParam("pageId")Long pageId,
+            @RequestParam("articleId")Long articleId) {
+        return topicRelatedServiceRpc.postUpdateDirectoryInfo(userId,topicId,pageId,articleId);
     }
 
     /**
@@ -88,6 +131,37 @@ public class TopicRelatedControllerRpc {
     @GetMapping("/rpc/get/select/single/topicInfo/entryInfo/by/{topicId}")
     public List<Long> getSelectSingleTopicInfoForEntryIdsRpc(@PathVariable("topicId")Long topicId) {
         return topicRelatedServiceRpc.getSelectSingleTopicInfoForEntryIds(topicId);
+    }
+
+    /**
+     * 给著述点赞，著述赞数加1
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/insert/touch/topic/star")
+    @PostMapping("/rpc/post/insert/touch/topic/star")
+    public int postInsertTouchTopicStarRpc(@RequestParam("topicId")Long topicId) {
+        return topicRelatedServiceRpc.postInsertTouchTopicStar(topicId);
+    }
+    /**
+     * 给著述点踩，著述踩数加1
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/insert/touch/topic/tread")
+    @PostMapping("/rpc/post/insert/touch/topic/tread")
+    public int postInsertTouchTopicTreadRpc(@RequestParam("topicId")Long topicId) {
+        return topicRelatedServiceRpc.postInsertTouchTopicTread(topicId);
+    }
+    /**
+     * 浏览著述，浏览量加1
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/insert/touch/topic/browse")
+    @PostMapping("/rpc/post/insert/touch/topic/browse")
+    public int postInsertTouchTopicBrowseRpc(@RequestParam("topicId")Long topicId) {
+        return topicRelatedServiceRpc.postInsertTouchTopicBrowse(topicId);
     }
 }
 

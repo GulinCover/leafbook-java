@@ -1,9 +1,10 @@
 package org.leafbook.serviceTopicApi.service;
 
+import org.leafbook.api.modelApi.topicInfo.DirectoryModel;
+import org.leafbook.api.modelApi.topicInfo.DirectoryModifyModel;
+import org.leafbook.api.modelApi.topicInfo.TopicLikedAndTreadAndBrowseModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
-import org.leafbook.serviceTopicApi.dao.Topic2EntryModelMapper;
-import org.leafbook.serviceTopicApi.dao.TopicEntryInfoShowModelMapper;
-import org.leafbook.serviceTopicApi.dao.TopicModelMapper;
+import org.leafbook.serviceTopicApi.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,15 @@ public class TopicRelatedServiceRpc {
 
     @Autowired
     private TopicEntryInfoShowModelMapper topicEntryInfoShowModelMapper;
+
+    @Autowired
+    private TopicLikedAndTreadAndBrowseModelMapper topicLikedAndTreadAndBrowseModelMapper;
+
+    @Autowired
+    private DirectoryModelMapper directoryModelMapper;
+
+    @Autowired
+    private DirectoryModifyModelMapper directoryModifyModelMapper;
 
     /**
      * 单查询
@@ -56,6 +66,21 @@ public class TopicRelatedServiceRpc {
 
         return topicModelMapper.insert(topicModel);
     }
+    /**
+     * 更换著述封面
+     * @param userId
+     * @param topicId
+     * @param cover
+     * @return
+     */
+    public int postUpdateSingleTopicInfoForCover(Long userId,Long topicId,String cover) {
+        TopicModel topicModel = topicModelMapper.selectById(topicId);
+        if (!topicModel.getUserId().equals(userId)) return 403;
+
+        topicModel.setTopicAvatar(cover);
+
+        return topicModelMapper.updateByModel(topicModel);
+    }
 
     /**
      * 更改著述描述
@@ -70,6 +95,45 @@ public class TopicRelatedServiceRpc {
             return topicModelMapper.updateForDescByTopicId(topicId,topicDesc);
         }
         return 403;
+    }
+    /**
+     * 查询著述下默认文章目录顺序
+     * @param topicId
+     * @return
+     */
+    public List<DirectoryModel> getSelectDirectoryInfo(Long topicId) {
+        return directoryModelMapper.selectByTopicId(topicId);
+    }
+    /**
+     * 修改著述默认文章顺序,
+     * 记录修改者，原文章id和新文章id
+     * @param userId
+     * @param topicId
+     * @param pageId
+     * @param articleId
+     * @return code
+     */
+    public int postUpdateDirectoryInfo( Long userId, Long topicId,Long pageId, Long articleId) {
+        TopicModel topicModel = topicModelMapper.selectById(topicId);
+        if (!topicModel.getUserId().equals(userId)) return 403;
+
+        DirectoryModifyModel directoryModifyModel = new DirectoryModifyModel();
+        directoryModifyModel.setDistArticleId(articleId);
+
+        //判断是否有这一页
+        boolean flag = true;
+        List<DirectoryModel> directoryModelList = directoryModelMapper.selectByTopicId(userId);
+        for (DirectoryModel directoryModel:directoryModelList) {
+            if (directoryModel.getPageNumber().equals(pageId)) {
+                flag = false;
+                directoryModifyModel.setSrcArticleId(directoryModel.getArticleId());
+                directoryModel.setArticleId(articleId);
+                if (directoryModelMapper.updateByModel(directoryModel) == 0) return 500;
+            }
+        }
+        if (flag) return 4000;
+
+        return directoryModifyModelMapper.insertByModel(directoryModifyModel);
     }
     /**
      * 添加词条
@@ -89,5 +153,38 @@ public class TopicRelatedServiceRpc {
      */
     public List<Long> getSelectSingleTopicInfoForEntryIds(Long topicId) {
         return topicEntryInfoShowModelMapper.selectMultiById(topicId);
+    }
+    /**
+     * 给著述点赞，著述赞数加1
+     * @param topicId
+     * @return
+     */
+    public int postInsertTouchTopicStar(Long topicId) {
+        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapper.selectSingleByTopicId(topicId);
+        Long likedAmount = model.getLikedAmount()+ 1;
+        model.setLikedAmount(likedAmount);
+        return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
+    }
+    /**
+     * 给著述点踩，著述踩数加1
+     * @param topicId
+     * @return
+     */
+    public int postInsertTouchTopicTread(Long topicId) {
+        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapper.selectSingleByTopicId(topicId);
+        Long treadAmount = model.getTreadAmount()+ 1;
+        model.setLikedAmount(treadAmount);
+        return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
+    }
+    /**
+     * 浏览著述，浏览量加1
+     * @param topicId
+     * @return
+     */
+    public int postInsertTouchTopicBrowse(Long topicId) {
+        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapper.selectSingleByTopicId(topicId);
+        Long browseAmount = model.getBrowseAmount()+ 1;
+        model.setBrowseAmount(browseAmount);
+        return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
     }
 }
