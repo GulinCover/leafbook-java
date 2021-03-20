@@ -11,6 +11,31 @@ import java.util.Random;
 @Service
 public class TopicModelMapper {
 
+    public Long selectSingleForOwnerId(Long topicId) {
+        return (long)new Random().nextInt(10000);
+    }
+    /**
+     * 拥有者权限检测
+     *
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    public int selectDecideByUserIdAndTopicId(Long userId,Long topicId) {
+        return new Random().nextInt(100);
+    }
+
+    /**
+     * 管理者权限检测
+     *
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    public int selectDecideByManagerUserIdAndTopicId(Long userId,Long topicId) {
+        return new Random().nextInt(100);
+    }
+
     public TopicModel selectById(Long topicId) {
         TopicModel topicModel = new TopicModel();
         topicModel.setUserId(1111L);
@@ -31,6 +56,14 @@ public class TopicModelMapper {
 
     public Long insert(TopicModel topicModel) {
         return (long)new Random().nextInt(1000)+1000;
+    }
+
+    public int updateDesc(Long topicId,String desc) {
+        return new Random().nextInt(100);
+    }
+
+    public int updateCover(Long topicId,String cover) {
+        return new Random().nextInt(100);
     }
 
     public int updateForDescByTopicId(Long topicId,String topicDesc) {

@@ -7,4 +7,5 @@ import org.leafbook.api.modelApi.common.Model;
 public class ManagerModel extends Model {
     private Long managerModelId;
     private Long userId;
+    private Long topicId;
 }

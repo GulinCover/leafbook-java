@@ -18,13 +18,79 @@ public class TopicRelatedControllerRpc {
     private TopicRelatedServiceRpc topicRelatedServiceRpc;
 
     /**
+     * 获取著述拥有者id
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/topic/ownerId/{topicId}")
+    @GetMapping("/rpc/get/select/topic/ownerId/{topicId}")
+    public Long getSelectTopicOwnerRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectTopicOwner(topicId);
+    }
+    /**
+     * 获取所有著述管理者id
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/topic/manager/{topicId}")
+    @GetMapping("/rpc/get/select/topic/manager/{topicId}")
+    public List<Long> getSelectTopicManagerRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectTopicManager(topicId);
+    }
+    /**
+     * 添加管理者
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/add/topic/manager")
+    @PostMapping("/rpc/post/add/topic/manager")
+    public int postAddTopicManagerRpc(@RequestParam("userId") Long userId,@RequestParam("topicId")Long topicId,@RequestParam("managerId") Long managerId) {
+        return topicRelatedServiceRpc.postAddTopicManager(userId,topicId,managerId);
+    }
+
+    /**
+     * 删除管理者
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/delete/topic/manager")
+    @PostMapping("/rpc/post/delete/topic/manager")
+    public int postDeleteTopicManagerRpc(@RequestParam("userId") Long userId,@RequestParam("topicId")Long topicId,@RequestParam("managerId") Long managerId) {
+        return topicRelatedServiceRpc.postDeleteTopicManager(userId,topicId,managerId);
+    }
+
+    /**
+     * 著述拥有者权限检测
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/topic/owner/authority/decide")
+    @PostMapping("/rpc/post/topic/owner/authority/decide")
+    public int postTopicOwnerAuthorityDecideRpc(@RequestParam("userId") Long userId, @RequestParam("topicId") Long topicId) {
+        return topicRelatedServiceRpc.postTopicOwnerAuthorityDecide(userId,topicId);
+    }
+
+    /**
+     * 著述管理者权限检测
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/topic/manager/authority/decide")
+    @PostMapping("/rpc/post/topic/manager/authority/decide")
+    public int postTopicManagerAuthorityDecideRpc(@RequestParam("userId") Long userId, @RequestParam("topicId") Long topicId) {
+        return topicRelatedServiceRpc.postTopicManagerAuthorityDecide(userId,topicId);
+    }
+
+    /**
      * topicId查询
      * @param topicId
      * @return
      */
-    @ApiOperation("/rpc/get/select/single/topicInfo/{id}")
-    @GetMapping("/rpc/get/select/single/topicInfo/{id}")
-    public TopicModel getSelectSingleTopicInfoRpc(@PathVariable("id")Long topicId) {
+    @ApiOperation("/rpc/get/select/single/topicInfo/{topicId}")
+    @GetMapping("/rpc/get/select/single/topicInfo/{topicId}")
+    public TopicModel getSelectSingleTopicInfoRpc(@PathVariable("topicId")Long topicId) {
         return topicRelatedServiceRpc.getSelectSingleTopicInfo(topicId);
     }
 

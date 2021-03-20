@@ -12,8 +12,6 @@ import org.leafbook.serviceTopicApi.dao.DirectoryModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 @Service
 public class ArticleRelatedServiceRpc {
     @Autowired
@@ -27,6 +25,15 @@ public class ArticleRelatedServiceRpc {
 
     @Autowired
     private DirectoryModelMapper directoryModelMapper;
+    /**
+     * 文章权限检测
+     * @param userId
+     * @param articleId
+     * @return
+     */
+    public int postArticleAuthorityDecide(Long userId,Long articleId) {
+        return articleModelMapper.selectDecideByUserIdAndArticleId(userId,articleId);
+    }
     /**
      * 获取文章
      * @param articleId
@@ -85,69 +92,49 @@ public class ArticleRelatedServiceRpc {
         articleModel.setPreArticleId(0L);
         articleModel.setNextArticleId(0L);
 
-        int[] branchNumbers = articleModelMapper.selectSingleForBranchNumberByMainNumber(articleAbs.getMainNumber());
-        int max = 0;
-        for (int i:branchNumbers) {
-            if (i > max) {
-                max = i;
-            }
-        }
-        articleModel.setBranchNumber((long)(max+1));
+        Long maxBranchNumber = articleModelMapper.selectMaxBranchNumberByMainNumber(articleAbs.getMainNumber());
+
+        articleModel.setBranchNumber(maxBranchNumber+1);
         return articleModelMapper.insert(articleModel);
     }
     /**
      * 添加链接下一篇文章
+     * @param userId
      * @param articleId
      * @param nextArticleId
      * @return
      */
-    public int postInsertLinkNextArticleInfo(Long articleId,Long nextArticleId) {
-        ArticleModel nextArticleModel = articleModelMapper.selectByArticleId(nextArticleId);
-        if (nextArticleModel.getPreArticleId() != 0) return 0;
+    public int postInsertLinkNextArticleInfo(Long userId,Long articleId,Long nextArticleId) {
+        int ret = articleModelMapper.selectDecideByUserIdAndArticleId(userId,articleId);
+        if (ret == 0) return 0;
 
-        ArticleModel articleModel = articleModelMapper.selectByArticleId(articleId);
-        articleModel.setNextArticleId(nextArticleId);
-        nextArticleModel.setPreArticleId(articleId);
-        articleModelMapper.insert(nextArticleModel);
-        return articleModelMapper.insert(articleModel);
+        return articleModelMapper.updateForNextArticleId(articleId,nextArticleId);
     }
     /**
      * 更改下一篇链接文章
+     * @param userId
      * @param articleId
      * @param nextArticleId
      * @return
      */
-    public int postUpdateLinkNextArticleInfo(Long articleId,Long nextArticleId) {
+    public int postUpdateLinkNextArticleInfo(Long userId,Long articleId,Long nextArticleId) {
+        int ret = articleModelMapper.selectDecideByUserIdAndArticleId(userId,articleId);
+        if (ret == 0) return 0;
 
-        //验证下一篇文章
-        ArticleModel newNextArticleModel = articleModelMapper.selectByArticleId(nextArticleId);
-        if (newNextArticleModel.getPreArticleId() != 0) return 0;
-
-        ArticleModel articleModel = articleModelMapper.selectByArticleId(articleId);
-        ArticleModel oldNextArticleModel = articleModelMapper.selectByArticleId(articleModel.getNextArticleId());
-        articleModel.setNextArticleId(nextArticleId);
-        newNextArticleModel.setPreArticleId(articleId);
-        oldNextArticleModel.setPreArticleId(0L);
-
-        articleModelMapper.insert(newNextArticleModel);
-        articleModelMapper.insert(oldNextArticleModel);
-        return articleModelMapper.insert(articleModel);
+        return articleModelMapper.updateForNextArticleId(articleId,nextArticleId);
     }
     /**
      * 删除下一篇链接文章
+     * @param userId
      * @param articleId
      * @return
      */
     public int postDeleteLinkNextArticleInfo(Long userId,Long articleId) {
         //验证是否是拥有者进行更改
-        ArticleModel articleModel = articleModelMapper.selectByArticleId(articleId);
-        if (!articleModel.getUserId().equals(userId)) return 403;
+        int ret = articleModelMapper.selectDecideByUserIdAndArticleId(userId,articleId);
+        if (ret == 0) return 0;
 
-        ArticleModel nextArticleModel = articleModelMapper.selectByArticleId(articleModel.getNextArticleId());
-        articleModel.setNextArticleId(0L);
-        nextArticleModel.setPreArticleId(0L);
-        articleModelMapper.updateByModel(nextArticleModel);
-        return articleModelMapper.updateByModel(articleModel);
+        return articleModelMapper.updateForNextArticleId(articleId,0L);
     }
 
     /**

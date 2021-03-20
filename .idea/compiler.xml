@@ -15,6 +15,7 @@
         <module name="api" />
         <module name="service-user-api" />
         <module name="service-record-api" />
+        <module name="service-comment-api" />
         <module name="service-entry-api" />
         <module name="service-api" />
       </profile>

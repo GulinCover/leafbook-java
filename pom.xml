@@ -17,7 +17,6 @@
         <module>service-user-api</module>
 <!--        PORT:14000-->
         <module>service-entry-api</module>
-
 <!--        PORT:10000-->
         <module>service-common-api</module>
 
@@ -26,6 +25,8 @@
         <module>service-record-api</module>
 <!--        PORT:15000-->
         <module>service-marketplace-api</module>
+<!--        PORT:16000-->
+        <module>service-comment-api</module>
     </modules>
 
     <packaging>pom</packaging>

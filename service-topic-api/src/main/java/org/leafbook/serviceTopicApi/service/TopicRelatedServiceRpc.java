@@ -1,9 +1,6 @@
 package org.leafbook.serviceTopicApi.service;
 
-import org.leafbook.api.modelApi.topicInfo.DirectoryModel;
-import org.leafbook.api.modelApi.topicInfo.DirectoryModifyModel;
-import org.leafbook.api.modelApi.topicInfo.TopicLikedAndTreadAndBrowseModel;
-import org.leafbook.api.modelApi.topicInfo.TopicModel;
+import org.leafbook.api.modelApi.topicInfo.*;
 import org.leafbook.serviceTopicApi.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +12,9 @@ import java.util.Objects;
 public class TopicRelatedServiceRpc {
     @Autowired
     private TopicModelMapper topicModelMapper;
+
+    @Autowired
+    private MangerModelMapper mangerModelMapper;
 
     @Autowired
     private Topic2EntryModelMapper topic2EntryModelMapper;
@@ -30,6 +30,69 @@ public class TopicRelatedServiceRpc {
 
     @Autowired
     private DirectoryModifyModelMapper directoryModifyModelMapper;
+
+    /**
+     * 获取著述拥有者id
+     * @param topicId
+     * @return
+     */
+    public Long getSelectTopicOwner(Long topicId) {
+        return topicModelMapper.selectSingleForOwnerId(topicId);
+    }
+    /**
+     * 获取所有著述管理者id
+     * @param topicId
+     * @return
+     */
+    public List<Long> getSelectTopicManager(Long topicId) {
+        return mangerModelMapper.selectMultiForManagerId(topicId);
+    }
+    /**
+     * 添加管理者
+     * @param topicId
+     * @return
+     */
+    public int postAddTopicManager(Long userId,Long topicId,Long managerId) {
+        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        if (ret == 0) return 403;
+
+        ManagerModel managerModel = new ManagerModel();
+        managerModel.setUserId(managerId);
+        managerModel.setTopicId(topicId);
+        return mangerModelMapper.insertByModel(managerModel);
+    }
+    /**
+     * 删除管理者
+     * @param topicId
+     * @return
+     */
+    public int postDeleteTopicManager(Long userId,Long topicId,Long managerId) {
+        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        if (ret == 0) return 403;
+
+        return mangerModelMapper.deleteSingleByManagerUserId(managerId);
+    }
+
+
+    /**
+     * 文章拥有者权限检测
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    public int postTopicOwnerAuthorityDecide(Long userId,Long topicId) {
+        return topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+    }
+
+    /**
+     * 文章管理者权限检测
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    public int postTopicManagerAuthorityDecide(Long userId,Long topicId) {
+        return mangerModelMapper.selectDecideByManagerUserIdAndTopicId(userId,topicId);
+    }
 
     /**
      * 单查询
@@ -61,10 +124,12 @@ public class TopicRelatedServiceRpc {
         topicModel.setTopicTitle(topicTitle);
         topicModel.setTopicDesc(topicDesc);
         topicModel.setUserId(userId);
-        int ret = topic2EntryModelMapper.insertByIds(userId ,topicModel.getTopicId(),entryIds);
-        if (ret == 0) return 0L;
 
-        return topicModelMapper.insert(topicModel);
+        Long topicId = topicModelMapper.insert(topicModel);
+        if (topicId == 0) return 0L;
+        if (topicEntryInfoShowModelMapper.insertByIds(topicId,entryIds) == 0) return 0L;
+
+        return topicId;
     }
     /**
      * 更换著述封面
@@ -74,12 +139,10 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postUpdateSingleTopicInfoForCover(Long userId,Long topicId,String cover) {
-        TopicModel topicModel = topicModelMapper.selectById(topicId);
-        if (!topicModel.getUserId().equals(userId)) return 403;
+        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        if (ret == 0) return 403;
 
-        topicModel.setTopicAvatar(cover);
-
-        return topicModelMapper.updateByModel(topicModel);
+        return topicModelMapper.updateCover(topicId,cover);
     }
 
     /**
@@ -90,11 +153,10 @@ public class TopicRelatedServiceRpc {
      * @return code
      */
     public int postUpdateTopicInfoDesc(Long userId,Long topicId,String topicDesc) {
-        TopicModel topicModel = topicModelMapper.selectById(topicId);
-        if (Objects.equals(topicModel.getUserId(), userId)) {
-            return topicModelMapper.updateForDescByTopicId(topicId,topicDesc);
-        }
-        return 403;
+        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        if (ret == 0) return 403;
+
+        return topicModelMapper.updateDesc(topicId,topicDesc);
     }
     /**
      * 查询著述下默认文章目录顺序
@@ -114,8 +176,9 @@ public class TopicRelatedServiceRpc {
      * @return code
      */
     public int postUpdateDirectoryInfo( Long userId, Long topicId,Long pageId, Long articleId) {
-        TopicModel topicModel = topicModelMapper.selectById(topicId);
-        if (!topicModel.getUserId().equals(userId)) return 403;
+        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        int ret2 = topicModelMapper.selectDecideByManagerUserIdAndTopicId(userId,topicId);
+        if (ret == 0 && ret2 == 0) return 403;
 
         DirectoryModifyModel directoryModifyModel = new DirectoryModifyModel();
         directoryModifyModel.setDistArticleId(articleId);

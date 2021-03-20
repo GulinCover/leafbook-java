@@ -15,4 +15,8 @@ public class TopicEntryInfoShowModelMapper {
         }
         return entryIds;
     }
+
+    public int insertByIds(Long topicId,List<Long> entryIds) {
+        return new Random().nextInt(100);
+    }
 }
