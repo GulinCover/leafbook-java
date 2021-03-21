@@ -6,9 +6,9 @@ import org.leafbook.api.respAbs.common.MessageResp;
 import org.leafbook.api.respAbs.common.UserInfoResp;
 import org.leafbook.serviceapi.serviceApi.common.UserInfoServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.rmi.ServerError;
 import java.util.Map;
 
 @CrossOrigin("*")
@@ -18,11 +18,15 @@ public class UserInfoControllerApi {
     @Autowired
     private UserInfoServiceApi userInfoServiceApi;
 
-    //获取登录用户信息
+    /**
+     * 获取登录用户信息
+     * @param userId
+     * @return
+     */
     @ApiOperation("/api/post/select/me/userInfo")
     @PostMapping("/api/post/select/me/userInfo")
-    public UserInfoResp postSelectUserInfoApi(@RequestHeader("user_id")Long userId) {
-        UserInfoResp resp = userInfoServiceApi.postSelectUserInfo();
+    public UserInfoResp postSelectUserInfoApi(@RequestHeader("userId") Long userId) throws ServerError {
+        UserInfoResp resp = userInfoServiceApi.postSelectUserInfo(userId);
         resp.setCode(200);
         return resp;
     }
@@ -38,7 +42,7 @@ public class UserInfoControllerApi {
      */
     @ApiOperation("/api/post/insert/attention")
     @PostMapping("/api/post/insert/attention")
-    public MessageResp postInsertAttentionApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postInsertAttentionApi(@RequestHeader("user_id") Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("关注成功");
         resp.setCode(200);
@@ -56,14 +60,13 @@ public class UserInfoControllerApi {
      */
 
     /**
-     *
      * @param userId
      * @param form
      * @return
      */
     @ApiOperation("/api/post/insert/liked")
     @PostMapping("/api/post/insert/liked")
-    public MessageResp postInsertLikedApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postInsertLikedApi(@RequestHeader("user_id") Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         resp.setMsg("点赞成功");
         resp.setCode(200);

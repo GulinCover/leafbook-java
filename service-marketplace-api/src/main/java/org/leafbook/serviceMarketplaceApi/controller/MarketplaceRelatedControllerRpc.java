@@ -88,7 +88,7 @@ public class MarketplaceRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/select/multi/resInfo/by/userId")
     @PostMapping("/rpc/post/select/multi/resInfo/by/userId")
-    public List<AuctionModel> postSelectMultiResInfoRpc(Long userId) {
+    public List<AuctionModel> postSelectMultiResInfoRpc(@RequestParam("userId")Long userId) {
         return marketplaceRelatedServiceRpc.postSelectMultiResInfo(userId);
     }
 
@@ -100,7 +100,9 @@ public class MarketplaceRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/select/single/resInfo/userId/and/auctionId")
     @PostMapping("/rpc/post/select/single/resInfo/userId/and/auctionId")
-    public AuctionModel postSelectSingleResInfoRpc(Long userId,Long auctionId) {
+    public AuctionModel postSelectSingleResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("auctionId")Long auctionId) {
         return marketplaceRelatedServiceRpc.postSelectSingleResInfo(userId,auctionId);
     }
 
@@ -113,7 +115,10 @@ public class MarketplaceRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/biding/single/auctionInfo")
     @PostMapping("/rpc/post/biding/single/auctionInfo")
-    public int postBidingSingleAuctionInfoRpc(@RequestParam("userId")Long userId,@RequestParam("auctionId") Long auctionId,Long price) {
+    public int postBidingSingleAuctionInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("auctionId")Long auctionId,
+            @RequestParam("price")Long price) {
         return marketplaceRelatedServiceRpc.postBidingSingleAuctionInfo(userId,auctionId,price);
     }
 }

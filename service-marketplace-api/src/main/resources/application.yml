@@ -3,3 +3,11 @@ server:
 spring:
   application:
     name: service-markerplace-api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${HOSTS:localhost:8848}
+    sentinel:
+      transport:
+        dashboard: localhost:30000
+        port: 25000

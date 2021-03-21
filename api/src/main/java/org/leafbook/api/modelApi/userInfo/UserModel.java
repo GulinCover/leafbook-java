@@ -13,7 +13,7 @@ public class UserModel extends Model {
     private String desc;
     private String avatar = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg";
     private Integer level;
-    private Integer sex;
+    private Integer sex;//0:男,1:女
     private String location;
     private Long balance;
 

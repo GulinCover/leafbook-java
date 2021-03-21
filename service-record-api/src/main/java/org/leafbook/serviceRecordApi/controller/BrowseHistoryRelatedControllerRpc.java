@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @CrossOrigin("*")
-@Api("BrowseHistoryRelatedControllerApi")
+@Api("BrowseHistoryRelatedControllerRpc")
 @RestController
 public class BrowseHistoryRelatedControllerRpc {
     @Autowired

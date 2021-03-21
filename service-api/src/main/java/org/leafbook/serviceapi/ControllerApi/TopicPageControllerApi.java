@@ -6,11 +6,7 @@ import org.leafbook.api.respAbs.topicPage.AllEntriesResp;
 import org.leafbook.api.respAbs.topicPage.RecommendedEntriesResp;
 import org.leafbook.serviceapi.serviceApi.TopicPageServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @Api("TopicPageControllerApi")
@@ -19,7 +15,11 @@ public class TopicPageControllerApi {
     @Autowired
     private TopicPageServiceApi topicPageServiceApi;
 
-    //获取推荐词条信息,随机3条
+    /**
+     * 获取推荐词条信息,随机3条
+     *
+     * @return
+     */
     @ApiOperation("/api/get/select/recommended/EntriesInfo")
     @GetMapping("/api/get/select/recommended/EntriesInfo")
     public RecommendedEntriesResp getSelectRecommendedEntriesInfoApi() {
@@ -30,13 +30,21 @@ public class TopicPageControllerApi {
         return resp;
     }
 
-    //获取全部词条信息
-    @ApiOperation("/api/get/select/all/EntriesInfo")
-    @GetMapping("/api/get/select/all/EntriesInfo")
-    public AllEntriesResp getSelectAllEntriesInfoApi(@RequestParam("entry_page")String page) {
+    /**
+     * 获取全部词条信息
+     *
+     * @param userId
+     * @param page
+     * @return
+     */
+    @ApiOperation("/api/get/select/all/EntriesInfo/page/{page}")
+    @GetMapping("/api/get/select/all/EntriesInfo/page/{page}")
+    public AllEntriesResp getSelectAllEntriesInfoApi(
+            @RequestHeader(value = "userId") Long userId,
+            @PathVariable("page") Long page) {
         AllEntriesResp resp = new AllEntriesResp();
 
-        resp.setEntryAbsList(topicPageServiceApi.getSelectAllEntriesInfo(page));
+        resp.setEntryAbsList(topicPageServiceApi.getSelectAllEntriesInfo(userId, page));
         resp.setCode(200);
         return resp;
     }

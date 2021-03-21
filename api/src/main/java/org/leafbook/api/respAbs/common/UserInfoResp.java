@@ -9,8 +9,9 @@ public class UserInfoResp {
     private String UUID;
     private String username;
     private String userAvatar;
-    private String sex;
-    private String userLevel;
+    private Long balance;
+    private Integer sex;//0:男,1:女
+    private Integer userLevel;
     private String location;
     private String userDesc;
 }

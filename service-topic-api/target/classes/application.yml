@@ -3,6 +3,14 @@ server:
 spring:
   application:
     name: service-topic-api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${HOST:localhost:8848}
+    sentinel:
+      transport:
+        port: 22000
+        dashboard: ${HOSTS:localhost:8080}
 swagger:
   base-package: org.leafbook.serviceTopicApi
   description: "serviceTopicApi"

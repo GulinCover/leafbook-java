@@ -7,7 +7,7 @@ public class EntryAbs {
     private Long entryId;
     private String entryName;
     private String entryDesc;
-    private Integer likeNumber;
+    private Long likeNumber;
     private String entryAvatar;
     private Integer isLiked;
 }

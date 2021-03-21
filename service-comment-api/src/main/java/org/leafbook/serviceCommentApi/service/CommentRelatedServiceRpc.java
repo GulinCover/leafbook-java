@@ -79,14 +79,14 @@ public class CommentRelatedServiceRpc {
      * 发布二级评论
      * @param userId
      * @param comment1Id
-     * @param comment1Content
+     * @param comment2Content
      * @return
      */
-    public int postPublicComment2Info(Long userId,Long comment1Id,String comment1Content) {
+    public int postPublicComment2Info(Long userId,Long comment1Id,String comment2Content) {
         Comment2Model comment2Model = new Comment2Model();
         comment2Model.setUserId(userId);
         comment2Model.setTopicId(comment1Id);
-        comment2Model.setCommentContent(comment1Content);
+        comment2Model.setCommentContent(comment2Content);
         return comment1ModelMapper.insertByModel(comment2Model);
     }
     /**

@@ -74,7 +74,7 @@ public class TestModel {
             entryAbs.setEntryId((long) i);
             entryAbs.setEntryName(randomWord(4));
             entryAbs.setEntryDesc(randomString().toString());
-            entryAbs.setLikeNumber(new Random().nextInt(6000)+150);
+            entryAbs.setLikeNumber((long)new Random().nextInt(6000)+150);
             entryAbs.setEntryAvatar("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg");
 
             entryAbsList.add(entryAbs);
@@ -90,7 +90,7 @@ public class TestModel {
             entryAbs.setEntryId((long) i);
             entryAbs.setEntryName(randomWord(4));
             entryAbs.setEntryDesc(randomString().toString());
-            entryAbs.setLikeNumber(new Random().nextInt(6000)+150);
+            entryAbs.setLikeNumber((long)new Random().nextInt(6000)+150);
             entryAbs.setEntryAvatar("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg");
 
             entryAbsList.add(entryAbs);

@@ -3,3 +3,11 @@ server:
 spring:
   application:
     name: service-comment-api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${HOSTS:localhost:8848}
+    sentinel:
+      transport:
+        port: 26000
+        dashboard: HOSTS:localhost:30000

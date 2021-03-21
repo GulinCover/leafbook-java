@@ -25,7 +25,8 @@ public class TalkRelatedControllerRpc {
      */
     @ApiOperation("/rpc/select/multi/talkInfo/by/topicId/{topicId}")
     @GetMapping("/rpc/select/multi/talkInfo/by/topicId/{topicId}")
-    public List<TalkModel> getSelectMultiTalkInfoRpc(@PathVariable("topicId")Long topicId) {
+    public List<TalkModel> getSelectMultiTalkInfoRpc(
+            @PathVariable("topicId")Long topicId) {
         return talkRelatedServiceRpc.getSelectMultiTalkInfo(topicId);
     }
 
@@ -36,7 +37,8 @@ public class TalkRelatedControllerRpc {
      */
     @ApiOperation("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}")
     @GetMapping("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}")
-    public List<TalkComment1Model> getSelectMultiTalkComment1InfoRpc(@PathVariable("talkId")Long talkId) {
+    public List<TalkComment1Model> getSelectMultiTalkComment1InfoRpc(
+            @PathVariable("talkId")Long talkId) {
         return talkRelatedServiceRpc.getSelectMultiTalkComment1Info(talkId);
     }
 
@@ -47,7 +49,8 @@ public class TalkRelatedControllerRpc {
      */
     @ApiOperation("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}")
     @GetMapping("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}")
-    public List<TalkComment2Model> getSelectMultiTalkComment2InfoRpc(@PathVariable("talkComment1Id")Long talkComment1Id) {
+    public List<TalkComment2Model> getSelectMultiTalkComment2InfoRpc(
+            @PathVariable("talkComment1Id")Long talkComment1Id) {
         return talkRelatedServiceRpc.getSelectMultiTalkComment2Info(talkComment1Id);
     }
 
@@ -162,7 +165,8 @@ public class TalkRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/entryInfo/by/talkInfo/{talkId}")
     @GetMapping("/rpc/get/select/entryInfo/by/talkInfo/{talkId}")
-    public List<Long> getSelectTalkInfoForEntryInfoRpc(@PathVariable("talkId") Long talkId) {
+    public List<Long> getSelectTalkInfoForEntryInfoRpc(
+            @PathVariable("talkId")Long talkId) {
         return talkRelatedServiceRpc.getSelectTalkInfoForEntryInfo(talkId);
     }
 
@@ -173,7 +177,8 @@ public class TalkRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/entryInfo/by/talkComment1Info/{talkComment1Id}")
     @GetMapping("/rpc/get/select/entryInfo/by/talkComment1Info/{talkComment1Id}")
-    public List<Long> getSelectTalkComment1InfoForEntryInfoRpc(@PathVariable("talkComment1Id") Long talkComment1Id) {
+    public List<Long> getSelectTalkComment1InfoForEntryInfoRpc(
+            @PathVariable("talkComment1Id")Long talkComment1Id) {
         return talkRelatedServiceRpc.getSelectTalkComment1InfoForEntryInfo(talkComment1Id);
     }
 

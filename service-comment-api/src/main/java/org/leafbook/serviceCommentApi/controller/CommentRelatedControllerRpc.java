@@ -24,7 +24,8 @@ public class CommentRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/multi/comment1Info/by/topicId/{topicId}")
     @GetMapping("/rpc/get/select/multi/comment1Info/by/topicId/{topicId}")
-    public List<Comment1Model> getSelectMultiComment1InfoRpc(@PathVariable("topicId") Long topicId) {
+    public List<Comment1Model> getSelectMultiComment1InfoRpc(
+            @PathVariable("topicId")Long topicId) {
         return commentRelatedServiceRpc.getSelectMultiComment1Info(topicId);
     }
 
@@ -37,7 +38,10 @@ public class CommentRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/public/comment1Info")
     @PostMapping("/rpc/post/public/comment1Info")
-    public int postPublicComment1InfoRpc(Long userId,Long topicId,String comment1Content) {
+    public int postPublicComment1InfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("topicId")Long topicId,
+            @RequestParam("comment1Content")String comment1Content) {
         return commentRelatedServiceRpc.postPublicComment1Info(userId,topicId,comment1Content);
     }
 
@@ -51,7 +55,10 @@ public class CommentRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/add/entryInfo/for/comment1Info")
     @PostMapping("/rpc/post/add/entryInfo/for/comment1Info")
-    public int postAddEntryInfoForComment1InfoRpc(Long userId,Long comment1Id,Long entryId) {
+    public int postAddEntryInfoForComment1InfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("comment1Id")Long comment1Id,
+            @RequestParam("entryId")Long entryId) {
         return commentRelatedServiceRpc.postAddEntryInfoForComment1Info(userId,comment1Id,entryId);
     }
 
@@ -60,9 +67,10 @@ public class CommentRelatedControllerRpc {
      * @param comment1Id
      * @return
      */
-    @ApiOperation("/rpc/get/select/entryInfo/for/comment1Info")
-    @GetMapping("/rpc/get/select/entryInfo/for/comment1Info")
-    public List<Long> getSelectEntryInfoForComment1InfoRpc(Long comment1Id) {
+    @ApiOperation("/rpc/get/select/entryInfo/for/comment1Info/{comment1Id}")
+    @GetMapping("/rpc/get/select/entryInfo/for/comment1Info/{comment1Id}")
+    public List<Long> getSelectEntryInfoForComment1InfoRpc(
+            @PathVariable("comment1Id")Long comment1Id) {
         return commentRelatedServiceRpc.getSelectEntryInfoForComment1Info(comment1Id);
     }
 
@@ -73,7 +81,8 @@ public class CommentRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/multi/comment2Info/by/topicId/{comment1Id}")
     @GetMapping("/rpc/get/select/multi/comment2Info/by/topicId/{comment1Id}")
-    public List<Comment2Model> getSelectMultiComment2InfoRpc(@PathVariable("comment1Id") Long comment1Id) {
+    public List<Comment2Model> getSelectMultiComment2InfoRpc(
+            @PathVariable("comment1Id")Long comment1Id) {
         return commentRelatedServiceRpc.getSelectMultiComment2Info(comment1Id);
     }
 
@@ -81,13 +90,16 @@ public class CommentRelatedControllerRpc {
      * 发布二级评论
      * @param userId
      * @param comment1Id
-     * @param comment1Content
+     * @param comment2Content
      * @return
      */
-    @ApiOperation("/rpc/post/public/comment1Info")
-    @PostMapping("/rpc/post/public/comment1Info")
-    public int postPublicComment2InfoRpc(Long userId,Long comment1Id,String comment1Content) {
-        return commentRelatedServiceRpc.postPublicComment2Info(userId,comment1Id,comment1Content);
+    @ApiOperation("/rpc/post/public/comment2Info")
+    @PostMapping("/rpc/post/public/comment2Info")
+    public int postPublicComment2InfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("comment1Id")Long comment1Id,
+            @RequestParam("comment2Content")String comment2Content) {
+        return commentRelatedServiceRpc.postPublicComment2Info(userId,comment1Id,comment2Content);
     }
 
     /**
@@ -97,7 +109,8 @@ public class CommentRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/touch/star/comment1Info")
     @PostMapping("/rpc/post/touch/star/comment1Info")
-    public int postTouchStarComment1InfoRpc(Long comment1Id) {
+    public int postTouchStarComment1InfoRpc(
+            @RequestParam("comment1Id")Long comment1Id) {
         return commentRelatedServiceRpc. postTouchStarComment1Info(comment1Id);
     }
 
@@ -108,7 +121,8 @@ public class CommentRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/touch/tread/comment1Info")
     @PostMapping("/rpc/post/touch/tread/comment1Info")
-    public int postTouchTreadComment1InfoRpc(Long comment1Id) {
+    public int postTouchTreadComment1InfoRpc(
+            @RequestParam("comment1Id")Long comment1Id) {
         return commentRelatedServiceRpc. postTouchTreadComment1Info(comment1Id);
     }
 

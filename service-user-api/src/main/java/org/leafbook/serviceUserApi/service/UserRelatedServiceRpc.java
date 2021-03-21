@@ -3,6 +3,7 @@ package org.leafbook.serviceUserApi.service;
 import org.leafbook.api.modelApi.common.CodeModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
+import org.leafbook.serviceUserApi.dao.AttentionModeMapper;
 import org.leafbook.serviceUserApi.dao.CodeModelMapper;
 import org.leafbook.serviceUserApi.dao.LoginInfoModelMapper;
 import org.leafbook.serviceUserApi.dao.UserModelMapper;
@@ -26,17 +27,54 @@ public class UserRelatedServiceRpc {
 
     @Autowired
     private CodeModelMapper codeModelMapper;
-
+    @Autowired
+    private AttentionModeMapper attentionModeMapper;
+    /**
+     * 单用户查询
+     *
+     * @param userId
+     * @return
+     */
     public UserModel postSelectSingleUserInfo(Long userId) {
         return userModelMapper.selectSingleUserInfo(userId);
     }
-
+    /**
+     * 多用户查询
+     *
+     * @param userIds
+     * @return
+     */
     public List<UserModel> postSelectMultiUserInfo(List<Long> userIds) {
         List<UserModel> userModelList = new LinkedList<>();
         userIds.forEach((it)->{
             userModelList.add(userModelMapper.selectSingleUserInfo(it));
         });
         return userModelList;
+    }
+    /**
+     * 获取用户关注人列表
+     * @param userId
+     * @return
+     */
+    public List<Long> postSelectMultiAttentionUserInfo(Long userId) {
+        return attentionModeMapper.selectMultiAttentionUserInfoByUserId(userId);
+    }
+    /**
+     * 获取订阅者列表
+     * @param userId
+     * @return
+     */
+    public List<Long> postSelectMultiFollowedUserInfo(Long userId) {
+        return attentionModeMapper.selectMultiFollowedUserInfoByUserId(userId);
+    }
+    /**
+     * 判断是否已关注
+     * @param userId
+     * @param attentionId
+     * @return
+     */
+    public int postIsExistAttention(Long userId,Long attentionId) {
+        return attentionModeMapper.selectIsExistAttention(userId,attentionId);
     }
 
     /**

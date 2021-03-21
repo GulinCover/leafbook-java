@@ -3,6 +3,7 @@ package org.leafbook.serviceEntryApi.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.modelApi.entryInfo.EntryModel;
+import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.serviceEntryApi.service.EntryRelatedServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -50,6 +51,60 @@ public class EntryRelatedControllerRpc {
     @GetMapping("/rpc/get/select/multi/entryInfo")
     public List<EntryModel> postSelectMultiEntryInfoRpc(@RequestParam("entryIds") List<Long> entryIds) {
         return entryRelatedServiceRpc.postSelectMultiEntryInfo(entryIds);
+    }
+
+    /**
+     * 获取全部entryInfo通过页号
+     * @param page
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/entryInfo/page/{page}")
+    @GetMapping("/rpc/get/select/all/entryInfo/page/{page}")
+    public List<EntryShowModel> getSelectAllEntryInfoRpc(@PathVariable("page")Long page) {
+        return entryRelatedServiceRpc.getSelectAllEntryInfo(page);
+    }
+    /**
+     * entryInfo点赞量+1
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/entryInfo/star/amount")
+    @PostMapping("/rpc/post/update/entryInfo/star/amount")
+    public int postUpdateEntryInfoStarAmountRpc(Long entryId) {
+        return entryRelatedServiceRpc.postUpdateEntryInfoStarAmount(entryId);
+    }
+
+    /**
+     * entryInfo点踩量+1
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/entryInfo/tread/amount")
+    @PostMapping("/rpc/post/update/entryInfo/tread/amount")
+    public int postUpdateEntryInfoTreadAmountRpc(Long entryId) {
+        return entryRelatedServiceRpc.postUpdateEntryInfoTreadAmount(entryId);
+    }
+
+    /**
+     * 获取entryInfo点赞量
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/entryInfo/star/amount")
+    @GetMapping("/rpc/get/select/entryInfo/star/amount")
+    public Long getSelectEntryInfoStarAmountRpc(Long entryId) {
+        return entryRelatedServiceRpc.getSelectEntryInfoStarAmount(entryId);
+    }
+
+    /**
+     * 获取entryInfo点踩量
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/entryInfo/tread/amount")
+    @GetMapping("/rpc/get/select/entryInfo/tread/amount")
+    public Long getSelectEntryInfoTreadAmountRpc(Long entryId) {
+        return entryRelatedServiceRpc.getSelectEntryInfoTreadAmount(entryId);
     }
 
 //    /**

@@ -7,3 +7,11 @@ spring:
     add-mappings: false
   mvc:
     throw-exception-if-no-handler-found: true
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${HOSTS:localhost:8848}
+    sentinel:
+      transport:
+        port: 24000
+        dashboard: localhost:30000

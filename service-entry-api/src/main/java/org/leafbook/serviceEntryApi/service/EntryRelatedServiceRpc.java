@@ -1,7 +1,11 @@
 package org.leafbook.serviceEntryApi.service;
 
+import org.leafbook.api.modelApi.entryInfo.Entry2StarAndTreadAmountModel;
 import org.leafbook.api.modelApi.entryInfo.EntryModel;
+import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
+import org.leafbook.serviceEntryApi.dao.Entry2StarAndTreadAmountModelMapper;
 import org.leafbook.serviceEntryApi.dao.EntryModelMapper;
+import org.leafbook.serviceEntryApi.dao.EntryShowModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +15,10 @@ import java.util.List;
 public class EntryRelatedServiceRpc {
     @Autowired
     private EntryModelMapper entryModelMapper;
+    @Autowired
+    private EntryShowModelMapper entryShowModelMapper;
+    @Autowired
+    private Entry2StarAndTreadAmountModelMapper entry2StarAndTreadAmountModelMapper;
 
     /**
      * 用户申请词条，默认nonofficial类型，
@@ -33,7 +41,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public EntryModel postSelectSingleEntryInfo(Long entryId) {
-        return entryModelMapper.select(entryId);
+        return entryShowModelMapper.selectSingleByEntryId(entryId);
     }
     /**
      * 组查询词条信息
@@ -41,8 +49,61 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public List<EntryModel> postSelectMultiEntryInfo(List<Long> entryIds) {
-        return entryModelMapper.selectMulti(entryIds);
+        return entryShowModelMapper.selectMultiByEntryId(entryIds);
     }
+    /**
+     * 获取全部entryInfo通过页号
+     * @param page
+     * @return
+     */
+    public List<EntryShowModel> getSelectAllEntryInfo(Long page) {
+        return entryShowModelMapper.selectAllByPage(page);
+    }
+
+    /**
+     * entryInfo点赞量+1
+     * @param entryId
+     * @return
+     */
+    public int postUpdateEntryInfoStarAmount(Long entryId) {
+        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
+        Long entryStarAmount = model.getEntryStarAmount();
+        model.setEntryStarAmount(entryStarAmount + 1);
+        return entry2StarAndTreadAmountModelMapper.updateByModel(model);
+    }
+
+    /**
+     * entryInfo点踩量+1
+     * @param entryId
+     * @return
+     */
+    public int postUpdateEntryInfoTreadAmount(Long entryId) {
+        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
+        Long entryTreadAmount = model.getEntryTreadAmount();
+        model.setEntryTreadAmount(entryTreadAmount + 1);
+        return entry2StarAndTreadAmountModelMapper.updateByModel(model);
+    }
+    /**
+     * 获取entryInfo点赞量
+     * @param entryId
+     * @return
+     */
+    public Long getSelectEntryInfoStarAmount(Long entryId) {
+        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
+        return model.getEntryStarAmount();
+    }
+    /**
+     * 获取entryInfo点踩量
+     * @param entryId
+     * @return
+     */
+    public Long getSelectEntryInfoTreadAmount(Long entryId) {
+        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
+        return model.getEntryTreadAmount();
+    }
+
+
+
 //    /**
 //     * 单删词条
 //     * @param entryId
