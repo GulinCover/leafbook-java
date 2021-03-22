@@ -6,8 +6,8 @@ import java.util.Date;
 
 @Data
 public class Model {
-    private Date updateTime;
-    private Date publicTime;
+    private Long updateTime;
+    private Long publicTime;
     private Integer version;
     private Integer isBlack;
 }

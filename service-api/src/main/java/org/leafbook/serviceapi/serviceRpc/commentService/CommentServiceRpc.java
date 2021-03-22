@@ -112,6 +112,25 @@ public interface CommentServiceRpc {
     int postTouchTreadComment1InfoRpc(
             @RequestParam("comment1Id") Long comment1Id);
 
+    /**
+     * 随机获取多篇评论
+     *
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/comment1Info/by/topicId/{topicId}")
+    List<Comment1Model> getSelectRandomComment1InfoRpc(@PathVariable("topicId") Long topicId,Integer randomNumber);
+
+
+    /**
+     * 获取评论词条
+     * @param comment1Id
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/entryId/by/comment1Id/{comment1Id}")
+    List<Long> getSelectMultiEntryIdsByComment1IdRpc(@PathVariable("comment1Id")Long comment1Id);
+
     //talk service rpc
 
     /**
@@ -272,4 +291,26 @@ public interface CommentServiceRpc {
     @PostMapping("/rpc/post/is/exist/for/talkComment1Info")
     int postIsExistForTalkComment1InfoRpc(
             @RequestParam("talkComment1Id") Long talkComment1Id);
+
+    /**
+     * 随机获取一篇议论
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/talkInfo/by/topicId/{topicId}")
+    List<TalkModel> getSelectRandomTalkInfoRpc(
+            @PathVariable("topicId")Long topicId,
+            Integer randomNumber);
+
+    /**
+     * 随机获取一篇议论的评论
+     * @param talkId
+     * @param randomNumber
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/talkComment1Info/by/talkId/{talkId}")
+    List<TalkComment1Model> getSelectRandomTalkComment1InfoRpc(
+            @PathVariable("talkId")Long talkId,
+            Integer randomNumber);
 }

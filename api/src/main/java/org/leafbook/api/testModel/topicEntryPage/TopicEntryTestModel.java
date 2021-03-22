@@ -19,9 +19,9 @@ public class TopicEntryTestModel extends TestModel {
         resp.setEntryId(10L);
         resp.setEntryCreatorId(321312L);
         resp.setEntryName(randomWord());
-        resp.setLikedNumber(String.valueOf(new Random().nextInt(500)));
-        resp.setPassTime(new Date().toString());
-        resp.setRelatedTopicNumber(String.valueOf(new Random().nextInt(5000)));
+        resp.setLikedNumber((long)new Random().nextInt(500));
+        resp.setPassTime(new Date().getTime());
+        resp.setRelatedTopicNumber((long)new Random().nextInt(5000));
         return resp;
     }
 
@@ -35,8 +35,8 @@ public class TopicEntryTestModel extends TestModel {
 
             topicAbs.setUserId((long)i);
             topicAbs.setUsername(randomWord());
-            topicAbs.setUpdateTime(new Date().toString());
-            topicAbs.setLikedNumber(String.valueOf(new Random().nextInt(5000)));
+            topicAbs.setUpdateTime(new Date().getTime());
+            topicAbs.setLikedNumber((long)new Random().nextInt(5000));
 
             ContentAbs contentAbs = new ContentAbs();
             contentAbs.setTopicDesc(randomString().toString());
@@ -56,7 +56,7 @@ public class TopicEntryTestModel extends TestModel {
             commentAbs.setUserAvatar(Picture);
             commentAbs.setCommentContent(randomString().toString());
             commentAbs.setEntryAbsList(entryAbsList);
-            commentAbs.setUserCommentTime(new Date().toString());
+            commentAbs.setUserCommentTime(new Date().getTime());
             commentAbs.setUserId((long)i);
             commentAbs.setUsername(randomWord());
             topicAbs.setCommentAbs(commentAbs);
@@ -66,7 +66,7 @@ public class TopicEntryTestModel extends TestModel {
             talkAbs.setTalkTitle(randomWord());
             talkAbs.setUserAvatar(Picture);
             talkAbs.setUserId((long)i);
-            talkAbs.setUserTalkCommentTime(new Date().toString());
+            talkAbs.setUserTalkCommentTime(new Date().getTime());
             talkAbs.setUsername(randomWord());
             talkAbs.setTalkCommentContent(randomString().toString());
             talkAbs.setEntryAbsList(entryAbsList);

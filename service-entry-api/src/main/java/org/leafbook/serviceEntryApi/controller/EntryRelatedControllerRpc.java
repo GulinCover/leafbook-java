@@ -38,8 +38,8 @@ public class EntryRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/single/entryInfo/{entryId}")
     @GetMapping("/rpc/get/select/single/entryInfo/{entryId}")
-    public EntryModel postSelectSingleEntryInfoRpc(@PathVariable("entryId")Long entryId) {
-        return entryRelatedServiceRpc.postSelectSingleEntryInfo(entryId);
+    public EntryModel getSelectSingleEntryInfoRpc(@PathVariable("entryId")Long entryId) {
+        return entryRelatedServiceRpc.getSelectSingleEntryInfo(entryId);
     }
 
     /**
@@ -49,8 +49,8 @@ public class EntryRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/multi/entryInfo")
     @GetMapping("/rpc/get/select/multi/entryInfo")
-    public List<EntryModel> postSelectMultiEntryInfoRpc(@RequestParam("entryIds") List<Long> entryIds) {
-        return entryRelatedServiceRpc.postSelectMultiEntryInfo(entryIds);
+    public List<EntryModel> getSelectMultiEntryInfoRpc(@RequestParam("entryIds") List<Long> entryIds) {
+        return entryRelatedServiceRpc.getSelectMultiEntryInfo(entryIds);
     }
 
     /**
@@ -90,9 +90,9 @@ public class EntryRelatedControllerRpc {
      * @param entryId
      * @return
      */
-    @ApiOperation("/rpc/get/select/entryInfo/star/amount")
-    @GetMapping("/rpc/get/select/entryInfo/star/amount")
-    public Long getSelectEntryInfoStarAmountRpc(Long entryId) {
+    @ApiOperation("/rpc/get/select/entryInfo/star/amount/{entryId}")
+    @GetMapping("/rpc/get/select/entryInfo/star/amount/{entryId}")
+    public Long getSelectEntryInfoStarAmountRpc(@PathVariable("entryId")Long entryId) {
         return entryRelatedServiceRpc.getSelectEntryInfoStarAmount(entryId);
     }
 

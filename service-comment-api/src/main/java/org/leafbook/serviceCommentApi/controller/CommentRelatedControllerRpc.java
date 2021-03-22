@@ -126,4 +126,32 @@ public class CommentRelatedControllerRpc {
         return commentRelatedServiceRpc. postTouchTreadComment1Info(comment1Id);
     }
 
+    /**
+     * 随机获取多篇评论
+     *
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/comment1Info/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/random/comment1Info/by/topicId/{topicId}")
+    List<Comment1Model> getSelectRandomComment1InfoRpc(
+            @PathVariable("topicId") Long topicId,
+            Integer randomNumber) {
+        return commentRelatedServiceRpc.getSelectRandomComment1Info(topicId,randomNumber);
+    }
+
+
+    /**
+     * 获取评论词条
+     * @param comment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/entryId/by/comment1Id/{comment1Id}")
+    @GetMapping("/rpc/get/select/multi/entryId/by/comment1Id/{comment1Id}")
+    List<Long> getSelectMultiEntryIdsByComment1IdRpc(
+            @PathVariable("comment1Id")Long comment1Id) {
+        return commentRelatedServiceRpc.getSelectMultiEntryIdsByComment1Id(comment1Id);
+    }
+
 }

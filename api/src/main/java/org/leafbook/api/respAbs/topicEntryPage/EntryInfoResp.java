@@ -9,9 +9,9 @@ public class EntryInfoResp {
     private String entryName;
     private String entryDesc;
     private String entryAvatar;
-    private String likedNumber;
-    private String passTime;
+    private Long likedNumber;
+    private Long passTime;
     private String applicant;
     private Long entryCreatorId;
-    private String relatedTopicNumber;
+    private Long relatedTopicNumber;
 }

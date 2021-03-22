@@ -1,6 +1,7 @@
 package org.leafbook.serviceapi.serviceApi;
 
 import org.leafbook.api.modelApi.entryInfo.EntryModel;
+import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.respAbs.topicPage.EntryAbs;
 import org.leafbook.api.testModel.indexPage.TestModel;
 import org.leafbook.serviceapi.serviceRpc.commonService.CommonServiceRpc;
@@ -34,12 +35,12 @@ public class TopicPageServiceApi {
      * @return
      */
     public List<EntryAbs> getSelectAllEntriesInfo(Long userId,Long page) {
-        List<EntryModel> entryModelList = entryServiceRpc.getSelectAllEntryInfoRpc(page);
-        if (Objects.isNull(entryModelList)) return null;
+        List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectAllEntryInfoRpc(page);
+        if (Objects.isNull(entryShowModelList)) return null;
 
         List<EntryAbs> entryAbsList = new LinkedList<>();
 
-        for (EntryModel entryModel:entryModelList) {
+        for (EntryShowModel entryModel:entryShowModelList) {
             EntryAbs entryAbs = new EntryAbs();
             entryAbs.setEntryName(entryModel.getEntryName());
             entryAbs.setEntryDesc(entryModel.getEntryDesc());

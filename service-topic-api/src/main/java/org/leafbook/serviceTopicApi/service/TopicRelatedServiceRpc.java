@@ -31,6 +31,9 @@ public class TopicRelatedServiceRpc {
     @Autowired
     private DirectoryModifyModelMapper directoryModifyModelMapper;
 
+    @Autowired
+    private ContributorModelMapper contributorModelMapper;
+
     /**
      * 获取著述拥有者id
      * @param topicId
@@ -228,6 +231,7 @@ public class TopicRelatedServiceRpc {
         model.setLikedAmount(likedAmount);
         return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
     }
+
     /**
      * 给著述点踩，著述踩数加1
      * @param topicId
@@ -250,4 +254,56 @@ public class TopicRelatedServiceRpc {
         model.setBrowseAmount(browseAmount);
         return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
     }
+    /**
+     * 获取某词条下的著述数量
+     * @param entryId
+     * @return
+     */
+    public Long getSelectMultiTopicInfoAmountByEntryInfo(Long entryId) {
+        return topicEntryInfoShowModelMapper.selectTopicInfoAmountByEntryId(entryId);
+    }
+    /**
+     * 获取某词条下的所有著述
+     * @param entryId
+     * @return
+     */
+    public List<TopicModel> getSelectMultiTopicInfoRpcByEntryId(Long entryId,Long page) {
+        return topicEntryInfoShowModelMapper.selectMultiTopicInfoByEntryId(entryId,page);
+    }
+
+    /**
+     * 获取著述赞数量
+     * @param topicId
+     * @return
+     */
+    public Long getSelectTopicStarAmount(Long topicId) {
+        return topicLikedAndTreadAndBrowseModelMapper.selectTopicStarAmountByTopicId(topicId);
+    }
+    /**
+     * 获取著述踩数量
+     * @param topicId
+     * @return
+     */
+    public Long getSelectTopicTreadAmount(Long topicId) {
+        return topicLikedAndTreadAndBrowseModelMapper.selectTopicTreadAmountByTopicId(topicId);
+    }
+    /**
+     * 获取著述浏览数量
+     * @param topicId
+     * @return
+     */
+    public Long getSelectTopicBrowseAmount(Long topicId) {
+        return topicLikedAndTreadAndBrowseModelMapper.selectTopicBrowseAmountByTopicId(topicId);
+    }
+    /**
+     * 随机获取贡献者信息
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    public List<ContributorModel> getSelectRandomContributorInfo(Long topicId,Integer randomNumber) {
+        return contributorModelMapper.selectRandomContributorInfoByTopicId(topicId,randomNumber);
+    }
+
+
 }

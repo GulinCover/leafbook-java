@@ -18,7 +18,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <!-- 指定该Main Class为全局的唯一入口 -->
-                    <mainClass>org.leafbook.serviceapi.ServiceApiMain</mainClass>
+                    <mainClass>org.leafbook.serviceapi.MainServiceApi</mainClass>
                     <layout>ZIP</layout>
                 </configuration>
                 <executions>

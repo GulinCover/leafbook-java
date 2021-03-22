@@ -2,6 +2,7 @@ package org.leafbook.serviceTopicApi.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.modelApi.topicInfo.ContributorModel;
 import org.leafbook.api.modelApi.topicInfo.DirectoryModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.serviceTopicApi.service.TopicRelatedServiceRpc;
@@ -229,6 +230,76 @@ public class TopicRelatedControllerRpc {
     public int postInsertTouchTopicBrowseRpc(@RequestParam("topicId")Long topicId) {
         return topicRelatedServiceRpc.postInsertTouchTopicBrowse(topicId);
     }
+
+    /**
+     * 获取某词条下的著述数量
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/topicInfoAmount/by/entryId/{entryId}")
+    @GetMapping("/rpc/get/select/multi/topicInfoAmount/by/entryId/{entryId}")
+    public Long getSelectMultiTopicInfoAmountByEntryInfoRpc(@PathVariable("entryId")Long entryId){
+        return topicRelatedServiceRpc.getSelectMultiTopicInfoAmountByEntryInfo(entryId);
+    }
+
+    /**
+     * 获取某词条下的所有著述
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/topicInfo/by/entryId/{entryId}/page/{page}")
+    @GetMapping("/rpc/get/select/multi/topicInfo/by/entryId/{entryId}/page/{page}")
+    public List<TopicModel> getSelectMultiTopicInfoRpcByEntryIdRpc(
+            @PathVariable("entryId")Long entryId,
+            @PathVariable("page")Long page) {
+        return topicRelatedServiceRpc.getSelectMultiTopicInfoRpcByEntryId(entryId,page);
+    }
+
+    /**
+     * 获取著述赞数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/topic/star/amount/{topicId}")
+    @PostMapping("/rpc/get/select/topic/star/amount/{topicId}")
+    public Long getSelectTopicStarAmountRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectTopicStarAmount(topicId);
+    }
+    /**
+     * 获取著述赞数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/topic/tread/amount/{topicId}")
+    @GetMapping("/rpc/get/select/topic/tread/amount/{topicId}")
+    public Long getSelectTopicTreadAmountRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectTopicTreadAmount(topicId);
+    }
+    /**
+     * 获取著述赞数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/topic/browse/amount/{topicId}")
+    @GetMapping("/rpc/get/select/topic/browse/amount/{topicId}")
+    public Long getSelectTopicBrowseAmountRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectTopicBrowseAmount(topicId);
+    }
+
+    /**
+     * 随机获取贡献者信息
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/random/contributorInfo/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/multi/random/contributorInfo/by/topicId/{topicId}")
+    List<ContributorModel> getSelectRandomContributorInfoRpc(
+            @PathVariable("topicId")Long topicId,
+            Integer randomNumber) {
+        return topicRelatedServiceRpc.getSelectRandomContributorInfo(topicId,randomNumber);
+    }
+
 }
 
 

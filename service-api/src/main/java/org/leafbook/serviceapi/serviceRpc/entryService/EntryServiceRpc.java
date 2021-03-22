@@ -2,6 +2,7 @@ package org.leafbook.serviceapi.serviceRpc.entryService;
 
 import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.modelApi.entryInfo.EntryModel;
+import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.serviceapi.openfeinFallback.entryService.EntryServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public interface EntryServiceRpc {
      * @return
      */
     @GetMapping("/rpc/get/select/single/entryInfo/{entryId}")
-    EntryModel postSelectSingleEntryInfoRpc(
+    EntryShowModel getSelectSingleEntryInfoRpc(
             @PathVariable("entryId") Long entryId);
 
     /**
@@ -49,7 +50,7 @@ public interface EntryServiceRpc {
      * @return
      */
     @GetMapping("/rpc/get/select/multi/entryInfo")
-    List<EntryModel> postSelectMultiEntryInfoRpc(
+    List<EntryShowModel> getSelectMultiEntryInfoRpc(
             @RequestParam("entryIds") List<Long> entryIds);
 
     /**
@@ -58,7 +59,7 @@ public interface EntryServiceRpc {
      * @return
      */
     @GetMapping("/rpc/get/select/all/entryInfo/page/{page}")
-    List<EntryModel> getSelectAllEntryInfoRpc(@PathVariable("page")Long page);
+    List<EntryShowModel> getSelectAllEntryInfoRpc(@PathVariable("page")Long page);
 
     /**
      * entryInfo点赞量+1
@@ -81,8 +82,8 @@ public interface EntryServiceRpc {
      * @param entryId
      * @return
      */
-    @GetMapping("/rpc/get/select/entryInfo/star/amount")
-    Long getSelectEntryInfoStarAmountRpc(Long entryId);
+    @GetMapping("/rpc/get/select/entryInfo/star/amount/{entryId}")
+    Long getSelectEntryInfoStarAmountRpc(@PathVariable("entryId")Long entryId);
 
     /**
      * 获取entryInfo点踩量

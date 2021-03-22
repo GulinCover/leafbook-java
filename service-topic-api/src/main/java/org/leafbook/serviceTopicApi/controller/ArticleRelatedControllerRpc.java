@@ -8,6 +8,8 @@ import org.leafbook.serviceTopicApi.service.ArticleRelatedServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @Api("ArticleRelatedControllerRpc")
 @RestController
@@ -149,6 +151,31 @@ public class ArticleRelatedControllerRpc {
     @PostMapping("/rpc/post/insert/touch/article/browse")
     public int postInsertTouchArticleBrowseRpc(@RequestParam("articleId") Long articleId) {
         return articleRelatedServiceRpc.postInsertTouchArticleBrowse(articleId);
+    }
+
+    /**
+     * 随机获取一篇文章
+     * @param topicId
+     * @param randomNumber: 随机数量
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/articleInfo/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/random/articleInfo/by/topicId/{topicId}")
+    public List<ArticleModel> getSelectRandomArticleInfoRpc(@PathVariable("topicId")Long topicId,Integer randomNumber) {
+        return articleRelatedServiceRpc.getSelectRandomArticleInfo(topicId, randomNumber);
+    }
+
+    /**
+     * 获取文章展示词条
+     * @param articleId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/entryId/by/articleId/{articleId}")
+    @GetMapping("/rpc/get/select/multi/entryId/by/articleId/{articleId}")
+    public List<Long> getSelectMultiEntryIdsByArticleIdRpc(
+            @PathVariable("articleId") Long articleId,
+            Integer randomNumber) {
+        return articleRelatedServiceRpc.getSelectMultiEntryIdsByArticleId(articleId);
     }
 
 }

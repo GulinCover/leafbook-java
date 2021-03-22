@@ -121,19 +121,44 @@ public class TestMain {
     }
 
     @Test
-    void test03() throws IOException {
-//        sendTest("/");
+    void oneButtonStart() throws IOException {
+        File file = new File(System.getProperty("user.dir"));
+        File projectFile = file.getParentFile();
+
+        DirectoryScanner directoryScanner = new DirectoryScanner();
+        directoryScanner.setBasedir(projectFile);
+        directoryScanner.scan();
+
+        String ss = "";
+        for (String directory:directoryScanner.getIncludedFiles()) {
+            String pattern = "^.+service-.+-api-1\\.0-SNAPSHOT\\.jar$";
+            Pattern compile = Pattern.compile(pattern);
+            Matcher matcher = compile.matcher(directory);
+            if (matcher.find()) {
+                ss = matcher.group() + " & ";
+            }
+        }
+        ss = ss.substring(0, ss.length() -2);
+        Runtime.getRuntime().exec("cmd /k start dir");
+        Runtime.getRuntime().exec("cmd /k start ping www.baidu.com");
     }
 
     @Test
     void test02() {
         String str = "@PostMapping(\"/rpc/post/create/single/entryInfo\")";
+//        String pattern = "@.+Mapping\\(\"(.+)\"\\)";
+//        Pattern compile = Pattern.compile(pattern);
+//        Matcher matcher = compile.matcher(str);
+//        if (matcher.find()) {
+//            System.out.println(matcher.group(1));
+//        }
 
-        String pattern = "@.+Mapping\\(\"(.+)\"\\)";
+        String str2 = "Maindsdfasfas.java";
+        String pattern = "^Main.+\\.java$";
         Pattern compile = Pattern.compile(pattern);
-        Matcher matcher = compile.matcher(str);
+        Matcher matcher = compile.matcher(str2);
         if (matcher.find()) {
-            System.out.println(matcher.group(1));
+            System.out.println(matcher.group());
         }
     }
 

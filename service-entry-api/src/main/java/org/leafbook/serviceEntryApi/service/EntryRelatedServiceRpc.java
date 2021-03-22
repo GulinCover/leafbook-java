@@ -40,7 +40,7 @@ public class EntryRelatedServiceRpc {
      * @param entryId
      * @return
      */
-    public EntryModel postSelectSingleEntryInfo(Long entryId) {
+    public EntryModel getSelectSingleEntryInfo(Long entryId) {
         return entryShowModelMapper.selectSingleByEntryId(entryId);
     }
     /**
@@ -48,7 +48,7 @@ public class EntryRelatedServiceRpc {
      * @param entryIds
      * @return
      */
-    public List<EntryModel> postSelectMultiEntryInfo(List<Long> entryIds) {
+    public List<EntryModel> getSelectMultiEntryInfo(List<Long> entryIds) {
         return entryShowModelMapper.selectMultiByEntryId(entryIds);
     }
     /**

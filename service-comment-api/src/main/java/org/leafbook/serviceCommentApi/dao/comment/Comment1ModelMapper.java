@@ -10,6 +10,27 @@ import java.util.Random;
 
 @Service
 public class Comment1ModelMapper {
+    /**
+     * 随机获取多篇评论
+     *
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    public List<Comment1Model> selectRandomComment1InfoByTopicId(Long topicId,Integer randomNumber) {
+        List<Comment1Model> comment1ModelList = new LinkedList<>();
+        for (int i = 0; i <randomNumber; i++) {
+            Comment1Model comment1Model = new Comment1Model();
+            comment1Model.setCommentId((long) i);
+            comment1Model.setCommentContent(TestModel.randomString().toString());
+            comment1Model.setTopicId(topicId);
+            comment1Model.setUserId((long) i);
+
+            comment1ModelList.add(comment1Model);
+        }
+
+        return comment1ModelList;
+    }
 
     public List<Comment1Model> selectMultiByTopicId(Long topicId) {
         List<Comment1Model> comment1ModelList = new LinkedList<>();

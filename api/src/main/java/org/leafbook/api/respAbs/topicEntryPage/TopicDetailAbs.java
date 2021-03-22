@@ -13,8 +13,8 @@ public class TopicDetailAbs {
     private Long userId;
     private String username;
 
-    private String likedNumber;
-    private String updateTime;
+    private Long likedNumber;
+    private Long updateTime;
     private List<EntryAbs> entryAbsList;
 
     private ContentAbs contentAbs;

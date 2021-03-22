@@ -6,11 +6,11 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: ${HOST:localhost:8848}
+        server-addr: ${HOSTS:localhost:8848}
     sentinel:
       transport:
+        dashboard: localhost:30000
         port: 22000
-        dashboard: ${HOSTS:localhost:8080}
 swagger:
   base-package: org.leafbook.serviceTopicApi
   description: "serviceTopicApi"

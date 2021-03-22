@@ -16,6 +16,17 @@ public class TopicLikedAndTreadAndBrowseModelMapper {
         return model;
     }
 
+    public Long selectTopicStarAmountByTopicId(Long topicId) {
+        return (long)new Random().nextInt(1562);
+    }
+    public Long selectTopicTreadAmountByTopicId(Long topicId) {
+        return (long)new Random().nextInt(1562);
+    }
+    public Long selectTopicBrowseAmountByTopicId(Long topicId) {
+        return (long)new Random().nextInt(1562);
+    }
+
+
     public int updateByModel(TopicLikedAndTreadAndBrowseModel model) {
         return new Random().nextInt(100);
     }

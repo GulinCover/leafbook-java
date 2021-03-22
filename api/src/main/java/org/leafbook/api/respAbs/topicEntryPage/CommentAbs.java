@@ -9,7 +9,7 @@ public class CommentAbs {
     private Long userId;
     private String username;
     private String userAvatar;
-    private String userCommentTime;
+    private Long userCommentTime;
     private String commentContent;
     private List<EntryAbs> entryAbsList;
 }

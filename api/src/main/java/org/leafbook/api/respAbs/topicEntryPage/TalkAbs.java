@@ -11,7 +11,7 @@ public class TalkAbs {
     private Long userId;
     private String username;
     private String userAvatar;
-    private String userTalkCommentTime;
+    private Long userTalkCommentTime;
     private String talkCommentContent;
     private List<EntryAbs> entryAbsList;
 }

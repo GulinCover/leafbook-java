@@ -12,6 +12,8 @@ import org.leafbook.serviceTopicApi.dao.DirectoryModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ArticleRelatedServiceRpc {
     @Autowired
@@ -184,6 +186,22 @@ public class ArticleRelatedServiceRpc {
         Long browseAmount = model.getBrowseAmount()+ 1;
         model.setBrowseAmount(browseAmount);
         return articleLikedAndTreadAndBrowseModelMapper.updateByModel(model);
+    }
+    /**
+     * 随机获取x篇文章
+     * @param topicId
+     * @return
+     */
+    public List<ArticleModel> getSelectRandomArticleInfo(Long topicId,Integer randomNumber) {
+        return articleModelMapper.selectRandomSingleArticleInfoByTopicId(topicId, randomNumber);
+    }
+    /**
+     * 获取文章展示词条
+     * @param articleId
+     * @return
+     */
+    public List<Long> getSelectMultiEntryIdsByArticleId(Long articleId) {
+        return articleModelMapper.selectMultiEntryIdByArticleId(articleId);
     }
 
 }

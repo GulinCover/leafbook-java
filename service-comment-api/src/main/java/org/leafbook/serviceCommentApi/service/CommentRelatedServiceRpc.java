@@ -7,6 +7,7 @@ import org.leafbook.api.modelApi.commentInfo.CommentStarAndTreadModel;
 import org.leafbook.serviceCommentApi.dao.comment.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -110,6 +111,24 @@ public class CommentRelatedServiceRpc {
         final Long treadAmount = model.getTreadAmount();
         model.setTreadAmount(treadAmount+1);
         return comment2StarAndTreadModelMapper.updateByModel(model);
+    }
+    /**
+     * 随机获取多篇评论
+     *
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    public List<Comment1Model> getSelectRandomComment1Info(Long topicId,Integer randomNumber) {
+        return comment1ModelMapper.selectRandomComment1InfoByTopicId(topicId,randomNumber);
+    }
+    /**
+     * 获取评论词条
+     * @param comment1Id
+     * @return
+     */
+    public List<Long> getSelectMultiEntryIdsByComment1Id(Long comment1Id) {
+        return comment1InfoEntryShowModelMapper.selectEntryIdsByComment1Id(comment1Id);
     }
 
 }
