@@ -9,6 +9,6 @@ public class BrowseHistoryAbs {
     private Long topicId;
     private String topicTitle;
     private String topicDesc;
-    private Integer likeNumber;
+    private Long likeNumber;
     private List<EntryData> entryDataList;
 }

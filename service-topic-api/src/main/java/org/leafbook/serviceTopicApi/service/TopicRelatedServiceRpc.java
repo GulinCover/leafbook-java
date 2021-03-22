@@ -304,6 +304,14 @@ public class TopicRelatedServiceRpc {
     public List<ContributorModel> getSelectRandomContributorInfo(Long topicId,Integer randomNumber) {
         return contributorModelMapper.selectRandomContributorInfoByTopicId(topicId,randomNumber);
     }
+    /**
+     * 获取用户发布的著述
+     * @param userId
+     * @return
+     */
+    public List<TopicModel> postSelectMeTopicInfo(Long userId) {
+        return topicModelMapper.selectMultiTopicInfoByUserId(userId);
+    }
 
 
 }

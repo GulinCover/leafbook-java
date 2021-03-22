@@ -218,32 +218,17 @@ public class UserRelatedControllerRpc {
     }
 
     /**
-     * 发送手机验证码
-     *
-     * @param userId
-     * @param phone
-     * @return 验证码
-     */
-    @ApiOperation("/rpc/post/generate/phone/code")
-    @PostMapping("/rpc/post/generate/phone/code")
-    public String postGeneratePhoneCodeRpc(
-            @RequestParam("userId") Long userId,
-            @RequestParam("phone") String phone) {
-        return userRelatedServiceRpc.postGeneratePhoneCode(userId, phone);
-    }
-
-    /**
-     * 发送邮箱验证码
-     *
-     * @param userId
+     * 账户密码登陆
      * @param email
-     * @return 验证码
+     * @param password
+     * @return jwt
      */
-    @ApiOperation("/rpc/post/generate/email/code")
-    @PostMapping("/rpc/post/generate/email/code")
-    public String postGenerateEmailCodeRpc(
-            @RequestParam("userId") Long userId,
-            @RequestParam("email") String email) {
-        return userRelatedServiceRpc.postGenerateEmailCode(userId, email);
+    @ApiOperation("/rpc/post/login")
+    @PostMapping("/rpc/post/login")
+    public String postLoginRpc(
+            @RequestParam("email")String email,
+            @RequestParam("password")String password
+    ) {
+        return userRelatedServiceRpc.postLogin(email,password);
     }
 }

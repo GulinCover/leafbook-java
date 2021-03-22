@@ -282,9 +282,18 @@ public interface TopicServiceRpc {
      */
     @GetMapping("/rpc/get/select/multi/random/contributorInfo/by/topicId/{topicId}")
     List<ContributorModel> getSelectRandomContributorInfoRpc(
-            @PathVariable("topicId")Long topicId,
-            @RequestParam("randomNumber")Integer randomNumber);
+            @PathVariable("topicId") Long topicId,
+            @RequestParam("randomNumber") Integer randomNumber);
 
+
+    /**
+     * 获取用户发布的著述
+     *
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/me/topic")
+    List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId);
 
     //article service rpc
 
@@ -413,7 +422,7 @@ public interface TopicServiceRpc {
      * @return
      */
     @GetMapping("/rpc/get/select/random/articleInfo/by/topicId/{topicId}")
-    List<ArticleModel> getSelectRandomArticleInfoRpc(@PathVariable("topicId")Long topicId,@RequestParam("randomNumber")Integer randomNumber);
+    List<ArticleModel> getSelectRandomArticleInfoRpc(@PathVariable("topicId") Long topicId, @RequestParam("randomNumber") Integer randomNumber);
 
     /**
      * 获取文章展示词条

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Objects;
 
 @CrossOrigin("*")
 @Api("LoginPageControllerApi")
@@ -20,11 +21,22 @@ public class LoginPageControllerApi {
     @Autowired
     private LoginPageServiceApi loginPageServiceApi;
 
+    /**
+     * 账号登陆
+     * @param form: email,password
+     * @return jwt
+     */
     @ApiOperation("/api/inset/user/login")
     @PostMapping("/api/inset/user/login")
-    public MessageResp postInsertUserLogin(@RequestBody Map<String, String> form) {
+    public MessageResp postInsertUserLoginApi(@RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
-        resp.setMsg("user.jwt");
+        String jwt = loginPageServiceApi.postInsertUserLogin(form);
+        if (Objects.isNull(jwt)) {
+            resp.setMsg("登陆失败");
+            resp.setCode(403);
+            return resp;
+        }
+        resp.setMsg(jwt);
         resp.setCode(200);
         return resp;
     }

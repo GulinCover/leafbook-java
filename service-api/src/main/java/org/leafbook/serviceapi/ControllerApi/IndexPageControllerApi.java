@@ -25,10 +25,14 @@ public class IndexPageControllerApi {
     @Autowired
     private IndexPageServiceApi indexPageServiceApi;
 
-    //仓库展示
+    /**
+     * 仓库展示
+     * @param userId
+     * @return
+     */
     @ApiOperation("/api/post/select/me/topics")
     @PostMapping("/api/post/select/me/topics")
-    public TopicListResp postSelectMeTopicsApi(@RequestHeader("user_id")Long userId) {
+    public TopicListResp postSelectMeTopicsApi(@RequestHeader("userId")Long userId) {
 
         TopicListResp resp = new TopicListResp();
 
@@ -61,14 +65,21 @@ public class IndexPageControllerApi {
         return resp;
     }
 
-    //浏览历史
+    /**
+     * 浏览历史
+     * @param userId
+     * @param form: page:一页8条
+     * @return
+     */
     @ApiOperation("/api/post/select/me/browseHistory/topics")
     @PostMapping("/api/post/select/me/browseHistory/topics")
-    public RightBrowseHistoryResp postSelectMeBrowseHistoryTopicsApi(@RequestHeader("user_id")Long userId) {
+    public RightBrowseHistoryResp postSelectMeBrowseHistoryTopicsApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String,String> form) {
 
         RightBrowseHistoryResp resp = new RightBrowseHistoryResp();
 
-        List<BrowseHistoryAbs> browseHistoryAbs = indexPageServiceApi.postSelectMeBrowseHistoryTopics(userId);
+        List<BrowseHistoryAbs> browseHistoryAbs = indexPageServiceApi.postSelectMeBrowseHistoryTopics(userId,form);
         if (Objects.isNull(browseHistoryAbs)) {
             resp.setCode(500);
             return resp;

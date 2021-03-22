@@ -300,6 +300,17 @@ public class TopicRelatedControllerRpc {
         return topicRelatedServiceRpc.getSelectRandomContributorInfo(topicId,randomNumber);
     }
 
+    /**
+     * 获取用户发布的著述
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/me/topic")
+    @PostMapping("/rpc/post/select/me/topic")
+    public List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId")Long userId) {
+        return topicRelatedServiceRpc.postSelectMeTopicInfo(userId);
+    }
+
 }
 
 

@@ -266,14 +266,14 @@ public interface CommentServiceRpc {
             @PathVariable("talkId") Long talkId);
 
     /**
-     * 获取talkInfo的一级评论的词条
+     * 获取talkInfo的一级评论的词条id
      *
      * @param talkComment1Id
      * @return
      */
     @GetMapping("/rpc/get/select/entryInfo/by/talkComment1Info/{talkComment1Id}")
     List<Long> getSelectTalkComment1InfoForEntryInfoRpc(
-            @PathVariable("talkComment1Id") Long talkComment1Id);
+            @PathVariable("talkComment1Id")Long talkComment1Id);
 
     /**
      * 判断talk是否存在

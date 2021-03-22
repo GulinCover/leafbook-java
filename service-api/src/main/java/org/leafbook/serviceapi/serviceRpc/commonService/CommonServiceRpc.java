@@ -1,6 +1,5 @@
 package org.leafbook.serviceapi.serviceRpc.commonService;
 
-import io.swagger.annotations.ApiOperation;
 import org.leafbook.serviceapi.openfeinFallback.commonService.CommonServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -57,6 +56,7 @@ public interface CommonServiceRpc {
 
     /**
      * 查看是否点过踩
+     *
      * @param userId
      * @param objectId
      * @param type
@@ -64,7 +64,26 @@ public interface CommonServiceRpc {
      */
     @PostMapping("/rpc/post/select/touched/tread")
     int postSelectTouchedTreadRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("objectId")Long objectId,
-            @RequestParam("type")String type);
+            @RequestParam("userId") Long userId,
+            @RequestParam("objectId") Long objectId,
+            @RequestParam("type") String type);
+
+
+    /**
+     * 发送验证码
+     *
+     * @param email
+     * @return
+     */
+    @PostMapping("/rpc/post/send/code/by/email")
+    int postSendCodeRpc(@RequestParam("email") String email);
+
+    /**
+     * 获取验证码
+     *
+     * @param email
+     * @return
+     */
+    @PostMapping("/rpc/post/acquire/code/by/email")
+    String postAcquireCodeRpc(@RequestParam("email") String email);
 }

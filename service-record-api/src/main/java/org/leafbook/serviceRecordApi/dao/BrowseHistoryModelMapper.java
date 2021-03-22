@@ -11,7 +11,7 @@ import java.util.Random;
 public class BrowseHistoryModelMapper {
     public List<BrowseHistoryModel> selectMultiBrowseHistoryByUserIdAndPage(Long userId,Integer page) {
         List<BrowseHistoryModel> browseHistoryModelList = new LinkedList<>();
-        for (int i = 0; i < new Random().nextInt(5); ++i) {
+        for (int i = 0; i < new Random().nextInt(5)+5; ++i) {
             BrowseHistoryModel browseHistoryModel = new BrowseHistoryModel();
             browseHistoryModel.setHistoryModelId((long) i);
             browseHistoryModel.setTopicId((long) i);

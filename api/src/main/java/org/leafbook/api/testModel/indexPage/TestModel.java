@@ -47,7 +47,7 @@ public class TestModel {
             BrowseHistoryAbs browseHistoryAbs = new BrowseHistoryAbs();
             browseHistoryAbs.setTopicId((long) i);
             browseHistoryAbs.setTopicTitle("仓库" + i);
-            browseHistoryAbs.setLikeNumber(new Random().nextInt(5000) + 51);
+            browseHistoryAbs.setLikeNumber((long)new Random().nextInt(5000) + 51);
             browseHistoryAbs.setTopicDesc("仓库描述" + i);
 
             List<EntryData> entryDataList = new LinkedList<EntryData>();

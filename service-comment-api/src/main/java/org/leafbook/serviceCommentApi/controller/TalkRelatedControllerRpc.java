@@ -171,7 +171,7 @@ public class TalkRelatedControllerRpc {
     }
 
     /**
-     * 获取talkInfo的一级评论的词条
+     * 获取talkInfo的一级评论的词条id
      * @param talkComment1Id
      * @return
      */
@@ -201,6 +201,32 @@ public class TalkRelatedControllerRpc {
     @PostMapping("/rpc/post/is/exist/for/talkComment1Info")
     public int postIsExistForTalkComment1InfoRpc(@RequestParam("talkComment1Id")Long talkComment1Id) {
         return talkRelatedServiceRpc.postIsExistForTalkComment1Info(talkComment1Id);
+    }
+
+    /**
+     * 随机获取一篇议论
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/talkInfo/by/topicId/{topicId}")
+    public List<TalkModel> getSelectRandomTalkInfoRpc(
+            @PathVariable("topicId")Long topicId,
+            @RequestParam("randomNumber")Integer randomNumber) {
+        return talkRelatedServiceRpc.getSelectRandomTalkInfo(topicId,randomNumber);
+    }
+
+    /**
+     * 随机获取一篇议论的评论
+     * @param talkId
+     * @param randomNumber
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/talkComment1Info/by/talkId/{talkId}")
+    public List<TalkComment1Model> getSelectRandomTalkComment1InfoRpc(
+            @PathVariable("talkId")Long talkId,
+            @RequestParam("randomNumber")Integer randomNumber) {
+        return talkRelatedServiceRpc.getSelectRandomTalkComment1Info(talkId,randomNumber);
     }
 
 }

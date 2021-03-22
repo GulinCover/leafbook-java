@@ -10,6 +10,19 @@ import java.util.Random;
 
 @Service
 public class TopicModelMapper {
+    /**
+     * 获取用户发布的著述
+     * @param userId
+     * @return
+     */
+    public List<TopicModel> selectMultiTopicInfoByUserId(Long userId) {
+        List<TopicModel> topicModelList = new LinkedList<>();
+        for (int i = 0;i<new Random().nextInt(5)+5;++i) {
+            topicModelList.add(selectById((long) i));
+        }
+
+        return topicModelList;
+    }
 
     public Long selectSingleForOwnerId(Long topicId) {
         return (long)new Random().nextInt(10000);

@@ -7,7 +7,6 @@ import java.util.Date;
 @Data
 public class CodeModel {
     private Long codeId;
-    private Long userId;
     private String code;
     private String phone;
     private String email;

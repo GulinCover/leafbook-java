@@ -19,6 +19,10 @@ public class PolicyPageControllerApi {
     @Autowired
     private PolicyPageServiceApi policyPageServiceApi;
 
+    /**
+     * 获取站点协议
+     * @return
+     */
     @ApiOperation("/api/get/select/policy")
     @GetMapping("/api/get/select/policy")
     public PolicyInfoResp getSelectPolicyInfoApi() {

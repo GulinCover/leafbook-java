@@ -184,51 +184,15 @@ public class UserRelatedServiceRpc {
         return userModelMapper.updateSingleUserInfoLoginMark(userId, stringBuilder.toString());
     }
 
-    /**
-     * 发送手机验证码
-     * @param userId
-     * @param phone
-     * @return 验证码
-     */
-    public String postGeneratePhoneCode(Long userId,String phone) {
-        //查询mysql里是否存在验证码，时间是否间隔300秒
-        Long timestamp = new Date().getTime();
-        String code = codeModelMapper.selectCodeIntervalLT(userId, phone, timestamp);
-
-        if (!"".equals(code)) return "";
-        code = RandomCodeTools.generateRandomCode();
-        CodeModel codeModel = new CodeModel();
-        codeModel.setUserId(userId);
-        codeModel.setCode(code);
-        codeModel.setPhone(phone);
-        codeModel.setTimestamp(timestamp);
-        codeModelMapper.insert(codeModel);
-        //手机发送验证码
-        return code;
-    }
 
     /**
-     * 发送邮箱验证码
-     * @param userId
+     * 账户密码登陆
      * @param email
-     * @return 验证码
+     * @param password
+     * @return jwt
      */
-    public String postGenerateEmailCode(Long userId,String email) {
-        //查询mysql里是否存在验证码，时间是否间隔300秒
-        Long timestamp = new Date().getTime();
-        String code = codeModelMapper.selectCodeIntervalLT(userId, email, timestamp);
-
-        if (!"".equals(code)) return "";
-        code = RandomCodeTools.generateRandomCode();
-        CodeModel codeModel = new CodeModel();
-        codeModel.setUserId(userId);
-        codeModel.setCode(code);
-        codeModel.setEmail(email);
-        codeModel.setTimestamp(timestamp);
-        codeModelMapper.insert(codeModel);
-        //邮箱发送验证码
-        return code;
+    public String postLogin(String email,String password) {
+        return "jwt";
     }
-
 
 }

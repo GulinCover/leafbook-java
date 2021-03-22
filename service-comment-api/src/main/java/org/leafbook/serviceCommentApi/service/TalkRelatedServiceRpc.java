@@ -213,5 +213,23 @@ public class TalkRelatedServiceRpc {
     public int postIsExistForTalkComment1Info(Long talkComment1Id) {
         return talkComment1ModelMapper.selectIsExistByTalkComment1Id(talkComment1Id);
     }
+    /**
+     * 随机获取一篇议论
+     * @param topicId
+     * @param randomNumber
+     * @return
+     */
+    public List<TalkModel> getSelectRandomTalkInfo(Long topicId,Integer randomNumber) {
+        return talkComment1ModelMapper.selectRandomTalkInfoByTopicId(topicId,randomNumber);
+    }
+    /**
+     * 随机获取一篇议论的评论
+     * @param talkId
+     * @param randomNumber
+     * @return
+     */
+    public List<TalkComment1Model> getSelectRandomTalkComment1Info(Long talkId,Integer randomNumber) {
+        return talkComment1ModelMapper.selectRandomTalkComment1InfoByTalkId(talkId,randomNumber);
+    }
 
 }

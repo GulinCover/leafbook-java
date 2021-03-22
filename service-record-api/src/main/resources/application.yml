@@ -2,7 +2,7 @@ server:
   port: 13000
 spring:
   application:
-    name: servie-record-api
+    name: service-record-api
   cloud:
     nacos:
       discovery:
