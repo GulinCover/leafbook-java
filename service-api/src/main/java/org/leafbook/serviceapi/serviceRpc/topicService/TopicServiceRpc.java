@@ -1,6 +1,5 @@
 package org.leafbook.serviceapi.serviceRpc.topicService;
 
-import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.dto.topicService.ArticleAbs;
 import org.leafbook.api.modelApi.topicInfo.ContributorModel;
 import org.leafbook.api.modelApi.topicInfo.DirectoryModel;
@@ -276,6 +275,7 @@ public interface TopicServiceRpc {
 
     /**
      * 随机获取贡献者信息
+     *
      * @param topicId
      * @param randomNumber
      * @return
@@ -283,7 +283,7 @@ public interface TopicServiceRpc {
     @GetMapping("/rpc/get/select/multi/random/contributorInfo/by/topicId/{topicId}")
     List<ContributorModel> getSelectRandomContributorInfoRpc(
             @PathVariable("topicId")Long topicId,
-            Integer randomNumber);
+            @RequestParam("randomNumber")Integer randomNumber);
 
 
     //article service rpc
@@ -409,10 +409,11 @@ public interface TopicServiceRpc {
      * 随机获取多篇文章
      *
      * @param topicId
+     * @param randomNumber
      * @return
      */
     @GetMapping("/rpc/get/select/random/articleInfo/by/topicId/{topicId}")
-    List<ArticleModel> getSelectRandomArticleInfoRpc(@PathVariable("topicId") Long topicId,Integer randomNumber);
+    List<ArticleModel> getSelectRandomArticleInfoRpc(@PathVariable("topicId")Long topicId,@RequestParam("randomNumber")Integer randomNumber);
 
     /**
      * 获取文章展示词条

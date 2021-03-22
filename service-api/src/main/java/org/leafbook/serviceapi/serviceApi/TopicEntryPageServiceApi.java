@@ -66,9 +66,9 @@ public class TopicEntryPageServiceApi {
     }
 
     /**
-     * 获取著述信息
-     *
+     * 根据词条获取著述信息
      * @param entryId
+     * @param page: 页码
      * @return
      */
     public List<TopicDetailAbs> getSelectTopicInfos(Long entryId,Long page) {
@@ -108,6 +108,7 @@ public class TopicEntryPageServiceApi {
 
             //随机获取一条文章内容
             List<ArticleModel> randomArticleInfoList = topicServiceRpc.getSelectRandomArticleInfoRpc(topicModel.getTopicId(),1);
+
             if (!Objects.isNull(randomArticleInfoList) && !randomArticleInfoList.isEmpty()) {
                 ContentAbs contentAbs = new ContentAbs();
                 contentAbs.setTopicDesc(randomArticleInfoList.get(0).getArticleDesc());
@@ -237,6 +238,7 @@ public class TopicEntryPageServiceApi {
                 topicDetailAbs.setContributorAbs(contributorAbs);
             }
         }
+
         return topicDetailAbsList;
     }
 }

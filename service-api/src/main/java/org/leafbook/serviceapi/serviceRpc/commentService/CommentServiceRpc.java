@@ -120,7 +120,9 @@ public interface CommentServiceRpc {
      * @return
      */
     @GetMapping("/rpc/get/select/random/comment1Info/by/topicId/{topicId}")
-    List<Comment1Model> getSelectRandomComment1InfoRpc(@PathVariable("topicId") Long topicId,Integer randomNumber);
+    List<Comment1Model> getSelectRandomComment1InfoRpc(
+            @PathVariable("topicId")Long topicId,
+            @RequestParam("randomNumber")Integer randomNumber);
 
 
     /**
@@ -301,7 +303,7 @@ public interface CommentServiceRpc {
     @GetMapping("/rpc/get/select/random/talkInfo/by/topicId/{topicId}")
     List<TalkModel> getSelectRandomTalkInfoRpc(
             @PathVariable("topicId")Long topicId,
-            Integer randomNumber);
+            @RequestParam("randomNumber")Integer randomNumber);
 
     /**
      * 随机获取一篇议论的评论
@@ -312,5 +314,5 @@ public interface CommentServiceRpc {
     @GetMapping("/rpc/get/select/random/talkComment1Info/by/talkId/{talkId}")
     List<TalkComment1Model> getSelectRandomTalkComment1InfoRpc(
             @PathVariable("talkId")Long talkId,
-            Integer randomNumber);
+            @RequestParam("randomNumber")Integer randomNumber);
 }
