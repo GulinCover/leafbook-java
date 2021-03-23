@@ -40,7 +40,7 @@ public class EntryRelatedServiceRpc {
      * @param entryId
      * @return
      */
-    public EntryModel getSelectSingleEntryInfo(Long entryId) {
+    public EntryShowModel getSelectSingleEntryInfo(Long entryId) {
         return entryShowModelMapper.selectSingleByEntryId(entryId);
     }
     /**
@@ -48,7 +48,7 @@ public class EntryRelatedServiceRpc {
      * @param entryIds
      * @return
      */
-    public List<EntryModel> getSelectMultiEntryInfo(List<Long> entryIds) {
+    public List<EntryShowModel> getSelectMultiEntryInfo(List<Long> entryIds) {
         return entryShowModelMapper.selectMultiByEntryId(entryIds);
     }
     /**
@@ -58,6 +58,14 @@ public class EntryRelatedServiceRpc {
      */
     public List<EntryShowModel> getSelectAllEntryInfo(Long page) {
         return entryShowModelMapper.selectAllByPage(page);
+    }
+
+    /**
+     * 获取全部entryInfo
+     * @return
+     */
+    public List<EntryShowModel> getSelectAllEntryInfo() {
+        return entryShowModelMapper.selectAllEntryInfo();
     }
 
     /**
@@ -102,7 +110,13 @@ public class EntryRelatedServiceRpc {
         return model.getEntryTreadAmount();
     }
 
-
+    /**
+     * 获取所有热论词条
+     * @return
+     */
+    public List<EntryShowModel> getSelectAllHotEntryInfo() {
+        return entryModelMapper.selectAllHotEntryInfo();
+    }
 
 //    /**
 //     * 单删词条

@@ -261,7 +261,7 @@ public class TopicRelatedControllerRpc {
      * @return
      */
     @ApiOperation("/rpc/get/select/topic/star/amount/{topicId}")
-    @PostMapping("/rpc/get/select/topic/star/amount/{topicId}")
+    @GetMapping("/rpc/get/select/topic/star/amount/{topicId}")
     public Long getSelectTopicStarAmountRpc(@PathVariable("topicId")Long topicId) {
         return topicRelatedServiceRpc.getSelectTopicStarAmount(topicId);
     }
@@ -309,6 +309,78 @@ public class TopicRelatedControllerRpc {
     @PostMapping("/rpc/post/select/me/topic")
     public List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId")Long userId) {
         return topicRelatedServiceRpc.postSelectMeTopicInfo(userId);
+    }
+
+    /**
+     * 模糊搜索自己拥有的著述
+     * @param userId
+     * @param blurry
+     * @param page
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/multi/topicInfo/By/userId")
+    @PostMapping("/rpc/post/select/multi/topicInfo/By/userId")
+    List<TopicModel> postSelectMultiTopicInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("blurry")String blurry,
+            @RequestParam("page")Long page
+    ) {
+        return topicRelatedServiceRpc.postSelectMultiTopicInfoByUserIdRpc(userId,blurry,page);
+    }
+
+    /**
+     * 获取点赞排行著述id,每页15条
+     * @param page
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/topicId/by/star/rank/page/{page}")
+    @GetMapping("/rpc/get/select/multi/topicId/by/star/rank/page/{page}")
+    public List<Long> getSelectMultiTopicIdByStarRankRpc(@PathVariable("page")Long page) {
+        return topicRelatedServiceRpc.getSelectMultiTopicIdByStarRank(page);
+    }
+
+    /**
+     * 获取著述的贡献者数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
+    public Long getSelectContributorAmountByTopicIdRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectContributorAmountByTopicId(topicId);
+    }
+
+    /**
+     * 获取著述的管理者数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/managerAmount/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/managerAmount/by/topicId/{topicId}")
+    public Long getSelectManagerAmountByTopicIdRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectManagerAmountByTopicId(topicId);
+    }
+
+    /**
+     * 获取著述的贡献者id
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/contributorId/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/multi/contributorId/by/topicId/{topicId}")
+    public List<Long> getSelectMultiContributorIdByTopicIdRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectMultiContributorIdByTopicId(topicId);
+    }
+
+    /**
+     * 获取著述的管理者id
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
+    public List<Long> getSelectMultiManagerIdByTopicIdRpc(@PathVariable("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectMultiManagerIdByTopicId(topicId);
     }
 
 }

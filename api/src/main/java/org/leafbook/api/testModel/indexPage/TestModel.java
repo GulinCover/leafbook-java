@@ -32,8 +32,7 @@ public class TestModel {
         List<SearchHistoryAbs> searchHistoryAbss = new LinkedList<SearchHistoryAbs>();
         for (int i = 0; i < (new Random().nextInt(15)) + 5; ++i) {
             SearchHistoryAbs searchHistoryAbs = new SearchHistoryAbs();
-            searchHistoryAbs.setTopicId((long) i);
-            searchHistoryAbs.setTopicTitle("仓库" + i);
+            searchHistoryAbs.setSearchContent(randomWord());
 
             searchHistoryAbss.add(searchHistoryAbs);
         }

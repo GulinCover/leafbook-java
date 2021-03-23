@@ -13,7 +13,7 @@ public class TopicInfoAbs {
     private String userName;
     private String topicDesc;
     private List<EntryAbs> entryAbsList;
-    private Integer managerNumber;
-    private Integer likeNumber;
-    private Date publicTime;
+    private Long contributorNumber;
+    private Long likeNumber;
+    private Long publicTime;
 }

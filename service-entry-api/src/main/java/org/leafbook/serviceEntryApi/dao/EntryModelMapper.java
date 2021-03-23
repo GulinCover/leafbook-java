@@ -1,6 +1,7 @@
 package org.leafbook.serviceEntryApi.dao;
 
 import org.leafbook.api.modelApi.entryInfo.EntryModel;
+import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.testModel.indexPage.TestModel;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,26 @@ import java.util.Random;
 
 @Service
 public class EntryModelMapper {
+    /**
+     * 获取所有热论词条
+     * @return
+     */
+    public List<EntryShowModel> selectAllHotEntryInfo() {
+        List<EntryShowModel> entryShowModelList = new LinkedList<>();
+        for (int i = 0; i < new Random().nextInt(15)+1; i++) {
+            EntryShowModel entryShowModel = new EntryShowModel();
+            entryShowModel.setEntryDesc(TestModel.randomString().toString());
+            entryShowModel.setEntryId((long) i);
+            entryShowModel.setEntryName(TestModel.randomWord());
+            entryShowModel.setStatus("review_completed");
+            entryShowModel.setType("hot");
+            entryShowModel.setUserId(500L);
+
+            entryShowModelList.add(entryShowModel);
+        }
+
+        return entryShowModelList;
+    }
 
     public int insert(Long userId,String entryName,String entryDesc,String type) {
         return new Random().nextInt(100);

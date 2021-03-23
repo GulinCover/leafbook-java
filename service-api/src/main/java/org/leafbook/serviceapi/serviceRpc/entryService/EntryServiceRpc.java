@@ -1,6 +1,5 @@
 package org.leafbook.serviceapi.serviceRpc.entryService;
 
-import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.modelApi.entryInfo.EntryModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.serviceapi.openfeinFallback.entryService.EntryServiceRpcFallback;
@@ -62,6 +61,13 @@ public interface EntryServiceRpc {
     List<EntryShowModel> getSelectAllEntryInfoRpc(@PathVariable("page")Long page);
 
     /**
+     * 获取全部entryInfo
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/entryInfo")
+    List<EntryShowModel> getSelectAllEntryInfoRpc();
+
+    /**
      * entryInfo点赞量+1
      * @param entryId
      * @return
@@ -92,4 +98,11 @@ public interface EntryServiceRpc {
      */
     @GetMapping("/rpc/get/select/entryInfo/tread/amount")
     Long getSelectEntryInfoTreadAmountRpc(Long entryId);
+
+    /**
+     * 获取所有热论词条
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/hot/entryInfo")
+    List<EntryShowModel> getSelectAllHotEntryInfoRpc();
 }

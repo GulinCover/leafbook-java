@@ -178,4 +178,16 @@ public class ArticleRelatedControllerRpc {
         return articleRelatedServiceRpc.getSelectMultiEntryIdsByArticleId(articleId);
     }
 
+
+    /**
+     * 获取最近一条文章
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/select/lastTime/articleInfo/by/topicId/{topicId}")
+    @GetMapping("/rpc/select/lastTime/articleInfo/by/topicId/{topicId}")
+    ArticleModel getSelectLastTimeArticleInfoByTopicIdRpc(@PathVariable("topicId") Long topicId) {
+        return articleRelatedServiceRpc.getSelectLastTimeArticleInfoByTopicId(topicId);
+    }
+
 }

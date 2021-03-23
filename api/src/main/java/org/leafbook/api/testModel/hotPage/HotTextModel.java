@@ -20,9 +20,9 @@ public class HotTextModel extends TestModel {
             topicInfoAbs.setTopicDesc("desc"+i);
             topicInfoAbs.setUserId(1L);
             topicInfoAbs.setUserName("Alex");
-            topicInfoAbs.setLikeNumber(i);
-            topicInfoAbs.setManagerNumber(i);
-            topicInfoAbs.setPublicTime(new Date());
+            topicInfoAbs.setLikeNumber((long) i);
+            topicInfoAbs.setContributorNumber((long) i);
+            topicInfoAbs.setPublicTime(new Date().getTime());
             topicInfoAbs.setEntryAbsList(createEntryAbsByTopicId());
 
             topicInfoAbsList.add(topicInfoAbs);

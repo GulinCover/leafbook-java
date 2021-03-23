@@ -4,6 +4,5 @@ import lombok.Data;
 
 @Data
 public class SearchHistoryAbs {
-    private Long topicId;
-    private String topicTitle;
+    private String searchContent;
 }

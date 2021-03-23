@@ -313,5 +313,58 @@ public class TopicRelatedServiceRpc {
         return topicModelMapper.selectMultiTopicInfoByUserId(userId);
     }
 
+    /**
+     * 模糊搜索自己拥有的著述
+     * @param userId
+     * @param blurry
+     * @param page
+     * @return
+     */
+    public List<TopicModel> postSelectMultiTopicInfoByUserIdRpc(Long userId,String blurry,Long page) {
+        return topicModelMapper.selectMultiTopicInfoByUserId(userId,blurry,page);
+    }
+
+    /**
+     * 获取点赞排行著述id,每页15条
+     * @param page
+     * @return
+     */
+    public List<Long> getSelectMultiTopicIdByStarRank(Long page) {
+        return topicModelMapper.selectStarRank(page);
+    }
+
+    /**
+     * 获取著述的贡献者数量
+     * @param topicId
+     * @return
+     */
+    public Long getSelectContributorAmountByTopicId(Long topicId) {
+        return topicModelMapper.selectContributorAmount(topicId);
+    }
+    /**
+     * 获取著述的管理者数量
+     * @param topicId
+     * @return
+     */
+    public Long getSelectManagerAmountByTopicId(Long topicId) {
+        return topicModelMapper.selectManagerAmount(topicId);
+    }
+    /**
+     * 获取著述的贡献者id
+     * @param topicId
+     * @return
+     */
+    public List<Long> getSelectMultiContributorIdByTopicId(Long topicId) {
+        return topicModelMapper.selectMultiContributorId(topicId);
+    }
+    /**
+     * 获取著述的管理者id
+     * @param topicId
+     * @return
+     */
+    public List<Long> getSelectMultiManagerIdByTopicId(Long topicId) {
+        return topicModelMapper.selectMultiManagerId(topicId);
+    }
+
 
 }

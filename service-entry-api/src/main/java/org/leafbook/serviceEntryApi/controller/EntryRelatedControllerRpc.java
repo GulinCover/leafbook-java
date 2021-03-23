@@ -38,7 +38,7 @@ public class EntryRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/single/entryInfo/{entryId}")
     @GetMapping("/rpc/get/select/single/entryInfo/{entryId}")
-    public EntryModel getSelectSingleEntryInfoRpc(@PathVariable("entryId")Long entryId) {
+    public EntryShowModel getSelectSingleEntryInfoRpc(@PathVariable("entryId")Long entryId) {
         return entryRelatedServiceRpc.getSelectSingleEntryInfo(entryId);
     }
 
@@ -49,7 +49,7 @@ public class EntryRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/multi/entryInfo")
     @GetMapping("/rpc/get/select/multi/entryInfo")
-    public List<EntryModel> getSelectMultiEntryInfoRpc(@RequestParam("entryIds") List<Long> entryIds) {
+    public List<EntryShowModel> getSelectMultiEntryInfoRpc(@RequestParam("entryIds") List<Long> entryIds) {
         return entryRelatedServiceRpc.getSelectMultiEntryInfo(entryIds);
     }
 
@@ -63,6 +63,17 @@ public class EntryRelatedControllerRpc {
     public List<EntryShowModel> getSelectAllEntryInfoRpc(@PathVariable("page")Long page) {
         return entryRelatedServiceRpc.getSelectAllEntryInfo(page);
     }
+
+    /**
+     * 获取全部entryInfo
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/entryInfo")
+    @GetMapping("/rpc/get/select/all/entryInfo")
+    public List<EntryShowModel> getSelectAllEntryInfoRpc() {
+        return entryRelatedServiceRpc.getSelectAllEntryInfo();
+    }
+
     /**
      * entryInfo点赞量+1
      * @param entryId
@@ -105,6 +116,16 @@ public class EntryRelatedControllerRpc {
     @GetMapping("/rpc/get/select/entryInfo/tread/amount")
     public Long getSelectEntryInfoTreadAmountRpc(Long entryId) {
         return entryRelatedServiceRpc.getSelectEntryInfoTreadAmount(entryId);
+    }
+
+    /**
+     * 获取所有热论词条
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/hot/entryInfo")
+    @GetMapping("/rpc/get/select/all/hot/entryInfo")
+    List<EntryShowModel> getSelectAllHotEntryInfoRpc() {
+        return entryRelatedServiceRpc.getSelectAllHotEntryInfo();
     }
 
 //    /**

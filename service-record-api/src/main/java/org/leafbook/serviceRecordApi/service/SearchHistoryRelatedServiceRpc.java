@@ -5,6 +5,8 @@ import org.leafbook.serviceRecordApi.dao.SearchHistoryModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SearchHistoryRelatedServiceRpc {
     @Autowired
@@ -20,5 +22,13 @@ public class SearchHistoryRelatedServiceRpc {
         searchHistoryModel.setUserId(userId);
         searchHistoryModel.setContent(searchContent);
         return searchHistoryModelMapper.insert(searchHistoryModel);
+    }
+    /**
+     * 搜索历史,显示最近8条
+     * @param userId
+     * @return code
+     */
+    public List<SearchHistoryModel> postSelectMultiSearchHistoryInfo(Long userId) {
+        return searchHistoryModelMapper.selectMultiSearchByUserIdAnd8(userId);
     }
 }

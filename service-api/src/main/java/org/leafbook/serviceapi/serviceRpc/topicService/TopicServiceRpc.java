@@ -256,7 +256,7 @@ public interface TopicServiceRpc {
     Long getSelectTopicStarAmountRpc(@PathVariable("topicId") Long topicId);
 
     /**
-     * 获取著述赞数量
+     * 获取著述踩数量
      *
      * @param topicId
      * @return
@@ -294,6 +294,65 @@ public interface TopicServiceRpc {
      */
     @PostMapping("/rpc/post/select/me/topic")
     List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId);
+
+
+    /**
+     * 模糊搜索自己拥有的著述
+     *
+     * @param userId
+     * @param blurry
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/topicInfo/By/userId")
+    List<TopicModel> postSelectMultiTopicInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("blurry")String blurry,
+            @RequestParam("page")Long page
+            );
+
+
+    /**
+     * 获取点赞排行著述id,每页15条
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/topicId/by/star/rank/page/{page}")
+    List<Long> getSelectMultiTopicIdByStarRankRpc(@PathVariable("page")Long page);
+
+    /**
+     * 获取著述的贡献者数量
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
+    Long getSelectContributorAmountByTopicIdRpc(@PathVariable("topicId")Long topicId);
+
+    /**
+     * 获取著述的管理者数量
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/managerAmount/by/topicId/{topicId}")
+    Long getSelectManagerAmountByTopicIdRpc(@PathVariable("topicId")Long topicId);
+
+    /**
+     * 获取著述的贡献者id
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/contributorId/by/topicId/{topicId}")
+    List<Long> getSelectMultiContributorIdByTopicIdRpc(@PathVariable("topicId")Long topicId);
+
+    /**
+     * 获取著述的管理者id
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
+    List<Long> getSelectMultiManagerIdByTopicIdRpc(@PathVariable("topicId")Long topicId);
+
+
 
     //article service rpc
 
@@ -433,6 +492,13 @@ public interface TopicServiceRpc {
     @GetMapping("/rpc/get/select/multi/entryId/by/articleId/{articleId}")
     List<Long> getSelectMultiEntryIdsByArticleIdRpc(@PathVariable("articleId") Long articleId);
 
+    /**
+     * 获取最近一条文章
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/select/lastTime/articleInfo/by/topicId/{topicId}")
+    ArticleModel getSelectLastTimeArticleInfoByTopicIdRpc(@PathVariable("topicId") Long topicId);
 
 }
 

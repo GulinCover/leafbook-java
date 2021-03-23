@@ -204,4 +204,12 @@ public class ArticleRelatedServiceRpc {
         return articleModelMapper.selectMultiEntryIdByArticleId(articleId);
     }
 
+    /**
+     * 获取最近一条文章
+     * @param topicId
+     * @return
+     */
+    public ArticleModel getSelectLastTimeArticleInfoByTopicId(Long topicId) {
+        return articleModelMapper.selectLastArticleByTopicId(topicId);
+    }
 }

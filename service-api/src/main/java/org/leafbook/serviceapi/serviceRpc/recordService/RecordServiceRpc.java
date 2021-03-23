@@ -1,6 +1,7 @@
 package org.leafbook.serviceapi.serviceRpc.recordService;
 
 import org.leafbook.api.modelApi.recordInfo.BrowseHistoryModel;
+import org.leafbook.api.modelApi.recordInfo.SearchHistoryModel;
 import org.leafbook.serviceapi.openfeinFallback.recordService.RecordServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -71,8 +72,18 @@ public interface RecordServiceRpc {
      * @param searchContent
      * @return code
      */
-    @PostMapping("/rpc/insert/single/searchHistoryInfo")
+    @PostMapping("/rpc/post/insert/single/searchHistoryInfo")
     int postInsertSingleSearchHistoryInfoRpc(
             @RequestParam("userId") Long userId,
             @RequestParam("searchContent") String searchContent);
+
+    /**
+     * 搜索历史,显示最近8条
+     *
+     * @param userId
+     * @return code
+     */
+    @PostMapping("/rpc/post/select/multi/searchHistoryInfo")
+    List<SearchHistoryModel> postSelectMultiSearchHistoryInfoRpc(
+            @RequestParam("userId") Long userId);
 }

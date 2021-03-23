@@ -47,23 +47,27 @@ public class IndexPageControllerApi {
         return resp;
     }
 
-    //topbar搜索历史
-    @ApiOperation("/api/post/select/me/searchHistory/topics")
-    @PostMapping("/api/post/select/me/searchHistory/topics")
-    public TopBarSearchResp postSelectMeSearchHistoryTopicsApi(@RequestHeader("user_id")Long userId) {
-
-        TopBarSearchResp resp = new TopBarSearchResp();
-
-        List<SearchHistoryAbs> searchHistoryAbs = indexPageServiceApi.postSelectMeSearchHistoryTopics(userId);
-        if (Objects.isNull(searchHistoryAbs)) {
-            resp.setCode(500);
-            return resp;
-        }
-
-        resp.setSearchHistories(searchHistoryAbs);
-        resp.setCode(200);
-        return resp;
-    }
+//    /**
+//     * topbar搜索历史,显示最近8条
+//     * @param userId
+//     * @return
+//     */
+//    @ApiOperation("/api/post/select/me/searchHistory/topics")
+//    @PostMapping("/api/post/select/me/searchHistory/topics")
+//    public TopBarSearchResp postSelectMeSearchHistoryTopicsApi(@RequestHeader("userId")Long userId) {
+//
+//        TopBarSearchResp resp = new TopBarSearchResp();
+//
+//        List<SearchHistoryAbs> searchHistoryAbs = indexPageServiceApi.postSelectMeSearchHistoryTopics(userId);
+//        if (Objects.isNull(searchHistoryAbs)) {
+//            resp.setCode(500);
+//            return resp;
+//        }
+//
+//        resp.setSearchHistories(searchHistoryAbs);
+//        resp.setCode(200);
+//        return resp;
+//    }
 
     /**
      * 浏览历史
@@ -90,30 +94,23 @@ public class IndexPageControllerApi {
         return resp;
     }
 
-    //模糊搜素自己的topic
+    /**
+     * 模糊搜素自己的topic
+     * @param userId
+     * @param form: blurry,page
+     * @return
+     */
     @ApiOperation("/api/post/select/search/me/topics")
-    @PostMapping(value = "/api/post/select/search/me/topics",produces = MediaType.APPLICATION_JSON_VALUE)
-    public LeftTopicResp postSelectMeTopicsApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+    @PostMapping(value = "/api/post/select/search/me/topics")
+    public LeftTopicResp postSelectMeTopicsApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
         LeftTopicResp resp = new LeftTopicResp();
 
-        form.put("user_id",userId.toString());
-        List<TopicAbs> topicAbsList = indexPageServiceApi.postSelectMeTopics(form);
+        form.put("userId",userId.toString());
+        List<TopicAbs> topicAbsList = indexPageServiceApi.postSelectMeTopics(userId,form);
         if (Objects.isNull(topicAbsList)) {
             resp.setCode(500);
             return resp;
         }
-
-        resp.setTopicAbsList(topicAbsList);
-        resp.setCode(200);
-        return resp;
-    }
-
-    //模糊搜索全局topic
-    @ApiOperation("/api/post/select/search/global/topic")
-    @GetMapping("/api/post/select/search/global/topic")
-    public SearchDataResp getSelectTopicApi(@PathParam("name")String name) {
-        SearchDataResp resp = new SearchDataResp();
-        List<TopicAbs> topicAbsList = indexPageServiceApi.getSelectTopic(name);
 
         resp.setTopicAbsList(topicAbsList);
         resp.setCode(200);

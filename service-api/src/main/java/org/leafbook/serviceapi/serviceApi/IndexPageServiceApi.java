@@ -2,6 +2,7 @@ package org.leafbook.serviceapi.serviceApi;
 
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.recordInfo.BrowseHistoryModel;
+import org.leafbook.api.modelApi.recordInfo.SearchHistoryModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.respAbs.common.SearchHistoryAbs;
 import org.leafbook.api.respAbs.indexPage.BrowseHistoryAbs;
@@ -51,9 +52,24 @@ public class IndexPageServiceApi {
         return topicAbsList;
     }
 
+    /**
+     * topbar搜索历史,显示最近8条
+     * @param userId
+     * @return
+     */
     public List<SearchHistoryAbs> postSelectMeSearchHistoryTopics(Long userId) {
+        List<SearchHistoryModel> searchHistoryModelList = recordServiceRpc.postSelectMultiSearchHistoryInfoRpc(userId);
+        List<SearchHistoryAbs> searchHistoryAbsList = new LinkedList<>();
+        if (Objects.nonNull(searchHistoryModelList) && !searchHistoryModelList.isEmpty()) {
+            for (SearchHistoryModel searchHistoryModel:searchHistoryModelList) {
+                SearchHistoryAbs searchHistoryAbs = new SearchHistoryAbs();
+                searchHistoryAbs.setSearchContent(searchHistoryModel.getContent());
 
-        return TestModel.createSearchHistoryAbsList();
+                searchHistoryAbsList.add(searchHistoryAbs);
+            }
+        }
+
+        return searchHistoryAbsList;
     }
     /**
      * 浏览历史
@@ -111,12 +127,31 @@ public class IndexPageServiceApi {
 
         return browseHistoryAbsList;
     }
+    /**
+     * 模糊搜素自己的topic
+     * @param userId
+     * @param form: userId, blurry
+     * @return
+     */
+    public List<TopicAbs> postSelectMeTopics(Long userId,Map<String, String> form) {
+        String blurry = form.get("blurry");
+        if (Objects.isNull(blurry)) return null;
+        String page = form.get("page");
+        if (Objects.isNull(page)) return null;
+        if (!Covert2Tools.isDigital(page)) return null;
 
-    public List<TopicAbs> postSelectMeTopics(Map<String, String> form) {
-        return TestModel.createTopicAbsList();
-    }
+        List<TopicAbs> topicAbsList = new LinkedList<>();
+        List<TopicModel> topicModelList = topicServiceRpc.postSelectMultiTopicInfoByUserIdRpc(userId, blurry, Covert2Tools.covertToLong(page));
+        if (Objects.nonNull(topicModelList) && !topicModelList.isEmpty()) {
+            for (TopicModel topicModel:topicModelList) {
+                TopicAbs topicAbs = new TopicAbs();
+                topicAbs.setTopicId(topicModel.getTopicId());
+                topicAbs.setTopicTitle(topicModel.getTopicTitle());
 
-    public List<TopicAbs> getSelectTopic(String name) {
-        return TestModel.createTopicAbsList();
+                topicAbsList.add(topicAbs);
+            }
+        }
+
+        return topicAbsList;
     }
 }

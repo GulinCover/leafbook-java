@@ -58,6 +58,22 @@ public class ArticleModelMapper {
         });
         return lst;
     }
+    /**
+     * 获取最近一条文章
+     * @param topicId
+     * @return
+     */
+    public ArticleModel selectLastArticleByTopicId(Long topicId) {
+        ArticleModel articleModel = new ArticleModel();
+        articleModel.setUserId(545L);
+        articleModel.setTopicId(46464L);
+        articleModel.setArticleContent(TestModel.randomString().toString());
+        articleModel.setArticleTitle(TestModel.randomWord());
+        articleModel.setArticleDesc(TestModel.randomWord());
+        articleModel.setMainNumber(1L);
+        articleModel.setBranchNumber(1L);
+        return articleModel;
+    }
 
     public int selectByMainNumber(Long topicId, Long mainNumber) {
         return new Random().nextInt(100);
