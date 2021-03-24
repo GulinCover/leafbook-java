@@ -365,6 +365,14 @@ public class TopicRelatedServiceRpc {
     public List<Long> getSelectMultiManagerIdByTopicId(Long topicId) {
         return topicModelMapper.selectMultiManagerId(topicId);
     }
+    /**
+     * 根据词条随机查询5~8条著述
+     * @param entryId
+     * @return
+     */
+    public List<TopicModel> getSelectRandomMultiTopicInfoByEntryId(Long entryId) {
+        return topicModelMapper.selectRandomMultiTopicInfoByEntryId(entryId);
+    }
 
 
 }

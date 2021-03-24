@@ -194,5 +194,13 @@ public class UserRelatedServiceRpc {
     public String postLogin(String email,String password) {
         return "jwt";
     }
+    /**
+     * 检测用户合法性
+     * @param userId
+     * @return
+     */
+    public int postSelectDetectLegalityWithUserId(Long userId) {
+        return userModelMapper.selectSingleUserInfoIsExist(userId);
+    }
 
 }

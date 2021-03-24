@@ -17,17 +17,25 @@ public class CreateEntryPageControllerApi {
     @Autowired
     private CreateEntryPageServiceApi createEntryPageServiceApi;
 
-    //创建普通词条
-    /*
-    entry_content:
-    entry_desc:
+    /**
+     * 创建普通词条
+     * @param userId
+     * @param form: entryContent,entryDesc,
+     *
+     * @return
      */
     @ApiOperation("/api/post/create/entry")
     @PostMapping("/api/post/create/entry")
-    public MessageResp postCreateEntryInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postCreateEntryInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
-        resp.setMsg("创建成功");
-        resp.setCode(200);
+        int ret = createEntryPageServiceApi.postCreateEntryInfo(userId,form);
+        if (ret == 200) {
+            resp.setMsg("创建成功");
+            resp.setCode(200);
+        } else {
+            resp.setMsg("创建失败");
+            resp.setCode(ret);
+        }
         return resp;
     }
 }

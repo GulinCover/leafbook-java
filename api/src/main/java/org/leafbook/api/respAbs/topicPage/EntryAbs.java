@@ -9,5 +9,5 @@ public class EntryAbs {
     private String entryDesc;
     private Long likeNumber;
     private String entryAvatar;
-    private Integer isLiked;
+    private Integer isLiked;//0没点赞,1点过赞
 }

@@ -383,6 +383,17 @@ public class TopicRelatedControllerRpc {
         return topicRelatedServiceRpc.getSelectMultiManagerIdByTopicId(topicId);
     }
 
+
+    /**
+     * 根据词条随机查询5~8条著述
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/multi/topicInfo/by/entryId")
+    @GetMapping("/rpc/get/select/random/multi/topicInfo/by/entryId")
+    List<TopicModel> getSelectRandomMultiTopicInfoByEntryIdRpc(@RequestParam("entryId")Long entryId) {
+        return topicRelatedServiceRpc.getSelectRandomMultiTopicInfoByEntryId(entryId);
+    }
 }
 
 

@@ -231,4 +231,15 @@ public class UserRelatedControllerRpc {
     ) {
         return userRelatedServiceRpc.postLogin(email,password);
     }
+
+    /**
+     * 检测用户合法性
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/detect/legality/with/userId")
+    @PostMapping("/rpc/post/select/detect/legality/with/userId")
+    public int postSelectDetectLegalityWithUserIdRpc(@RequestParam("userId")Long userId) {
+        return userRelatedServiceRpc.postSelectDetectLegalityWithUserId(userId);
+    }
 }

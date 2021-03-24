@@ -18,24 +18,33 @@ public class CreateTopicPageControllerApi {
     @Autowired
     private CreateTopicPageServiceApi createTopicPageServiceApi;
 
-    //创建著述
-    /*
-    topic_title:
-    topic_desc:
-    topic_entry_list:[
-        entry_id:
-    ]
+    /**
+     *
+     * @param userId
+     * @param form:topicTitle?String,
+     *            topicDesc?String,
+     *            topicEntryList?List<entryId?Long>
+     * @return 返回创建的topicId
      */
     @ApiOperation("/api/post/create/topic")
     @PostMapping("/api/post/create/topic")
-    public MessageResp postCreateTopicInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, Object> form) {
+    public MessageResp postCreateTopicInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, Object> form) {
         MessageResp resp = new MessageResp();
-        resp.setMsg("312312");//返回创建的topicId
-        resp.setCode(200);
+        Long topicId = createTopicPageServiceApi.postCreateTopicInfo(userId,form);
+        if (topicId != 0) {
+            resp.setMsg(topicId.toString());
+            resp.setCode(200);
+        } else {
+            resp.setMsg("创建失败");
+            resp.setCode(500);
+        }
         return resp;
     }
 
-    //获取官方词条
+    /**
+     * 获取官方词条
+     * @return
+     */
     @ApiOperation("/api/get/select/official/entry")
     @GetMapping("/api/get/select/official/entry")
     public EntryInfosResp getSelectOfficialEntryInfosApi() {
@@ -45,12 +54,28 @@ public class CreateTopicPageControllerApi {
         return resp;
     }
 
-    //获取非官方词条
+    /**
+     * 获取非官方词条
+     * @return
+     */
     @ApiOperation("/api/get/select/nonofficial/entry")
     @GetMapping("/api/get/select/nonofficial/entry")
     public EntryInfosResp getSelectNonofficialEntryInfosApi() {
         EntryInfosResp resp = new EntryInfosResp();
         resp.setEntryAbsList(createTopicPageServiceApi.getSelectNonofficialEntryInfos());
+        resp.setCode(200);
+        return resp;
+    }
+
+    /**
+     * 获取hot词条
+     * @return
+     */
+    @ApiOperation("/api/get/select/hot/entry")
+    @GetMapping("/api/get/select/hot/entry")
+    public EntryInfosResp getSelectHotEntryInfosApi() {
+        EntryInfosResp resp = new EntryInfosResp();
+        resp.setEntryAbsList(createTopicPageServiceApi.getSelectHotEntryInfos());
         resp.setCode(200);
         return resp;
     }

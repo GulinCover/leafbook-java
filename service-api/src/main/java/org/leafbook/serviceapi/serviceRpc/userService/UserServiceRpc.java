@@ -181,4 +181,12 @@ public interface UserServiceRpc {
     String postLoginRpc(
             @RequestParam("email") String email,
             @RequestParam("password") String password);
+
+    /**
+     * 检测用户合法性
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/detect/legality/with/userId")
+    int postSelectDetectLegalityWithUserIdRpc(@RequestParam("userId")Long userId);
 }

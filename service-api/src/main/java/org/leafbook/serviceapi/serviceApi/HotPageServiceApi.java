@@ -98,10 +98,10 @@ public class HotPageServiceApi {
      * @return
      */
     public List<EntryAbs> getSelectAllEntryListApi() {
-        List<EntryShowModel> hotEntryInfoList = entryServiceRpc.getSelectAllHotEntryInfoRpc();
+        List<EntryShowModel> entryInfoList = entryServiceRpc.getSelectAllEntryInfoRpc();
         List<EntryAbs> entryAbsList = new LinkedList<>();
-        if (Objects.nonNull(hotEntryInfoList) && !hotEntryInfoList.isEmpty()) {
-            for (EntryShowModel entryShowModel:hotEntryInfoList) {
+        if (Objects.nonNull(entryInfoList) && !entryInfoList.isEmpty()) {
+            for (EntryShowModel entryShowModel:entryInfoList) {
                 EntryAbs entryAbs = new EntryAbs();
                 entryAbs.setEntryId(entryShowModel.getEntryId());
                 entryAbs.setEntryName(entryShowModel.getEntryName());

@@ -124,8 +124,76 @@ public class EntryRelatedControllerRpc {
      */
     @ApiOperation("/rpc/get/select/all/hot/entryInfo")
     @GetMapping("/rpc/get/select/all/hot/entryInfo")
-    List<EntryShowModel> getSelectAllHotEntryInfoRpc() {
+    public List<EntryShowModel> getSelectAllHotEntryInfoRpc() {
         return entryRelatedServiceRpc.getSelectAllHotEntryInfo();
+    }
+
+
+    /**
+     * 随机获取3~8条词条信息
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/multi/entryInfo")
+    @GetMapping("/rpc/get/select/random/multi/entryInfo")
+    public List<EntryShowModel> getSelectRandomMultiEntryInfoRpc() {
+        return entryRelatedServiceRpc.getSelectRandomMultiEntryInfo();
+    }
+
+    /**
+     * 判断词条用户是否点过赞
+     * @param userId
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/isLiked/with/userId")
+    @PostMapping("/rpc/post/select/isLiked/with/userId")
+    public Integer postSelectIsLikedWithUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("entryId")Long entryId) {
+        return entryRelatedServiceRpc.postSelectIsLikedWithUserId(userId,entryId);
+    }
+
+    /**
+     * 随机获取2~4条热门词条
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/hot/multi/entryInfo")
+    @GetMapping("/rpc/get/select/random/hot/multi/entryInfo")
+    public List<EntryShowModel> getSelectRandomHotMultiEntryInfoRpc() {
+        return entryRelatedServiceRpc.getSelectRandomHotMultiEntryInfo();
+    }
+
+    /**
+     * 获取官方词条
+     * @param type: hot,official,nonofficial
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/entryInfo/with/type/{type}")
+    @GetMapping("/rpc/get/select/all/entryInfo/with/type/{type}")
+    public List<EntryShowModel> getSelectAllEntryInfoWithTypeRpc(@PathVariable("type")String type) {
+        return entryRelatedServiceRpc.getSelectAllEntryInfoWithType(type);
+    }
+
+    /**
+     * 单检测词条合法性
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/select/detect/legality/with/entryId")
+    @PostMapping("/rpc/select/detect/legality/with/entryId")
+    public int postSelectDetectLegalityWithEntryIdRpc(@RequestParam("entryId")Long entryId) {
+        return entryRelatedServiceRpc.postSelectDetectLegalityWithEntryId(entryId);
+    }
+
+    /**
+     * 组检测词条合法性
+     * @param entryIds
+     * @return
+     */
+    @ApiOperation("/rpc/select/detect/legality/with/entryIds")
+    @PostMapping("/rpc/select/detect/legality/with/entryIds")
+    public int postSelectDetectLegalityWithEntryIdsRpc(@RequestParam("entryIds")List<Long> entryIds) {
+        return entryRelatedServiceRpc.postSelectDetectLegalityWithEntryIds(entryIds);
     }
 
 //    /**

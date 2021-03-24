@@ -105,4 +105,52 @@ public interface EntryServiceRpc {
      */
     @GetMapping("/rpc/get/select/all/hot/entryInfo")
     List<EntryShowModel> getSelectAllHotEntryInfoRpc();
+    /**
+     * 随机获取3~8条词条信息
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/multi/entryInfo")
+    List<EntryShowModel> getSelectRandomMultiEntryInfoRpc();
+
+    /**
+     * 判断词条用户是否点过赞
+     * @param userId
+     * @param entryId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/isLiked/with/userId")
+    Integer postSelectIsLikedWithUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("entryId")Long entryId);
+
+    /**
+     * 随机获取2~4条热门词条
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/hot/multi/entryInfo")
+    List<EntryShowModel> getSelectRandomHotMultiEntryInfoRpc();
+
+    /**
+     * 获取官方词条
+     * @param type: hot,official,nonofficial
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/entryInfo/with/type/{type}")
+    List<EntryShowModel> getSelectAllEntryInfoWithTypeRpc(@PathVariable("type")String type);
+
+    /**
+     * 单检测词条合法性
+     * @param entryId
+     * @return
+     */
+    @PostMapping("/rpc/select/detect/legality/with/entryId")
+    int postSelectDetectLegalityWithEntryIdRpc(@RequestParam("entryId")Long entryId);
+
+    /**
+     * 组检测词条合法性
+     * @param entryIds
+     * @return
+     */
+    @PostMapping("/rpc/select/detect/legality/with/entryIds")
+    int postSelectDetectLegalityWithEntryIdsRpc(@RequestParam("entryIds")List<Long> entryIds);
 }

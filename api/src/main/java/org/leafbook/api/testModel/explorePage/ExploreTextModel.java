@@ -32,11 +32,11 @@ public class ExploreTextModel extends TestModel {
             TopicAbs topicAbs = new TopicAbs();
             topicAbs.setTopicId((long) i);
             topicAbs.setTopicTitle("仓库dasdasdsadsasadas" + i);
-            topicAbs.setTopicUser("Alex");
+            topicAbs.setTopicUsername("Alex");
             topicAbs.setUserId(100L);
             topicAbs.setEntryId((long) new Random().nextInt(3));
             topicAbs.setTopicDesc(randomString().toString());
-            topicAbs.setLikeNumber(new Random().nextInt(5000)+150);
+            topicAbs.setLikeNumber((long)new Random().nextInt(5000)+150);
 
             topicAbsList.add(topicAbs);
         }
@@ -62,11 +62,11 @@ public class ExploreTextModel extends TestModel {
             TopicAbs topicAbs = new TopicAbs();
             topicAbs.setTopicId((long) i);
             topicAbs.setTopicTitle("仓库" + i);
-            topicAbs.setTopicUser("Alex");
+            topicAbs.setTopicUsername("Alex");
             topicAbs.setUserId(100L);
             topicAbs.setEntryId((long) new Random().nextInt(3));
             topicAbs.setTopicDesc(randomString().toString());
-            topicAbs.setLikeNumber(new Random().nextInt(5000)+150);
+            topicAbs.setLikeNumber((long)new Random().nextInt(5000)+150);
 
             topicAbsList.add(topicAbs);
         }

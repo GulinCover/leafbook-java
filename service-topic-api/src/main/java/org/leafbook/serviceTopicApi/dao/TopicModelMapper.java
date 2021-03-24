@@ -92,6 +92,19 @@ public class TopicModelMapper {
         });
         return lst;
     }
+    /**
+     * 根据词条随机查询5~8条著述
+     * @param entryId
+     * @return
+     */
+    public List<TopicModel> selectRandomMultiTopicInfoByEntryId(Long entryId) {
+        List<TopicModel> topicModelList = new LinkedList<>();
+        for (int i = 1;i<new Random().nextInt(4)+5;++i) {
+            topicModelList.add(selectById((long) i));
+        }
+
+        return topicModelList;
+    }
 
     public Long selectSingleForOwnerId(Long topicId) {
         return (long)new Random().nextInt(10000);

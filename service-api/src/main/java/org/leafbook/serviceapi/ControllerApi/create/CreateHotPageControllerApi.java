@@ -17,17 +17,25 @@ public class CreateHotPageControllerApi {
     @Autowired
     private CreateHotPageServiceApi createHotPageServiceApi;
 
-    //创建热论词条
-    /*
-    entry_content:
-    entry_desc:
+    /**
+     * 创建热论词条
+     * @param userId
+     * @param form: entryContent,entryDesc,
+     *
+     * @return
      */
     @ApiOperation("/api/post/create/hot/entry")
     @PostMapping("/api/post/create/hot/entry")
-    public MessageResp postCreateHotInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postCreateHotInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
-        resp.setMsg("创建成功");
-        resp.setCode(200);
+        int ret = createHotPageServiceApi.postCreateHotInfo(userId,form);
+        if (ret == 200) {
+            resp.setMsg("创建成功");
+            resp.setCode(200);
+        } else {
+            resp.setMsg("创建失败");
+            resp.setCode(ret);
+        }
         return resp;
     }
 }

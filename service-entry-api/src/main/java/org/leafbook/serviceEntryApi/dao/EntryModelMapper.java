@@ -12,6 +12,80 @@ import java.util.Random;
 @Service
 public class EntryModelMapper {
     /**
+     * 判断词条用户是否点过赞
+     * @param userId
+     * @param entryId
+     * @return
+     */
+    public Integer selectIsLikedWithUserId(Long userId,Long entryId) {
+        return new Random().nextInt(2);
+    }
+    /**
+     * 随机获取3~8条词条信息
+     * @return
+     */
+    public List<EntryShowModel> selectRandomMultiEntryInfo() {
+        List<EntryShowModel> entryShowModelList = new LinkedList<>();
+        for (int i = 0; i < new Random().nextInt(15)+1; i++) {
+            EntryShowModel entryShowModel = new EntryShowModel();
+            entryShowModel.setEntryDesc(TestModel.randomString().toString());
+            entryShowModel.setEntryId((long) i);
+            entryShowModel.setEntryName(TestModel.randomWord());
+            entryShowModel.setStatus("review_completed");
+            entryShowModel.setType("hot");
+            entryShowModel.setUserId(500L);
+
+            entryShowModelList.add(entryShowModel);
+        }
+
+        return entryShowModelList;
+    }
+    /**
+     * 随机获取2~4条热门词条
+     * @return
+     */
+    public List<EntryShowModel> selectRandomMultiHotEntryInfo() {
+        return selectRandomMultiEntryInfo();
+    }
+    /**
+     * 获取官方词条
+     * @param type: hot,official,nonofficial
+     * @return
+     */
+    public List<EntryShowModel> selectAllEntryInfoByType(String type) {
+        List<EntryShowModel> entryShowModelList = new LinkedList<>();
+        for (int i = 0; i < new Random().nextInt(15)+1; i++) {
+            EntryShowModel entryShowModel = new EntryShowModel();
+            entryShowModel.setEntryDesc(TestModel.randomString().toString());
+            entryShowModel.setEntryId((long) i);
+            entryShowModel.setEntryName(TestModel.randomWord());
+            entryShowModel.setStatus("review_completed");
+            entryShowModel.setType(type);
+            entryShowModel.setUserId(500L);
+
+            entryShowModelList.add(entryShowModel);
+        }
+
+        return entryShowModelList;
+    }
+    /**
+     * 单检测词条合法性
+     * @param entryId
+     * @return
+     */
+    public int selectSingleEntryInfoIsExist(Long entryId) {
+        return 1;
+    }
+    /**
+     * 组检测词条合法性
+     * @param entryIds
+     * @return
+     */
+    public int selectMultiEntryInfoIsExist(List<Long> entryIds) {
+        return entryIds.size();
+    }
+
+    /**
      * 获取所有热论词条
      * @return
      */

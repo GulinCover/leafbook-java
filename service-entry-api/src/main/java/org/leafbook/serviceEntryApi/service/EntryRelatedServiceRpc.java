@@ -117,6 +117,56 @@ public class EntryRelatedServiceRpc {
     public List<EntryShowModel> getSelectAllHotEntryInfo() {
         return entryModelMapper.selectAllHotEntryInfo();
     }
+    /**
+     * 随机获取3~8条词条信息
+     * @return
+     */
+    public List<EntryShowModel> getSelectRandomMultiEntryInfo() {
+        return entryModelMapper.selectRandomMultiEntryInfo();
+    }
+
+    /**
+     * 判断词条用户是否点过赞
+     * @param userId
+     * @param entryId
+     * @return
+     */
+    public Integer postSelectIsLikedWithUserId(Long userId,Long entryId) {
+        return entryModelMapper.selectIsLikedWithUserId(userId,entryId);
+    }
+    /**
+     * 随机获取2~4条热门词条
+     * @return
+     */
+    public List<EntryShowModel> getSelectRandomHotMultiEntryInfo() {
+        return entryModelMapper.selectRandomMultiHotEntryInfo();
+    }
+    /**
+     * 获取官方词条
+     * @param type: hot,official,nonofficial
+     * @return
+     */
+    public List<EntryShowModel> getSelectAllEntryInfoWithType(String type) {
+        return entryModelMapper.selectAllEntryInfoByType(type);
+    }
+    /**
+     * 单检测词条合法性
+     * @param entryId
+     * @return
+     */
+    public int postSelectDetectLegalityWithEntryId(Long entryId) {
+        int ret = entryModelMapper.selectSingleEntryInfoIsExist(entryId);
+        return ret == 1 ? 200 : 0;
+    }
+    /**
+     * 组检测词条合法性
+     * @param entryIds
+     * @return
+     */
+    public int postSelectDetectLegalityWithEntryIds(List<Long> entryIds) {
+        int ret = entryModelMapper.selectMultiEntryInfoIsExist(entryIds);
+        return ret == entryIds.size() ? 200 : 0;
+    }
 
 //    /**
 //     * 单删词条

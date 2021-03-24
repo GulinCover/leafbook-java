@@ -352,6 +352,14 @@ public interface TopicServiceRpc {
     @GetMapping("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
     List<Long> getSelectMultiManagerIdByTopicIdRpc(@PathVariable("topicId")Long topicId);
 
+    /**
+     * 根据词条随机查询5~8条著述
+     * @param entryId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/multi/topicInfo/by/entryId")
+    List<TopicModel> getSelectRandomMultiTopicInfoByEntryIdRpc(@RequestParam("entryId")Long entryId);
+
 
 
     //article service rpc

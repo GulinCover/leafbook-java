@@ -9,6 +9,15 @@ import java.util.Random;
 @Service
 public class UserModelMapper {
 
+    /**
+     * 检测用户合法性
+     * @param userId
+     * @return
+     */
+    public int selectSingleUserInfoIsExist(Long userId) {
+        return 200;
+    }
+
     public UserModel selectSingleUserInfo(Long userId) {
         UserModel userModel = new UserModel();
         userModel.setId(userId);
