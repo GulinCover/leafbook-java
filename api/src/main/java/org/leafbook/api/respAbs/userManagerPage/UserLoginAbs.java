@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class UserLoginAbs {
-    private String loginID;
+    private Long loginId;
     private String IP;
     private String address;
 }

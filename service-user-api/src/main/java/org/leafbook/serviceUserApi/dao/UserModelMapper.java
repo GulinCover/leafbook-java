@@ -15,7 +15,16 @@ public class UserModelMapper {
      * @return
      */
     public int selectSingleUserInfoIsExist(Long userId) {
-        return 200;
+        return 1;
+    }
+
+    /**
+     * 检测用户合法性
+     * @param userId
+     * @return
+     */
+    public int selectSingleUserLoginIdIsExist(Long userId,Long loginId) {
+        return 1;
     }
 
     public UserModel selectSingleUserInfo(Long userId) {
@@ -38,8 +47,17 @@ public class UserModelMapper {
         return (long) new Random().nextInt(1000);
     }
 
-    public int updateSingleUserInfo(String desc, String location, String sex, String avatar, String backdrop) {
-        return new Random().nextInt(2);
+    /**
+     * 用户数据更新
+     * @param desc
+     * @param location
+     * @param sex
+     * @param avatar
+     * @param backdrop
+     * @return
+     */
+    public int updateSingleUserInfo(String desc, String location, Integer sex, String avatar, String backdrop) {
+        return new Random().nextInt(100);
     }
 
     public int updateSingleUserInfoUsername(UserModel userModel) {

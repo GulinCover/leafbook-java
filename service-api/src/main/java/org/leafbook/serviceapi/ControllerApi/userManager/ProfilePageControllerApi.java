@@ -2,6 +2,7 @@ package org.leafbook.serviceapi.ControllerApi.userManager;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.respAbs.common.MessageResp;
 import org.leafbook.api.respAbs.common.UserInfoResp;
 import org.leafbook.serviceapi.serviceApi.userManager.ProfilePageServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,27 @@ public class ProfilePageControllerApi {
     @Autowired
     private ProfilePageServiceApi profilePageServiceApi;
 
-    /*
-    user_avatar:图片url;单独修改
-    user_desc:
-    user_location:
-    user_sex:
+    /**
+     * 修改用户信息,图片url;单独修改
+     * @param userId
+     * @param form:userAvatar,userDesc,userLocation,userSex,backdrop
+     * @return
      */
     @ApiOperation("/api/update/userInfo")
     @PostMapping("/api/update/userInfo")
-    public UserInfoResp postUpdateUserInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
-        UserInfoResp resp = profilePageServiceApi.postUpdateUserInfo(form);
+    public MessageResp postUpdateUserInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+        int ret = profilePageServiceApi.postUpdateUserInfo(userId,form);
+        if (ret == 200) {
+            resp.setCode(200);
+            resp.setMsg("修改成功");
+            return resp;
+        } else {
+            resp.setCode(ret);
+            resp.setMsg("修改失败");
+            return resp;
+        }
 
-        resp.setCode(200);
-        return resp;
     }
 
 }

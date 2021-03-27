@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceRpc.userService;
 
+import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceapi.openfeinFallback.userService.UserServiceFallback;
@@ -189,4 +190,13 @@ public interface UserServiceRpc {
      */
     @PostMapping("/rpc/post/select/detect/legality/with/userId")
     int postSelectDetectLegalityWithUserIdRpc(@RequestParam("userId")Long userId);
+
+
+    /**
+     * 检测登陆id合法性
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/detect/LoginId")
+    int postSelectDetectLoginIdRpc(@RequestParam("userId")Long userId,@RequestParam("loginId")Long loginId);
 }

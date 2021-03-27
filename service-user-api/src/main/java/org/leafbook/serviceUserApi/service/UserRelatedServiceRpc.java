@@ -100,7 +100,7 @@ public class UserRelatedServiceRpc {
         String sex = form.get("sex");
         String avatar = form.get("avatar");
         String backdrop = form.get("backdrop");
-        return userModelMapper.updateSingleUserInfo(desc,location,sex,avatar,backdrop);
+        return userModelMapper.updateSingleUserInfo(desc,location,Covert2Tools.covertToInteger(sex),avatar,backdrop);
     }
 
     /**
@@ -201,6 +201,14 @@ public class UserRelatedServiceRpc {
      */
     public int postSelectDetectLegalityWithUserId(Long userId) {
         return userModelMapper.selectSingleUserInfoIsExist(userId);
+    }
+    /**
+     * 检测登陆id合法性
+     * @param userId
+     * @return
+     */
+    public int postSelectDetectLoginId(Long userId,Long loginId) {
+        return userModelMapper.selectSingleUserLoginIdIsExist(userId,loginId);
     }
 
 }

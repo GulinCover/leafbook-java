@@ -52,24 +52,40 @@ public class SecurityPageControllerApi {
         return resp;
     }
 
-    //剔除某项登录信息
-    /*
-    login_id:要剔除的登录信息id
+    /**
+     * 剔除某项登录信息
+     * @param userId
+     * @param form:loginId
+     * @return
      */
     @ApiOperation("/api/post/delete/userLogin")
     @PostMapping("/api/post/delete/userLogin")
-    public MessageResp postDeleteWeedOutUserLoginInfoApi(@RequestHeader("user_id")Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postDeleteWeedOutUserLoginInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
-        resp.setCode(200);
-        return resp;
+
+        int ret = securityPageServiceApi.postDeleteWeedOutUserLoginInfo(userId,form);
+        if (ret == 200) {
+            resp.setCode(200);
+            resp.setMsg("更新成功");
+            return resp;
+        } else {
+            resp.setCode(ret);
+            resp.setMsg("更新失败");
+            return resp;
+        }
+
     }
 
-    //获取登录信息
+    /**
+     * 获取登录信息
+     * @param userId
+     * @return
+     */
     @ApiOperation("/api/post/select/userLogin")
     @PostMapping("/api/post/select/userLogin")
-    public UserLoginInfoResp postSelectUserLoginInfoApi(@RequestHeader("user_id")Long userId) {
+    public UserLoginInfoResp postSelectUserLoginInfoApi(@RequestHeader("userId")Long userId) {
         UserLoginInfoResp resp = new UserLoginInfoResp();
-        resp.setUserLoginAbsList(securityPageServiceApi.postSelectUserLoginInfo());
+        resp.setUserLoginAbsList(securityPageServiceApi.postSelectUserLoginInfo(userId));
         resp.setCode(200);
         return resp;
     }

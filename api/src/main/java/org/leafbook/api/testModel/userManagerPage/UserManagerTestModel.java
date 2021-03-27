@@ -15,7 +15,7 @@ public class UserManagerTestModel extends TestModel {
             UserLoginAbs userLoginAbs = new UserLoginAbs();
             userLoginAbs.setIP("123.32.5.3");
             userLoginAbs.setAddress("shanghai");
-            userLoginAbs.setLoginID("200");
+            userLoginAbs.setLoginId(200L);
 
             userLoginAbsList.add(userLoginAbs);
         }

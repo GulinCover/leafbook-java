@@ -18,9 +18,15 @@ public class FileControllerApi {
     @Autowired
     private FileServiceApi fileServiceApi;
 
+    /**
+     * 文件上传
+     * @param userId
+     * @param file
+     * @return
+     */
     @ApiOperation("/api/post/insert/picture")
     @PostMapping("/api/post/insert/picture")
-    public UploadPictureResp postInsertPictureApi(@RequestHeader("user_id")Long userId, @RequestParam("file")MultipartFile file) {
+    public UploadPictureResp postInsertPictureApi(@RequestHeader("userId")Long userId, @RequestParam("file")MultipartFile file) {
         System.out.println(file.getOriginalFilename());
         String url = fileServiceApi.postInsertPicture();
         UploadPictureResp resp = new UploadPictureResp();
