@@ -315,4 +315,27 @@ public interface CommentServiceRpc {
     List<TalkComment1Model> getSelectRandomTalkComment1InfoRpc(
             @PathVariable("talkId")Long talkId,
             @RequestParam("randomNumber")Integer randomNumber);
+
+
+    /**
+     * 获取一级普通评论
+     * @param comment1Id
+     * @return
+     */
+    @PostMapping("/rpc/post/select/single/comment1Info")
+    Comment1Model postSelectSingleComment1InfoRpc(@RequestParam("comment1Id")Long comment1Id);
+    /**
+     * 获取议论
+     * @param talkId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/single/talkModel")
+    TalkModel postSelectSingleTalkInfoRpc(@RequestParam("talkId") Long talkId);
+    /**
+     * 获取一级议论评论
+     * @param talkComment1Id
+     * @return
+     */
+    @PostMapping("/rpc/post/select/single/talkComment1Model")
+    TalkComment1Model postSelectSingleTalkComment1InfoRpc(@RequestParam("talkComment1Id")Long talkComment1Id);
 }

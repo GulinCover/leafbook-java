@@ -229,4 +229,25 @@ public class TalkRelatedControllerRpc {
         return talkRelatedServiceRpc.getSelectRandomTalkComment1Info(talkId,randomNumber);
     }
 
+    /**
+     * 获取议论
+     * @param talkId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/single/talkModel")
+    @PostMapping("/rpc/post/select/single/talkModel")
+    public TalkModel postSelectSingleTalkInfoRpc(@RequestParam("talkId") Long talkId) {
+        return talkRelatedServiceRpc.postSelectSingleTalkInfoRpc(talkId);
+    }
+    /**
+     * 获取一级议论评论
+     * @param talkComment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/single/talkComment1Model")
+    @PostMapping("/rpc/post/select/single/talkComment1Model")
+    public TalkComment1Model postSelectSingleTalkComment1InfoRpc(@RequestParam("talkComment1Id") Long talkComment1Id) {
+        return talkRelatedServiceRpc.postSelectSingleTalkComment1Info(talkComment1Id);
+    }
+
 }

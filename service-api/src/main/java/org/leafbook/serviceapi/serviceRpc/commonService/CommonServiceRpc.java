@@ -1,10 +1,14 @@
 package org.leafbook.serviceapi.serviceRpc.commonService;
 
+import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.modelApi.userInfo.UserBillModel;
 import org.leafbook.serviceapi.openfeinFallback.commonService.CommonServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @FeignClient(
         value = "service-common-api",
@@ -86,4 +90,15 @@ public interface CommonServiceRpc {
      */
     @PostMapping("/rpc/post/acquire/code/by/email")
     String postAcquireCodeRpc(@RequestParam("email") String email);
+
+    /**
+     * 获取用户赞相关的收支
+     * @param userId
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/star/incomeAndExpenditure")
+    List<UserBillModel> postSelectStarRelatedIncomeAndExpenditureRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
 }

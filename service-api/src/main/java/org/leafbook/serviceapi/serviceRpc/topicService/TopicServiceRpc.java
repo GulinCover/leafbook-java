@@ -360,6 +360,13 @@ public interface TopicServiceRpc {
     @GetMapping("/rpc/get/select/random/multi/topicInfo/by/entryId")
     List<TopicModel> getSelectRandomMultiTopicInfoByEntryIdRpc(@RequestParam("entryId")Long entryId);
 
+    /**
+     * 获取著述所有评论数量
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/commentAmount")
+    Long getSelectAllCommentAmountRpc(@RequestParam("topicId")Long topicId);
 
 
     //article service rpc

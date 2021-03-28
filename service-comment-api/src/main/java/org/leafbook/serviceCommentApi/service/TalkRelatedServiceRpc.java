@@ -231,5 +231,21 @@ public class TalkRelatedServiceRpc {
     public List<TalkComment1Model> getSelectRandomTalkComment1Info(Long talkId,Integer randomNumber) {
         return talkComment1ModelMapper.selectRandomTalkComment1InfoByTalkId(talkId,randomNumber);
     }
+    /**
+     * 获取议论
+     * @param talkId
+     * @return
+     */
+    public TalkModel postSelectSingleTalkInfoRpc(Long talkId) {
+        return talkComment1ModelMapper.selectSingleTalkInfo(talkId);
+    }
+    /**
+     * 获取一级议论评论
+     * @param talkComment1Id
+     * @return
+     */
+    public TalkComment1Model postSelectSingleTalkComment1Info(Long talkComment1Id) {
+        return talkComment1ModelMapper.selectSingleTalkComment1Info(talkComment1Id);
+    }
 
 }

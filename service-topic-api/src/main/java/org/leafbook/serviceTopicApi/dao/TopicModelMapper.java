@@ -69,6 +69,15 @@ public class TopicModelMapper {
         return (long) new Random().nextInt(45);
     }
     /**
+     * 获取著述所有评论数量
+     * @param topicId
+     * @return
+     */
+    public Long selectCommentAmount(Long topicId) {
+        return (long) new Random().nextInt(45);
+    }
+
+    /**
      * 获取著述的贡献者id
      * @param topicId
      * @return

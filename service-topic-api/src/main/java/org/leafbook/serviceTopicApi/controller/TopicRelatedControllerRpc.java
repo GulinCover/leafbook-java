@@ -394,6 +394,17 @@ public class TopicRelatedControllerRpc {
     List<TopicModel> getSelectRandomMultiTopicInfoByEntryIdRpc(@RequestParam("entryId")Long entryId) {
         return topicRelatedServiceRpc.getSelectRandomMultiTopicInfoByEntryId(entryId);
     }
+
+    /**
+     * 获取著述所有评论数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/commentAmount")
+    @GetMapping("/rpc/get/select/all/commentAmount")
+    public Long getSelectAllCommentAmountRpc(@RequestParam("topicId")Long topicId) {
+        return topicRelatedServiceRpc.getSelectAllCommentAmount(topicId);
+    }
 }
 
 

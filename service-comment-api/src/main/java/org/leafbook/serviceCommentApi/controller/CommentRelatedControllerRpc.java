@@ -154,4 +154,16 @@ public class CommentRelatedControllerRpc {
         return commentRelatedServiceRpc.getSelectMultiEntryIdsByComment1Id(comment1Id);
     }
 
+
+    /**
+     * 获取一级普通评论
+     * @param comment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/single/comment1Info")
+    @PostMapping("/rpc/post/select/single/comment1Info")
+    public Comment1Model postSelectSingleComment1InfoRpc(@RequestParam("comment1Id") Long comment1Id) {
+        return commentRelatedServiceRpc.postSelectSingleComment1Info(comment1Id);
+    }
+
 }

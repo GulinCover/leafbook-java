@@ -131,4 +131,13 @@ public class CommentRelatedServiceRpc {
         return comment1InfoEntryShowModelMapper.selectEntryIdsByComment1Id(comment1Id);
     }
 
+    /**
+     * 获取一级普通评论
+     * @param comment1Id
+     * @return
+     */
+    public Comment1Model postSelectSingleComment1Info(Long comment1Id) {
+        return comment1InfoEntryShowModelMapper.selectSingleComment1Info(comment1Id);
+    }
+
 }

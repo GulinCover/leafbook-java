@@ -373,6 +373,14 @@ public class TopicRelatedServiceRpc {
     public List<TopicModel> getSelectRandomMultiTopicInfoByEntryId(Long entryId) {
         return topicModelMapper.selectRandomMultiTopicInfoByEntryId(entryId);
     }
+    /**
+     * 获取著述所有评论数量
+     * @param topicId
+     * @return
+     */
+    public Long getSelectAllCommentAmount(Long topicId) {
+        return topicModelMapper.selectCommentAmount(topicId);
+    }
 
 
 }
