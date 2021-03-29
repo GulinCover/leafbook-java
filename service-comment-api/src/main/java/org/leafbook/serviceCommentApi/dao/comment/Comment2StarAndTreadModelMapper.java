@@ -19,4 +19,21 @@ public class Comment2StarAndTreadModelMapper {
     public int updateByModel(CommentStarAndTreadModel model) {
         return new Random().nextInt(100);
     }
+
+    /**
+     * 更新普通评论的点赞数
+     * @param comment1Id
+     * @return
+     */
+    public int updateTouchStarAmountByComment1Id(Long comment1Id) {
+        return 1;
+    }
+    /**
+     * 更新普通评论的点踩数
+     * @param comment1Id
+     * @return
+     */
+    public int updateTouchTreadAmountByComment1Id(Long comment1Id) {
+        return 1;
+    }
 }

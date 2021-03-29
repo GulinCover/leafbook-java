@@ -153,4 +153,12 @@ public interface EntryServiceRpc {
      */
     @PostMapping("/rpc/select/detect/legality/with/entryIds")
     int postSelectDetectLegalityWithEntryIdsRpc(@RequestParam("entryIds")List<Long> entryIds);
+
+    /**
+     * 记录点赞信息
+     * @param entryId
+     * @return
+     */
+    @PostMapping("/rpc/post/insert/touch/star")
+    int postInsertTouchStarRpc(@RequestParam("entryId")Long entryId);
 }

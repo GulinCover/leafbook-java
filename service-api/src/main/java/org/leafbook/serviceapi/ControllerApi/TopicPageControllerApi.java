@@ -20,8 +20,8 @@ public class TopicPageControllerApi {
      *
      * @return
      */
-    @ApiOperation("/api/get/select/recommended/EntriesInfo")
-    @GetMapping("/api/get/select/recommended/EntriesInfo")
+    @ApiOperation("/api/get/select/recommended/entriesInfo")
+    @GetMapping("/api/get/select/recommended/entriesInfo")
     public RecommendedEntriesResp getSelectRecommendedEntriesInfoApi() {
         RecommendedEntriesResp resp = new RecommendedEntriesResp();
 
@@ -37,10 +37,10 @@ public class TopicPageControllerApi {
      * @param page
      * @return
      */
-    @ApiOperation("/api/get/select/all/EntriesInfo/page/{page}")
-    @GetMapping("/api/get/select/all/EntriesInfo/page/{page}")
+    @ApiOperation("/api/get/select/all/entriesInfo/page/{page}")
+    @GetMapping("/api/get/select/all/entriesInfo/page/{page}")
     public AllEntriesResp getSelectAllEntriesInfoApi(
-            @RequestHeader(value = "userId") Long userId,
+            @RequestHeader("userId") Long userId,
             @PathVariable("page") Long page) {
         AllEntriesResp resp = new AllEntriesResp();
 

@@ -166,4 +166,26 @@ public class CommentRelatedControllerRpc {
         return commentRelatedServiceRpc.postSelectSingleComment1Info(comment1Id);
     }
 
+    /**
+     * 更新普通评论的点赞数
+     * @param comment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/comment1Info/touch/star/amount")
+    @PostMapping("/rpc/post/update/comment1Info/touch/star/amount")
+    public int postUpdateComment1InfoTouchStarAmountRpc(@RequestParam("comment1Id")Long comment1Id) {
+        return commentRelatedServiceRpc.postUpdateComment1InfoTouchStarAmount(comment1Id);
+    }
+
+    /**
+     * 更新普通评论的点踩数
+     * @param comment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/comment1Info/touch/tread/amount")
+    @PostMapping("/rpc/post/update/comment1Info/touch/tread/amount")
+    public int postUpdateComment1InfoTouchTreadAmountRpc(@RequestParam("comment1Id")Long comment1Id) {
+        return commentRelatedServiceRpc.postUpdateComment1InfoTouchTreadAmount(comment1Id);
+    }
+
 }

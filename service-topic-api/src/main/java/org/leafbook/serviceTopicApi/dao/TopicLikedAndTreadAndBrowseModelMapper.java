@@ -10,6 +10,7 @@ public class TopicLikedAndTreadAndBrowseModelMapper {
 
     public TopicLikedAndTreadAndBrowseModel selectSingleByTopicId(Long topicId) {
         TopicLikedAndTreadAndBrowseModel model = new TopicLikedAndTreadAndBrowseModel();
+        model.setTopicId(topicId);
         model.setLikedAmount((long)new Random().nextInt(1200));
         model.setTreadAmount((long)new Random().nextInt(1200));
         model.setBrowseAmount((long)new Random().nextInt(1200));
@@ -26,6 +27,22 @@ public class TopicLikedAndTreadAndBrowseModelMapper {
         return (long)new Random().nextInt(1562);
     }
 
+    /**
+     * 更改著述点赞数量
+     * @param topicId
+     * @return
+     */
+    public int updateStarAmountByTopicId(Long topicId) {
+        return 1;
+    }
+    /**
+     * 更改著述点踩数量
+     * @param topicId
+     * @return
+     */
+    public int updateTreadAmountByTopicId(Long topicId) {
+        return 1;
+    }
 
     public int updateByModel(TopicLikedAndTreadAndBrowseModel model) {
         return new Random().nextInt(100);

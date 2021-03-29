@@ -15,12 +15,6 @@ import java.util.List;
         fallbackFactory = CommonServiceRpcFallback.class
 )
 public interface CommonServiceRpc {
-    //点踩
-    @PostMapping("/rpc/post/insert/touch/tread")
-    int postInsertTouchTreadRpc(
-            @RequestParam("userId") Long userId,
-            @RequestParam("objectId") Long objectId,
-            @RequestParam("type") String type);
 
     /**
      * 获取站点协议
@@ -44,6 +38,18 @@ public interface CommonServiceRpc {
             @RequestParam("objectId") Long objectId,
             @RequestParam("type") String type);
 
+    /**
+     * 点踩
+     * @param userId
+     * @param objectId
+     * @param type
+     * @return code
+     */
+    @PostMapping("/rpc/post/insert/touch/star")
+    int postInsertTouchTreadRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("objectId")Long objectId,
+            @RequestParam("type")String type);
     /**
      * 查看是否点过赞
      *
@@ -101,4 +107,107 @@ public interface CommonServiceRpc {
     List<UserBillModel> postSelectStarRelatedIncomeAndExpenditureRpc(
             @RequestParam("userId")Long userId,
             @RequestParam("page")Long page);
+
+    /**
+     * 获取用户赞相关的总支出
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/star/incomeAndExpenditure/amount")
+    Long postSelectUserStarRelatedIncomeAndExpenditureAmountRpc(@RequestParam("userId") Long userId);
+    /**
+     * 获取用户赞总收入
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/star/income/amount")
+    Long postSelectUserStarRelatedIncomeAmountRpc(@RequestParam("userId") Long userId);
+    /**
+     * 获取用户赞总支出
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/star/expenditure/amount")
+    Long postSelectUserStarRelatedExpenditureAmountRpc(@RequestParam("userId") Long userId);
+    /**
+     * 获取用户著述相关的收支
+     * @param userId
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/topic/incomeAndExpenditure")
+    List<UserBillModel> postSelectTopicRelatedIncomeAndExpenditureRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
+
+    /**
+     * 获取用户著述相关的总收支
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/topic/incomeAndExpenditure/amount")
+    Long postSelectUserTopicRelatedIncomeAndExpenditureAmountRpc(@RequestParam("userId") Long userId);
+
+    /**
+     * 获取用户著述总收入
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/topic/income/amount")
+    Long postSelectUserTopicRelatedIncomeAmountRpc(@RequestParam("userId") Long userId);
+    /**
+     * 获取用户著述总支出
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/topic/expenditure/amount")
+    Long postSelectUserTopicRelatedExpenditureAmountRpc(@RequestParam("userId") Long userId);
+    /**
+     * 获取用户购入卖出相关的收支
+     * @param userId
+     * @param page
+     * @returnb
+     */
+    @PostMapping("/rpc/post/select/buyAndSell/incomeAndExpenditure")
+    List<UserBillModel> postSelectBuyAndSellRelatedIncomeAndExpenditureRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
+
+    /**
+     * 获取用户购入卖出相关的总收支
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/buyAndSell/incomeAndExpenditure/amount")
+    Long postSelectUserBuyAndSellRelatedIncomeAndExpenditureAmountRpc(@RequestParam("userId") Long userId);
+
+    /**
+     * 获取用户买卖总收入
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/buyAndSell/income/amount")
+    Long postSelectUserBuyAndSellRelatedIncomeAmountRpc(@RequestParam("userId") Long userId);
+    /**
+     * 获取买卖总支出
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/buyAndSell/expenditure/amount")
+    Long postSelectUserBuyAndSellRelatedExpenditureAmountRpc(@RequestParam("userId") Long userId);
+
+    /**
+     * 获取用户月增长
+     * @param userId
+     * @return
+     */
+    @PostMapping("/api/post/select/user/balance/income")
+    Long postSelectUserBalanceIncomeForMonthRpc(@RequestParam("userId") Long userId);
+    /**
+     * 获取用户月支出
+     * @param userId
+     * @returnE
+     */
+    @PostMapping("/api/post/select/user/balance/expenditure")
+    Long postSelectUserBalanceExpenditureForMonthRpc(@RequestParam("userId") Long userId);
 }

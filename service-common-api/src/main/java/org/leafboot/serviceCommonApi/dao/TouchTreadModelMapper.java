@@ -7,9 +7,9 @@ import java.util.Random;
 @Service
 public class TouchTreadModelMapper {
     public int insertTouchTread(Long userId, Long objectId, String type) {
-        return new Random().nextInt(100);
+        return 1;
     }
     public int selectTouchTread(Long userId, Long objectId, String type) {
-        return new Random().nextInt(2);
+        return 0;
     }
 }

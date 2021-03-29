@@ -139,5 +139,21 @@ public class CommentRelatedServiceRpc {
     public Comment1Model postSelectSingleComment1Info(Long comment1Id) {
         return comment1InfoEntryShowModelMapper.selectSingleComment1Info(comment1Id);
     }
+    /**
+     * 更新普通评论的点赞数
+     * @param comment1Id
+     * @return
+     */
+    public int postUpdateComment1InfoTouchStarAmount(Long comment1Id) {
+        return comment2StarAndTreadModelMapper.updateTouchStarAmountByComment1Id(comment1Id);
+    }
+    /**
+     * 更新普通评论的点踩数
+     * @param comment1Id
+     * @return
+     */
+    public int postUpdateComment1InfoTouchTreadAmount(Long comment1Id) {
+        return comment2StarAndTreadModelMapper.updateTouchTreadAmountByComment1Id(comment1Id);
+    }
 
 }

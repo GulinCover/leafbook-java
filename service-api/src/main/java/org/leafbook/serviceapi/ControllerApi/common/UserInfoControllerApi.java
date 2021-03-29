@@ -49,27 +49,50 @@ public class UserInfoControllerApi {
         return resp;
     }
 
-    //添加点赞
-    /*
-    topic_id:
-    comment_id:
-    talk_id:
-    talkComment_id:
-    entry_id:
-    type:topic,comment,talk,talkComment,entry
-     */
 
     /**
+     * 添加点赞
      * @param userId
-     * @param form
+     * @param form: entryId,talkCommentId,talkId,commentId,topicId,articleId,type
+     *        - type:topic,comment,talk,talkComment,entry,article
      * @return
      */
     @ApiOperation("/api/post/insert/liked")
     @PostMapping("/api/post/insert/liked")
-    public MessageResp postInsertLikedApi(@RequestHeader("user_id") Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postInsertLikedApi(@RequestHeader("userId") Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
-        resp.setMsg("点赞成功");
-        resp.setCode(200);
+
+        int ret = userInfoServiceApi.postInsertLiked(userId,form);
+        if (ret == 200) {
+            resp.setMsg("点赞成功");
+            resp.setCode(200);
+            return resp;
+        }
+        resp.setMsg("点赞失败");
+        resp.setCode(ret);
+        return resp;
+    }
+
+    /**
+     * 添加点踩
+     * @param userId
+     * @param form: entryId,talkCommentId,talkId,commentId,topicId,articleId,type
+     *        - type:topic,comment,talk,talkComment,entry,article
+     * @return
+     */
+    @ApiOperation("/api/post/insert/tread")
+    @PostMapping("/api/post/insert/tread")
+    public MessageResp postInsertTreadApi(@RequestHeader("userId") Long userId, @RequestBody Map<String, String> form) {
+        MessageResp resp = new MessageResp();
+
+        int ret = userInfoServiceApi.postInsertTread(userId,form);
+        if (ret == 200) {
+            resp.setMsg("点踩成功");
+            resp.setCode(200);
+            return resp;
+        }
+        resp.setMsg("点踩失败");
+        resp.setCode(ret);
         return resp;
     }
 

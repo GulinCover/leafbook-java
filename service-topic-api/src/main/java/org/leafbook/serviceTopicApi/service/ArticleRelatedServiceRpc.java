@@ -212,4 +212,34 @@ public class ArticleRelatedServiceRpc {
     public ArticleModel getSelectLastTimeArticleInfoByTopicId(Long topicId) {
         return articleModelMapper.selectLastArticleByTopicId(topicId);
     }
+
+    /**
+     * 更新文章点赞数量
+     *
+     * @param articleId
+     * @return
+     */
+    public int postUpdateArticleStarAmount(Long articleId) {
+        return articleLikedAndTreadAndBrowseModelMapper.updateArticleInfoStarAmountByArticleId(articleId);
+    }
+    /**
+     * 更新文章点踩数量
+     *
+     * @param articleId
+     * @return
+     */
+    public int postUpdateArticleTreadAmount(Long articleId) {
+        return articleLikedAndTreadAndBrowseModelMapper.updateArticleInfoTreadAmountByArticleId(articleId);
+    }
 }
+
+
+
+
+
+
+
+
+
+
+

@@ -133,6 +133,21 @@ public interface CommentServiceRpc {
     @GetMapping("/rpc/get/select/multi/entryId/by/comment1Id/{comment1Id}")
     List<Long> getSelectMultiEntryIdsByComment1IdRpc(@PathVariable("comment1Id")Long comment1Id);
 
+    /**
+     * 更新普通评论的点赞数
+     * @param comment1Id
+     * @return
+     */
+    @PostMapping("/rpc/post/update/comment1Info/touch/star/amount")
+    int postUpdateComment1InfoTouchStarAmountRpc(@RequestParam("comment1Id")Long comment1Id);
+    /**
+     * 更新普通评论的点踩数
+     * @param comment1Id
+     * @return
+     */
+    @PostMapping("/rpc/post/update/comment1Info/touch/tread/amount")
+    int postUpdateComment1InfoTouchTreadAmountRpc(@RequestParam("comment1Id")Long comment1Id);
+
     //talk service rpc
 
     /**
@@ -338,4 +353,34 @@ public interface CommentServiceRpc {
      */
     @PostMapping("/rpc/post/select/single/talkComment1Model")
     TalkComment1Model postSelectSingleTalkComment1InfoRpc(@RequestParam("talkComment1Id")Long talkComment1Id);
+
+    /**
+     * 更新talk点赞数量
+     * @param talkId
+     * @return
+     */
+    @PostMapping("/rpc/post/update/talkInfo/touch/star/amount")
+    int postUpdateTalkInfoTouchStarAmountRpc(@RequestParam("talkId")Long talkId);
+    /**
+     * 更新talk点踩数量
+     * @param talkId
+     * @return
+     */
+    @PostMapping("/rpc/post/update/talkInfo/touch/tread/amount")
+    int postUpdateTalkInfoTouchTreadAmountRpc(@RequestParam("talkId")Long talkId);
+    /**
+     * 更新talk评论点赞数量
+     * @param talkComment1Id
+     * @return
+     */
+    @PostMapping("/rpc/post/update/talkComment1Info/touch/star/amount")
+    int postUpdateTalkComment1InfoTouchStarAmountRpc(@RequestParam("talkComment1Id")Long talkComment1Id);
+    /**
+     * 更新talk评论点踩数量
+     * @param talkComment1Id
+     * @return
+     */
+    @PostMapping("/rpc/post/update/talkComment1Info/touch/tread/amount")
+    int postUpdateTalkComment1InfoTouchTreadAmountRpc(@RequestParam("talkComment1Id")Long talkComment1Id);
+
 }

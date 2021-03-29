@@ -247,5 +247,53 @@ public class TalkRelatedServiceRpc {
     public TalkComment1Model postSelectSingleTalkComment1Info(Long talkComment1Id) {
         return talkComment1ModelMapper.selectSingleTalkComment1Info(talkComment1Id);
     }
+    /**
+     * 更新talk点赞数量
+     * @param talkId
+     * @return
+     */
+    public int postUpdateTalkInfoTouchStarAmount(Long talkId) {
+        return talk2StarAndTreadModelMapper.updateTalkInfoTouchStarAmountByTalkId(talkId);
+    }
+    /**
+     * 更新talk点踩数量
+     * @param talkId
+     * @return
+     */
+    public int postUpdateTalkInfoTouchTreadAmount(Long talkId) {
+        return talk2StarAndTreadModelMapper.updateTalkInfoTouchTreadAmountByTalkId(talkId);
+
+    }
+    /**
+     * 更新talk评论点赞数量
+     * @param talkComment1Id
+     * @return
+     */
+    public int postUpdateTalkComment1InfoTouchStarAmount(Long talkComment1Id) {
+        return talk2StarAndTreadModelMapper.updateTalkComment1InfoTouchStarAmountByTalkComment1Id(talkComment1Id);
+
+    }
+    /**
+     * 更新talk评论点踩数量
+     * @param talkComment1Id
+     * @return
+     */
+    public int postUpdateTalkComment1InfoTouchTreadAmount(Long talkComment1Id) {
+        return talk2StarAndTreadModelMapper.updateTalkComment1InfoTouchTreadAmountByTalkComment1Id(talkComment1Id);
+
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

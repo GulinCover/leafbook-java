@@ -306,68 +306,92 @@ public interface TopicServiceRpc {
      */
     @PostMapping("/rpc/post/select/multi/topicInfo/By/userId")
     List<TopicModel> postSelectMultiTopicInfoByUserIdRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("blurry")String blurry,
-            @RequestParam("page")Long page
-            );
+            @RequestParam("userId") Long userId,
+            @RequestParam("blurry") String blurry,
+            @RequestParam("page") Long page
+    );
 
 
     /**
      * 获取点赞排行著述id,每页15条
+     *
      * @param page
      * @return
      */
     @GetMapping("/rpc/get/select/multi/topicId/by/star/rank/page/{page}")
-    List<Long> getSelectMultiTopicIdByStarRankRpc(@PathVariable("page")Long page);
+    List<Long> getSelectMultiTopicIdByStarRankRpc(@PathVariable("page") Long page);
 
     /**
      * 获取著述的贡献者数量
+     *
      * @param topicId
      * @return
      */
     @GetMapping("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
-    Long getSelectContributorAmountByTopicIdRpc(@PathVariable("topicId")Long topicId);
+    Long getSelectContributorAmountByTopicIdRpc(@PathVariable("topicId") Long topicId);
 
     /**
      * 获取著述的管理者数量
+     *
      * @param topicId
      * @return
      */
     @GetMapping("/rpc/get/select/managerAmount/by/topicId/{topicId}")
-    Long getSelectManagerAmountByTopicIdRpc(@PathVariable("topicId")Long topicId);
+    Long getSelectManagerAmountByTopicIdRpc(@PathVariable("topicId") Long topicId);
 
     /**
      * 获取著述的贡献者id
+     *
      * @param topicId
      * @return
      */
     @GetMapping("/rpc/get/select/multi/contributorId/by/topicId/{topicId}")
-    List<Long> getSelectMultiContributorIdByTopicIdRpc(@PathVariable("topicId")Long topicId);
+    List<Long> getSelectMultiContributorIdByTopicIdRpc(@PathVariable("topicId") Long topicId);
 
     /**
      * 获取著述的管理者id
+     *
      * @param topicId
      * @return
      */
     @GetMapping("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
-    List<Long> getSelectMultiManagerIdByTopicIdRpc(@PathVariable("topicId")Long topicId);
+    List<Long> getSelectMultiManagerIdByTopicIdRpc(@PathVariable("topicId") Long topicId);
 
     /**
      * 根据词条随机查询5~8条著述
+     *
      * @param entryId
      * @return
      */
     @GetMapping("/rpc/get/select/random/multi/topicInfo/by/entryId")
-    List<TopicModel> getSelectRandomMultiTopicInfoByEntryIdRpc(@RequestParam("entryId")Long entryId);
+    List<TopicModel> getSelectRandomMultiTopicInfoByEntryIdRpc(@RequestParam("entryId") Long entryId);
 
     /**
      * 获取著述所有评论数量
+     *
      * @param topicId
      * @return
      */
     @GetMapping("/rpc/get/select/all/commentAmount")
-    Long getSelectAllCommentAmountRpc(@RequestParam("topicId")Long topicId);
+    Long getSelectAllCommentAmountRpc(@RequestParam("topicId") Long topicId);
 
+    /**
+     * 更改著述点赞数量
+     *
+     * @param topicId
+     * @return
+     */
+    @PostMapping("/rpc/post/update/topic/star/amount")
+    int postUpdateTopicStarAmountRpc(@RequestParam("topicId") Long topicId);
+
+    /**
+     * 更改著述点踩数量
+     *
+     * @param topicId
+     * @return
+     */
+    @PostMapping("/rpc/post/update/topic/tread/amount")
+    int postUpdateTopicTreadAmountRpc(@RequestParam("topicId") Long topicId);
 
     //article service rpc
 
@@ -509,11 +533,30 @@ public interface TopicServiceRpc {
 
     /**
      * 获取最近一条文章
+     *
      * @param topicId
      * @return
      */
     @GetMapping("/rpc/select/lastTime/articleInfo/by/topicId/{topicId}")
     ArticleModel getSelectLastTimeArticleInfoByTopicIdRpc(@PathVariable("topicId") Long topicId);
+
+    /**
+     * 更新文章点赞数量
+     *
+     * @param articleId
+     * @return
+     */
+    @PostMapping("/rpc/post/update/article/star/amount")
+    int postUpdateArticleStarAmountRpc(@RequestParam("articleId") Long articleId);
+
+    /**
+     * 更新文章点踩数量
+     *
+     * @param articleId
+     * @return
+     */
+    @PostMapping("/rpc/post/update/article/tread/amount")
+    int postUpdateArticleTreadAmountRpc(@RequestParam("articleId") Long articleId);
 
 }
 

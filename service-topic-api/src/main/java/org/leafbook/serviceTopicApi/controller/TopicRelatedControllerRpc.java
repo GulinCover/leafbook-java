@@ -405,6 +405,28 @@ public class TopicRelatedControllerRpc {
     public Long getSelectAllCommentAmountRpc(@RequestParam("topicId")Long topicId) {
         return topicRelatedServiceRpc.getSelectAllCommentAmount(topicId);
     }
+
+    /**
+     * 更改著述点赞数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/topic/star/amount")
+    @PostMapping("/rpc/post/update/topic/star/amount")
+    public int postUpdateTopicStarAmountRpc(@RequestParam("topicId")Long topicId) {
+        return topicRelatedServiceRpc.postUpdateTopicStarAmount(topicId);
+    }
+
+    /**
+     * 更改著述点踩数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/topic/tread/amount")
+    @PostMapping("/rpc/post/update/topic/tread/amount")
+    public int postUpdateTopicTreadAmountRpc(@RequestParam("topicId")Long topicId) {
+        return topicRelatedServiceRpc.postUpdateTopicTreadAmount(topicId);
+    }
 }
 
 

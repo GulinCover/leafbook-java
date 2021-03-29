@@ -198,5 +198,17 @@ public interface UserServiceRpc {
      * @return
      */
     @PostMapping("/rpc/post/select/detect/LoginId")
-    int postSelectDetectLoginIdRpc(@RequestParam("userId")Long userId,@RequestParam("loginId")Long loginId);
+    int postSelectDetectLoginIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("loginId")Long loginId);
+
+    /**
+     * 更改用户信息
+     * @param userModel
+     * @return
+     */
+    @PostMapping("/rpc/post/update/userInfo/by/userModel")
+    int postUpdateSingleUserInfoByUserInfoRpc(
+            @RequestBody UserModel userModel);
+
 }

@@ -3,8 +3,10 @@ package org.leafbook.api.modelApi.userInfo;
 import lombok.Data;
 import org.leafbook.api.modelApi.common.Model;
 
+import java.io.Serializable;
+
 @Data
-public class UserModel extends Model {
+public class UserModel extends Model implements Serializable {
     private Long id;
     private String username;
     private String usedName;

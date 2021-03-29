@@ -210,5 +210,13 @@ public class UserRelatedServiceRpc {
     public int postSelectDetectLoginId(Long userId,Long loginId) {
         return userModelMapper.selectSingleUserLoginIdIsExist(userId,loginId);
     }
+    /**
+     * 更改用户信息
+     * @param userModel
+     * @return
+     */
+    public int postUpdateSingleUserInfoByUserInfo(UserModel userModel) {
+        return userModelMapper.updateSingleUserInfoByUserInfo(userModel);
+    }
 
 }

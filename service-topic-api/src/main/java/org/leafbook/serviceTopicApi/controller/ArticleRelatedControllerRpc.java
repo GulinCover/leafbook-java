@@ -186,8 +186,32 @@ public class ArticleRelatedControllerRpc {
      */
     @ApiOperation("/rpc/select/lastTime/articleInfo/by/topicId/{topicId}")
     @GetMapping("/rpc/select/lastTime/articleInfo/by/topicId/{topicId}")
-    ArticleModel getSelectLastTimeArticleInfoByTopicIdRpc(@PathVariable("topicId") Long topicId) {
+    public ArticleModel getSelectLastTimeArticleInfoByTopicIdRpc(@PathVariable("topicId") Long topicId) {
         return articleRelatedServiceRpc.getSelectLastTimeArticleInfoByTopicId(topicId);
+    }
+
+    /**
+     * 更新文章点赞数量
+     *
+     * @param articleId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/article/star/amount")
+    @PostMapping("/rpc/post/update/article/star/amount")
+    public int postUpdateArticleStarAmountRpc(@RequestParam("articleId") Long articleId) {
+        return articleRelatedServiceRpc.postUpdateArticleStarAmount(articleId);
+    }
+
+    /**
+     * 更新文章点踩数量
+     *
+     * @param articleId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/article/tread/amount")
+    @PostMapping("/rpc/post/update/article/tread/amount")
+    public int postUpdateArticleTreadAmountRpc(@RequestParam("articleId") Long articleId) {
+        return articleRelatedServiceRpc.postUpdateArticleTreadAmount(articleId);
     }
 
 }

@@ -6,10 +6,26 @@ import java.util.Random;
 
 @Service
 public class TouchStarModelMapper {
-    public int insertTouchStar(Long userId, Long objectId, String type) {
-        return new Random().nextInt(100);
-    }
+    /**
+     * 查询是否点过赞
+     * @param userId
+     * @param objectId
+     * @param type
+     * @return
+     */
     public int selectTouchStar(Long userId, Long objectId, String type) {
-        return new Random().nextInt(2);
+        return 0;
+    }
+
+
+    /**
+     * 插入点赞信息
+     * @param userId
+     * @param objectId
+     * @param type
+     * @return
+     */
+    public int insertTouchStar(Long userId, Long objectId, String type) {
+        return 1;
     }
 }

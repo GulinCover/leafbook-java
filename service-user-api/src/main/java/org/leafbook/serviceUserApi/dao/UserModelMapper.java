@@ -39,8 +39,13 @@ public class UserModelMapper {
         userModel.setPhone("130123456789");
         userModel.setSex(1);
         userModel.setUsername("Alex");
+        userModel.setUsedName(";Alex;");
         userModel.setUuid("acfd-1234-3456-cdfb");
         return userModel;
+    }
+
+    public String selectSingleUserInfoLoginMark(Long userId) {
+        return ";1;2;3;4;5;";
     }
 
     public Long createSingleUserInfo(String username, String email, String password) {
@@ -76,11 +81,15 @@ public class UserModelMapper {
         return new Random().nextInt(2);
     }
 
-    public String selectSingleUserInfoLoginMark(Long userId) {
-        return ";1;2;3;4;5;";
-    }
-
     public int updateSingleUserInfoLoginMark(Long userId, String loginMark) {
         return new Random().nextInt(2);
+    }
+    /**
+     * 更改用户信息
+     * @param userModel
+     * @return
+     */
+    public int updateSingleUserInfoByUserInfo(UserModel userModel) {
+        return 1;
     }
 }

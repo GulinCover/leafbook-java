@@ -253,4 +253,17 @@ public class UserRelatedControllerRpc {
     public int postSelectDetectLoginIdRpc(@RequestParam("userId")Long userId,@RequestParam("loginId")Long loginId) {
         return userRelatedServiceRpc.postSelectDetectLoginId(userId,loginId);
     }
+
+
+    /**
+     * 更改用户信息
+     * @param userModel
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/userInfo/by/userModel")
+    @PostMapping("/rpc/post/update/userInfo/by/userModel")
+    int postUpdateSingleUserInfoByUserInfoRpc(
+            @RequestBody UserModel userModel) {
+        return userRelatedServiceRpc.postUpdateSingleUserInfoByUserInfo(userModel);
+    }
 }

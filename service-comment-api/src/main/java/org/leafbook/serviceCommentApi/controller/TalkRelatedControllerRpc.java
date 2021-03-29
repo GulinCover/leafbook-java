@@ -250,4 +250,49 @@ public class TalkRelatedControllerRpc {
         return talkRelatedServiceRpc.postSelectSingleTalkComment1Info(talkComment1Id);
     }
 
+    /**
+     * 更新talk点赞数量
+     * @param talkId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/talkInfo/touch/star/amount")
+    @PostMapping("/rpc/post/update/talkInfo/touch/star/amount")
+    public int postUpdateTalkInfoTouchStarAmountRpc(@RequestParam("talkId")Long talkId) {
+        return talkRelatedServiceRpc.postUpdateTalkInfoTouchStarAmount(talkId);
+    }
+    /**
+     * 更新talk点踩数量
+     * @param talkId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/talkInfo/touch/tread/amount")
+    @PostMapping("/rpc/post/update/talkInfo/touch/tread/amount")
+    public int postUpdateTalkInfoTouchTreadAmountRpc(@RequestParam("talkId")Long talkId) {
+        return talkRelatedServiceRpc.postUpdateTalkInfoTouchTreadAmount(talkId);
+
+    }
+    /**
+     * 更新talk评论点赞数量
+     * @param talkComment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/talkComment1Info/touch/star/amount")
+    @PostMapping("/rpc/post/update/talkComment1Info/touch/star/amount")
+    public int postUpdateTalkComment1InfoTouchStarAmountRpc(@RequestParam("talkComment1Id")Long talkComment1Id) {
+        return talkRelatedServiceRpc.postUpdateTalkComment1InfoTouchStarAmount(talkComment1Id);
+
+    }
+    /**
+     * 更新talk评论点踩数量
+     * @param talkComment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/talkComment1Info/touch/tread/amount")
+    @PostMapping("/rpc/post/update/talkComment1Info/touch/tread/amount")
+    public int postUpdateTalkComment1InfoTouchTreadAmountRpc(@RequestParam("talkComment1Id")Long talkComment1Id) {
+        return talkRelatedServiceRpc.postUpdateTalkComment1InfoTouchTreadAmount(talkComment1Id);
+
+    }
+
+
 }

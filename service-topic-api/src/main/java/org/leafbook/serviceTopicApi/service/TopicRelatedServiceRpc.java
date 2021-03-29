@@ -381,6 +381,21 @@ public class TopicRelatedServiceRpc {
     public Long getSelectAllCommentAmount(Long topicId) {
         return topicModelMapper.selectCommentAmount(topicId);
     }
-
+    /**
+     * 更改著述点赞数量
+     * @param topicId
+     * @return
+     */
+    public int postUpdateTopicStarAmount(Long topicId) {
+        return topicLikedAndTreadAndBrowseModelMapper.updateStarAmountByTopicId(topicId);
+    }
+    /**
+     * 更改著述点踩数量
+     * @param topicId
+     * @return
+     */
+    public int postUpdateTopicTreadAmount(Long topicId) {
+        return topicLikedAndTreadAndBrowseModelMapper.updateTreadAmountByTopicId(topicId);
+    }
 
 }
