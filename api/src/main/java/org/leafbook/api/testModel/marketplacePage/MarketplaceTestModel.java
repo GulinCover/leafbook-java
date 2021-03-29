@@ -50,14 +50,14 @@ public class MarketplaceTestModel extends TestModel {
 
         for (int i = 0; i < (new Random().nextInt(15)) + 5; ++i) {
             ArticleInfoAbs articleInfoAbs = new ArticleInfoAbs();
-            articleInfoAbs.setArticleId((long) i);
-            articleInfoAbs.setArticleType("topic");
+            articleInfoAbs.setUserId((long) i);
+            articleInfoAbs.setArticleType(0);
             articleInfoAbs.setTopicId((long) i);
             articleInfoAbs.setTopicTitle(randomWord());
             articleInfoAbs.setTopicDesc(randomString().toString());
-            articleInfoAbs.setBidPrice(String.valueOf(new Random().nextInt(15) + 5));
+            articleInfoAbs.setBidPrice((long)new Random().nextInt(15) + 5);
             articleInfoAbs.setUserAvatar("https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg");
-            articleInfoAbs.setPrice(String.valueOf(new Random().nextInt(15) + 5));
+            articleInfoAbs.setCurrentPrice((long)new Random().nextInt(15) + 5);
 
             List<EntryAbs> entryAbsList = new LinkedList<>();
 

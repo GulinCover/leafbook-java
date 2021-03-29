@@ -12,6 +12,29 @@ public class AuctionModelMapper {
     public Long insertSingleTopicForResId(Long userId,Long topic) {
         return (long)new Random().nextInt(10000);
     }
+    /**
+     * 获取number条拍卖物品信息
+     * @param number
+     * @return
+     */
+    public List<AuctionModel> selectNumberAuctionInfo(Integer number) {
+        List<AuctionModel> auctionModelList = new LinkedList<>();
+
+        for (int i = 0;i<number;++i) {
+            AuctionModel auctionModel = new AuctionModel();
+            auctionModel.setAuctionId((long) i);
+            auctionModel.setUserId(123L);
+            auctionModel.setTopicId(1145L);
+            auctionModel.setType(0);
+            auctionModel.setCurrentPrice(155L);
+            auctionModel.setExpireTimestamp(111111111L);
+            auctionModel.setStartPrice(100L);
+
+            auctionModelList.add(auctionModel);
+        }
+
+        return auctionModelList;
+    }
 
     public List<AuctionModel> selectMultiByAuctionIds(List<Long> auctionIds,Integer page) {
         List<AuctionModel> auctionModelList = new LinkedList<>();

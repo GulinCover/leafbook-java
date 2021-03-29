@@ -54,6 +54,33 @@ public class UserInfoServiceApi {
 
         return userInfoResp;
     }
+    /**
+     * 检测用户合法性
+     * @param userId
+     * @return
+     */
+    public int postSelectDetectUserIdLegality(Long userId) {
+        return userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+    }
+    /**
+     * 添加关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    public int postInsertAttention(Long userId,Long attentionUserId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 403;
+
+        ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(attentionUserId);
+        if (ret == 0) return 403;
+
+        ret = userServiceRpc.postIsExistAttentionRpc(userId,attentionUserId);
+        if (ret == 1) return 403;
+
+        ret = userServiceRpc.postAddAttentionUserRpc(userId,attentionUserId);
+        return ret;
+    }
 
     /**
      * 添加点赞

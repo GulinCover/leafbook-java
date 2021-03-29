@@ -1,6 +1,5 @@
 package org.leafbook.serviceapi.serviceRpc.marketplaceService;
 
-import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
 import org.leafbook.serviceapi.openfeinFallback.marketplaceService.MarketplaceServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -35,7 +34,7 @@ public interface MarketplaceServiceRpc {
     @GetMapping("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}/{page}")
     List<AuctionModel> getSelectMultiAuctionInfoByEntryIdRpc(
             @PathVariable("entryId")Long entryId,
-            @PathVariable("page")Integer page);
+            @PathVariable("page")Long page);
 
     /**
      * 购买改名卡
@@ -108,4 +107,12 @@ public interface MarketplaceServiceRpc {
             @RequestParam("userId")Long userId, 
             @RequestParam("auctionId")Long auctionId,
             @RequestParam("price")Long price);
+
+    /**
+     * 获取number条拍卖物品信息
+     * @param number
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/multi/auctionInfo")
+    List<AuctionModel> getSelectRandomMultiAuctionInfoRpc(@RequestParam("number")Integer number);
 }

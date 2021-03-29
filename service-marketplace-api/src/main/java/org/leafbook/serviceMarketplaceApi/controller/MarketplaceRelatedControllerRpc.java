@@ -121,6 +121,17 @@ public class MarketplaceRelatedControllerRpc {
             @RequestParam("price")Long price) {
         return marketplaceRelatedServiceRpc.postBidingSingleAuctionInfo(userId,auctionId,price);
     }
+
+    /**
+     * 获取number条拍卖物品信息
+     * @param number
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/multi/auctionInfo")
+    @GetMapping("/rpc/get/select/random/multi/auctionInfo")
+    public List<AuctionModel> getSelectRandomMultiAuctionInfoRpc(@RequestParam("number")Integer number) {
+        return marketplaceRelatedServiceRpc.getSelectRandomMultiAuctionInfo(number);
+    }
 }
 
 

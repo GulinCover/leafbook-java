@@ -196,6 +196,20 @@ public class EntryRelatedControllerRpc {
         return entryRelatedServiceRpc.postSelectDetectLegalityWithEntryIds(entryIds);
     }
 
+    /**
+     * 随机获取number条词条
+     * @param type
+     * @param number
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/multi/entryInfo/by/type")
+    @GetMapping("/rpc/get/select/random/multi/entryInfo/by/type")
+    public List<EntryShowModel> getSelectRandomMultiEntryInfoByTypeRpc(
+            @RequestParam("type")String type,
+            @RequestParam("number")Integer number) {
+        return entryRelatedServiceRpc.getSelectRandomMultiEntryInfoByType(type,number);
+    }
+
 //    /**
 //     * 单删词条
 //     * @param entryId

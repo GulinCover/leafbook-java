@@ -3,6 +3,7 @@ package org.leafbook.serviceUserApi.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.modelApi.billInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceUserApi.config.PostSelectSingleUserInfoRpcFallback;
@@ -265,5 +266,30 @@ public class UserRelatedControllerRpc {
     int postUpdateSingleUserInfoByUserInfoRpc(
             @RequestBody UserModel userModel) {
         return userRelatedServiceRpc.postUpdateSingleUserInfoByUserInfo(userModel);
+    }
+
+    /**
+     * 添加关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    @ApiOperation("/rpc/post/add/attentionUser")
+    @PostMapping("/rpc/post/add/attentionUser")
+    public int postAddAttentionUserRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("attentionUserId")Long attentionUserId) {
+        return userRelatedServiceRpc.postAddAttentionUser(userId,attentionUserId);
+    }
+
+    /**
+     * 获取物品信息
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/single/resInfo/by/userId")
+    @PostMapping("/rpc/post/select/single/resInfo/by/userId")
+    public ResModel postSelectSingleResInfoByUserIdRpc(@RequestParam("userId")Long userId) {
+        return userRelatedServiceRpc.postSelectSingleResInfoByUserId(userId);
     }
 }

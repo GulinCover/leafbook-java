@@ -50,6 +50,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectUserBalanceIncome(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserBalanceIncomeForMonthRpc(userId);
     }
     /**
@@ -58,6 +60,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectUserBalanceExpenditure(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserBalanceExpenditureForMonthRpc(userId);
     }
 
@@ -69,6 +73,10 @@ public class BillAndPayPageServiceApi {
      */
     public List<StarRelatedIncomeAndExpenditureAbs> postSelectStarRelatedIncomeAndExpenditure(Long userId, Long page) {
         List<StarRelatedIncomeAndExpenditureAbs> starRelatedIncomeAndExpenditureAbsList = new LinkedList<>();
+
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return starRelatedIncomeAndExpenditureAbsList;
+
         List<UserBillModel> userBillModelList = commonServiceRpc.postSelectStarRelatedIncomeAndExpenditureRpc(userId,page);
         if (Objects.nonNull(userBillModelList) && !userBillModelList.isEmpty()) {
             for (UserBillModel userBillModel:userBillModelList) {
@@ -133,6 +141,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectUserStarRelatedIncomeAndExpenditureAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserStarRelatedIncomeAndExpenditureAmountRpc(userId);
     }
     /**
@@ -141,6 +151,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectStarIncomeAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserStarRelatedIncomeAmountRpc(userId);
     }
     /**
@@ -149,6 +161,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectStarExpenditureAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserStarRelatedExpenditureAmountRpc(userId);
     }
 
@@ -161,6 +175,9 @@ public class BillAndPayPageServiceApi {
      */
     public List<TopicRelatedIncomeAndExpenditureAbs> postSelectTopicRelatedIncomeAndExpenditure(Long userId, Long page) {
         List<TopicRelatedIncomeAndExpenditureAbs> topicRelatedIncomeAndExpenditureAbsList = new LinkedList<>();
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return topicRelatedIncomeAndExpenditureAbsList;
+
         List<UserBillModel> userBillModelList = commonServiceRpc.postSelectTopicRelatedIncomeAndExpenditureRpc(userId, page);
         if (Objects.nonNull(userBillModelList) && !userBillModelList.isEmpty()) {
             for (UserBillModel userBillModel:userBillModelList) {
@@ -194,6 +211,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectUserTopicRelatedIncomeAndExpenditureAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserTopicRelatedIncomeAndExpenditureAmountRpc(userId);
     }
 
@@ -203,6 +222,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectTopicIncomeAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserTopicRelatedIncomeAmountRpc(userId);
     }
     /**
@@ -211,6 +232,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectTopicExpenditureAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserTopicRelatedExpenditureAmountRpc(userId);
     }
 
@@ -222,6 +245,9 @@ public class BillAndPayPageServiceApi {
      */
     public List<BuyAndSellRelatedIncomeAndExpenditureAbs> postSelectBuyAndSellRelatedIncomeAndExpenditure(Long userId, Long page) {
         List<BuyAndSellRelatedIncomeAndExpenditureAbs> buyAndSellRelatedIncomeAndExpenditureAbsList = new LinkedList<>();
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return buyAndSellRelatedIncomeAndExpenditureAbsList;
+
         List<UserBillModel> userBillModelList = commonServiceRpc.postSelectBuyAndSellRelatedIncomeAndExpenditureRpc(userId, page);
         if (Objects.nonNull(userBillModelList) && !userBillModelList.isEmpty()) {
             for (UserBillModel userBillModel:userBillModelList) {
@@ -244,6 +270,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectUserBuyAndSellRelatedIncomeAndExpenditureAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserBuyAndSellRelatedIncomeAndExpenditureAmountRpc(userId);
     }
 
@@ -253,6 +281,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectBuyAndSellIncomeAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserBuyAndSellRelatedIncomeAmountRpc(userId);
     }
     /**
@@ -261,6 +291,8 @@ public class BillAndPayPageServiceApi {
      * @return
      */
     public Long postSelectBuyAndSellExpenditureAmount(Long userId) {
+        int ret = userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId);
+        if (ret == 0) return 0L;
         return commonServiceRpc.postSelectUserBuyAndSellRelatedExpenditureAmountRpc(userId);
     }
 

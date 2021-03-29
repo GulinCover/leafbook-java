@@ -48,6 +48,28 @@ public class EntryModelMapper {
         return selectRandomMultiEntryInfo();
     }
     /**
+     * 随机获取number条词条
+     * @param type
+     * @param number
+     * @return
+     */
+    public List<EntryShowModel> selectRandomMultiEntryInfoByType(String type,Integer number) {
+        List<EntryShowModel> entryShowModelList = new LinkedList<>();
+        for (int i = 0; i < number; i++) {
+            EntryShowModel entryShowModel = new EntryShowModel();
+            entryShowModel.setEntryDesc(TestModel.randomString().toString());
+            entryShowModel.setEntryId((long) i);
+            entryShowModel.setEntryName(TestModel.randomWord());
+            entryShowModel.setStatus("review_completed");
+            entryShowModel.setType("hot");
+            entryShowModel.setUserId(500L);
+
+            entryShowModelList.add(entryShowModel);
+        }
+
+        return entryShowModelList;
+    }
+    /**
      * 获取官方词条
      * @param type: hot,official,nonofficial
      * @return

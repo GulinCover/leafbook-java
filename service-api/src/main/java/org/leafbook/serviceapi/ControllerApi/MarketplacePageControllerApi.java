@@ -23,7 +23,10 @@ public class MarketplacePageControllerApi {
     @Autowired
     private MarketplacePageServiceApi marketplacePageServiceApi;
 
-    //获取售卖类型
+    /**
+     * 获取售卖类型
+     * @return
+     */
     @ApiOperation("/api/get/select/entryType")
     @GetMapping("/api/get/select/entryType")
     public TypeResp getSelectSellTypeApi() {
@@ -34,7 +37,10 @@ public class MarketplacePageControllerApi {
         return resp;
     }
 
-    //获取板块类型(#只显示官方)
+    /**
+     * 获取板块类型(#只显示官方)
+     * @return
+     */
     @ApiOperation("/api/get/select/official/entryInfos")
     @GetMapping("/api/get/select/official/entryInfos")
     public EntryInfosResp getSelectOfficialEntryInfosApi() {
@@ -45,7 +51,10 @@ public class MarketplacePageControllerApi {
         return resp;
     }
 
-    //随机推荐4条官方词条信息
+    /**
+     * 随机推荐4条官方词条信息
+     * @return
+     */
     @ApiOperation("/api/get/select/four/official/entryInfos")
     @GetMapping("/api/get/select/four/official/entryInfos")
     public EntryInfosResp getSelectRandomFourOfficialEntryInfosApi() {
@@ -56,7 +65,10 @@ public class MarketplacePageControllerApi {
         return resp;
     }
 
-    //随机获取5-10条热门拍卖品信息
+    /**
+     * 随机获取5-10条热门拍卖品信息
+     * @return
+     */
     @ApiOperation("/api/get/select/hot/articleInfos")
     @GetMapping("/api/get/select/hot/articleInfos")
     public ArticleInfosResp getSelectRandomPopularArticleInfosApi() {

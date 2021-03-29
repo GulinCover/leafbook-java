@@ -161,4 +161,15 @@ public interface EntryServiceRpc {
      */
     @PostMapping("/rpc/post/insert/touch/star")
     int postInsertTouchStarRpc(@RequestParam("entryId")Long entryId);
+
+    /**
+     * 随机获取number条词条
+     * @param type
+     * @param number
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/multi/entryInfo/by/type")
+    List<EntryShowModel> getSelectRandomMultiEntryInfoByTypeRpc(
+            @RequestParam("type")String type,
+            @RequestParam("number")Integer number);
 }

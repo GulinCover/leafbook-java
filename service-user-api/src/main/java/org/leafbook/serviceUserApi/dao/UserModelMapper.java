@@ -92,4 +92,14 @@ public class UserModelMapper {
     public int updateSingleUserInfoByUserInfo(UserModel userModel) {
         return 1;
     }
+
+    /**
+     * 添加关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    public int insertAttentionUserForUserId(Long userId,Long attentionUserId) {
+        return 1;
+    }
 }

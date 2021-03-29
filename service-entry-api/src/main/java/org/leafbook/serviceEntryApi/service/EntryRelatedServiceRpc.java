@@ -167,6 +167,15 @@ public class EntryRelatedServiceRpc {
         int ret = entryModelMapper.selectMultiEntryInfoIsExist(entryIds);
         return ret == entryIds.size() ? 200 : 0;
     }
+    /**
+     * 随机获取number条词条
+     * @param type
+     * @param number
+     * @return
+     */
+    public List<EntryShowModel> getSelectRandomMultiEntryInfoByType(String type,Integer number) {
+        return entryModelMapper.selectRandomMultiEntryInfoByType(type,number);
+    }
 
 //    /**
 //     * 单删词条

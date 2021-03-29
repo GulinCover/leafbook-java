@@ -1,6 +1,7 @@
 package org.leafbook.serviceapi.serviceRpc.userService;
 
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.modelApi.billInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceapi.openfeinFallback.userService.UserServiceFallback;
@@ -211,4 +212,22 @@ public interface UserServiceRpc {
     int postUpdateSingleUserInfoByUserInfoRpc(
             @RequestBody UserModel userModel);
 
+    /**
+     * 添加关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    @PostMapping("/rpc/post/add/attentionUser")
+    int postAddAttentionUserRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("attentionUserId")Long attentionUserId);
+
+    /**
+     * 获取物品信息
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/single/resInfo/by/userId")
+    ResModel postSelectSingleResInfoByUserIdRpc(@RequestParam("userId")Long userId);
 }

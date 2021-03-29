@@ -8,6 +8,7 @@ public enum HttpStatus {
     USER_BALANCE_INSUFFICIENT(5000,"余额不足"),
     USER_TOUCHED_STAR(5001,"已点过赞"),
     USER_TOUCHED_TREAD(5002,"已点过踩"),
+    USER_ID_ILLEGAL(5003,"id不合法"),
     ;
     private int code;
     private String msg;

@@ -122,4 +122,12 @@ public class MarketplaceRelatedServiceRpc {
         if (bidingModelMapper.insertSingleModel(bidingModel) == 0) return 0;
         return auctionModelMapper.updateMaxPrice(price);
     }
+    /**
+     * 获取number条拍卖物品信息
+     * @param number
+     * @return
+     */
+    public List<AuctionModel> getSelectRandomMultiAuctionInfo(Integer number) {
+        return auctionModelMapper.selectNumberAuctionInfo(number);
+    }
 }

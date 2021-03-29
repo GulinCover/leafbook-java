@@ -1,12 +1,10 @@
 package org.leafbook.serviceUserApi.service;
 
+import org.leafbook.api.modelApi.billInfo.ResModel;
 import org.leafbook.api.modelApi.common.CodeModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
-import org.leafbook.serviceUserApi.dao.AttentionModeMapper;
-import org.leafbook.serviceUserApi.dao.CodeModelMapper;
-import org.leafbook.serviceUserApi.dao.LoginInfoModelMapper;
-import org.leafbook.serviceUserApi.dao.UserModelMapper;
+import org.leafbook.serviceUserApi.dao.*;
 import org.leafbook.utils.tools.Covert2Tools;
 import org.leafbook.utils.tools.RandomCodeTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,14 +19,14 @@ import java.util.Map;
 public class UserRelatedServiceRpc {
     @Autowired
     private UserModelMapper userModelMapper;
-
     @Autowired
     private LoginInfoModelMapper loginInfoModelMapper;
-
     @Autowired
     private CodeModelMapper codeModelMapper;
     @Autowired
     private AttentionModeMapper attentionModeMapper;
+    @Autowired
+    private ResModelMapper resModelMapper;
     /**
      * 单用户查询
      *
@@ -192,6 +190,7 @@ public class UserRelatedServiceRpc {
      * @return jwt
      */
     public String postLogin(String email,String password) {
+
         return "jwt";
     }
     /**
@@ -217,6 +216,23 @@ public class UserRelatedServiceRpc {
      */
     public int postUpdateSingleUserInfoByUserInfo(UserModel userModel) {
         return userModelMapper.updateSingleUserInfoByUserInfo(userModel);
+    }
+    /**
+     * 添加关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    public int postAddAttentionUser(Long userId,Long attentionUserId) {
+        return userModelMapper.insertAttentionUserForUserId(userId,attentionUserId);
+    }
+    /**
+     * 获取物品信息
+     * @param userId
+     * @return
+     */
+    public ResModel postSelectSingleResInfoByUserId(Long userId) {
+        return resModelMapper.selectSingleResInfo(userId);
     }
 
 }
