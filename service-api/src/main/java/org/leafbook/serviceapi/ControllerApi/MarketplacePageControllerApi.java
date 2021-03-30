@@ -79,18 +79,24 @@ public class MarketplacePageControllerApi {
         return resp;
     }
 
-    //随机获取最新5-10条拍卖品信息
+    /**
+     * 随机获取最新5-10条拍卖品信息
+     * @return
+     */
     @ApiOperation("/api/get/select/recent/articleInfos")
     @GetMapping("/api/get/select/recent/articleInfos")
     public ArticleInfosResp getSelectRandomRecentEntryInfosApi() {
         ArticleInfosResp resp = new ArticleInfosResp();
 
-        resp.setArticleInfoAbsList(marketplacePageServiceApi.getSelectRandomPopularArticleInfos());
+        resp.setArticleInfoAbsList(marketplacePageServiceApi.getSelectRandomRecentEntryInfos());
         resp.setCode(200);
         return resp;
     }
 
-    //按词条随机获取拍卖品信息
+    /**
+     * 按词条随机获取拍卖品信息
+     * @return
+     */
     @ApiOperation("/api/get/select/entry/articleInfos")
     @GetMapping("/api/get/select/entry/articleInfos")
     public EntryArticleInfosResp getSelectRandomArticleInfosByEntryInfosApi() {

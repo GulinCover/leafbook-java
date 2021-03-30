@@ -3,10 +3,7 @@ package org.leafbook.serviceapi.serviceRpc.marketplaceService;
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
 import org.leafbook.serviceapi.openfeinFallback.marketplaceService.MarketplaceServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -109,10 +106,41 @@ public interface MarketplaceServiceRpc {
             @RequestParam("price")Long price);
 
     /**
-     * 获取number条拍卖物品信息
+     * 随机获取number条拍卖物品信息
      * @param number
      * @return
      */
     @GetMapping("/rpc/get/select/random/multi/auctionInfo")
     List<AuctionModel> getSelectRandomMultiAuctionInfoRpc(@RequestParam("number")Integer number);
+    /**
+     * 随机获取最新number条拍卖品信息
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/multi/latest/auctionInfo")
+    List<AuctionModel> getSelectRandomMultiLatestAuctionRpc(@RequestParam("number")Integer number);
+
+    /**
+     * 获取拍卖物品信息
+     * @param auctionId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/single/auctionInfo")
+    AuctionModel getSelectSingleAuctionInfoRpc(@RequestParam("auctionId")Long auctionId);
+
+    /**
+     * 检测auctionId合法性
+     * @param auctionId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/detect/auctionId/legality")
+    int postSelectDetectAuctionIdLegalityRpc(@RequestParam("auctionId")Long auctionId);
+
+    /**
+     * 更改买拍信息当
+     * @param auctionModel
+     * @return
+     */
+    @PostMapping("/rpc/post/update/auctionInfo/by/auctionInfo")
+    int postUpdateAuctionInfoByAuctionInfoRpc(@RequestBody AuctionModel auctionModel);
+
 }

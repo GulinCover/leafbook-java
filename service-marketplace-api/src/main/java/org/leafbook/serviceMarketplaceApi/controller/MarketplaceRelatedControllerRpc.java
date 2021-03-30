@@ -123,7 +123,7 @@ public class MarketplaceRelatedControllerRpc {
     }
 
     /**
-     * 获取number条拍卖物品信息
+     * 随机获取number条拍卖物品信息
      * @param number
      * @return
      */
@@ -131,6 +131,48 @@ public class MarketplaceRelatedControllerRpc {
     @GetMapping("/rpc/get/select/random/multi/auctionInfo")
     public List<AuctionModel> getSelectRandomMultiAuctionInfoRpc(@RequestParam("number")Integer number) {
         return marketplaceRelatedServiceRpc.getSelectRandomMultiAuctionInfo(number);
+    }
+
+    /**
+     * 随机获取最新number条拍卖品信息
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/multi/latest/auctionInfo")
+    @GetMapping("/rpc/get/select/random/multi/latest/auctionInfo")
+    public List<AuctionModel> getSelectRandomMultiLatestAuctionRpc(@RequestParam("number")Integer number) {
+        return marketplaceRelatedServiceRpc.getSelectRandomMultiLatestAuction(number);
+    }
+    /**
+     * 获取拍卖物品信息
+     * @param auctionId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/single/auctionInfo")
+    @GetMapping("/rpc/get/select/single/auctionInfo")
+    public AuctionModel getSelectSingleAuctionInfoRpc(@RequestParam("auctionId")Long auctionId) {
+        return marketplaceRelatedServiceRpc.getSelectSingleAuctionInfo(auctionId);
+    }
+
+    /**
+     * 检测auctionId合法性
+     * @param auctionId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/detect/auctionId/legality")
+    @PostMapping("/rpc/post/select/detect/auctionId/legality")
+    public int postSelectDetectAuctionIdLegalityRpc(@RequestParam("auctionId")Long auctionId) {
+        return marketplaceRelatedServiceRpc.postSelectDetectAuctionIdLegality(auctionId);
+    }
+
+    /**
+     * 更改买拍信息当
+     * @param auctionModel
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/auctionInfo/by/auctionInfo")
+    @PostMapping("/rpc/post/update/auctionInfo/by/auctionInfo")
+    public int postUpdateAuctionInfoByAuctionInfoRpc(@RequestBody AuctionModel auctionModel) {
+        return marketplaceRelatedServiceRpc.postUpdateAuctionInfoByAuctionInfo(auctionModel);
     }
 }
 

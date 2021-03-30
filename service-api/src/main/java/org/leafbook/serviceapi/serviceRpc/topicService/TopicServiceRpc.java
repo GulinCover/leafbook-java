@@ -349,15 +349,6 @@ public interface TopicServiceRpc {
     List<Long> getSelectMultiContributorIdByTopicIdRpc(@PathVariable("topicId") Long topicId);
 
     /**
-     * 获取著述的管理者id
-     *
-     * @param topicId
-     * @return
-     */
-    @GetMapping("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
-    List<Long> getSelectMultiManagerIdByTopicIdRpc(@PathVariable("topicId") Long topicId);
-
-    /**
      * 根据词条随机查询5~8条著述
      *
      * @param entryId

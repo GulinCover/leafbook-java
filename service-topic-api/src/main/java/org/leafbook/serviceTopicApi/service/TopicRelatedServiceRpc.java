@@ -357,14 +357,7 @@ public class TopicRelatedServiceRpc {
     public List<Long> getSelectMultiContributorIdByTopicId(Long topicId) {
         return topicModelMapper.selectMultiContributorId(topicId);
     }
-    /**
-     * 获取著述的管理者id
-     * @param topicId
-     * @return
-     */
-    public List<Long> getSelectMultiManagerIdByTopicId(Long topicId) {
-        return topicModelMapper.selectMultiManagerId(topicId);
-    }
+
     /**
      * 根据词条随机查询5~8条著述
      * @param entryId

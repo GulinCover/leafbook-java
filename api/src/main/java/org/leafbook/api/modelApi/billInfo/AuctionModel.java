@@ -7,6 +7,9 @@ import org.leafbook.api.modelApi.common.Model;
 public class AuctionModel extends Model {
     private Long auctionId;
 
+    private Long currentPriceUserId;//当前竞价者id
+    private String currentPriceUserUuid;//当前竞价者uuid
+
     private Integer type;//0:topic,1:nickname,2:renameCard
     private Long topicId;
     private String nickname;

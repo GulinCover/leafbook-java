@@ -9,24 +9,51 @@ import java.util.Random;
 
 @Service
 public class AuctionModelMapper {
-    public Long insertSingleTopicForResId(Long userId,Long topic) {
-        return (long)new Random().nextInt(10000);
+    /**
+     * 检测auctionId合法性
+     * @param auctionId
+     * @return
+     */
+    public int selectAuctionInfoIsExist(Long auctionId) {
+        return 1;
     }
+
+    /**
+     * 获取拍卖物品信息
+     * @param auctionId
+     * @return
+     */
+    public AuctionModel selectSingleAuctionInfoByAuctionId(Long auctionId) {
+        AuctionModel auctionModel = new AuctionModel();
+        auctionModel.setAuctionId(auctionId);
+        auctionModel.setUserId(31232L);
+        auctionModel.setTopicId(1145L);
+        auctionModel.setType(0);
+        auctionModel.setCurrentPrice(155L);
+        auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+        auctionModel.setCurrentPriceUserId(3122L);
+        auctionModel.setExpireTimestamp(111111111L);
+        auctionModel.setStartPrice(100L);
+        return auctionModel;
+    }
+
     /**
      * 获取number条拍卖物品信息
      * @param number
      * @return
      */
-    public List<AuctionModel> selectNumberAuctionInfo(Integer number) {
+    public List<AuctionModel> selectRandomNumberAuctionInfo(Integer number) {
         List<AuctionModel> auctionModelList = new LinkedList<>();
 
         for (int i = 0;i<number;++i) {
             AuctionModel auctionModel = new AuctionModel();
             auctionModel.setAuctionId((long) i);
-            auctionModel.setUserId(123L);
+            auctionModel.setUserId(31231L);
             auctionModel.setTopicId(1145L);
             auctionModel.setType(0);
             auctionModel.setCurrentPrice(155L);
+            auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+            auctionModel.setCurrentPriceUserId(3122L);
             auctionModel.setExpireTimestamp(111111111L);
             auctionModel.setStartPrice(100L);
 
@@ -34,6 +61,13 @@ public class AuctionModelMapper {
         }
 
         return auctionModelList;
+    }
+    /**
+     * 随机获取最新number条拍卖品信息
+     * @return
+     */
+    public List<AuctionModel> selectRandomNumberLatestAuctionInfo(Integer number) {
+        return selectRandomNumberAuctionInfo(number);
     }
 
     public List<AuctionModel> selectMultiByAuctionIds(List<Long> auctionIds,Integer page) {
@@ -42,10 +76,12 @@ public class AuctionModelMapper {
         for (Long auctionId:auctionIds) {
             AuctionModel auctionModel = new AuctionModel();
             auctionModel.setAuctionId(auctionId);
-            auctionModel.setUserId(1111L);
+            auctionModel.setUserId(312L);
             auctionModel.setTopicId(1145L);
             auctionModel.setType(0);
             auctionModel.setCurrentPrice(155L);
+            auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+            auctionModel.setCurrentPriceUserId(3122L);
             auctionModel.setExpireTimestamp(111111111L);
             auctionModel.setStartPrice(100L);
 
@@ -53,14 +89,6 @@ public class AuctionModelMapper {
         }
 
         return auctionModelList;
-    }
-
-    public Long insertSingleForAuctionId(AuctionModel auctionModel) {
-        return (long)new Random().nextInt(10000);
-    }
-
-    public int update(AuctionModel auctionModel) {
-        return new Random().nextInt(100);
     }
 
     public List<AuctionModel> selectMultiAuctionInfo(Long userId) {
@@ -73,6 +101,8 @@ public class AuctionModelMapper {
             auctionModel.setTopicId(1145L);
             auctionModel.setType(0);
             auctionModel.setCurrentPrice(155L);
+            auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+            auctionModel.setCurrentPriceUserId(3122L);
             auctionModel.setExpireTimestamp(111111111L);
             auctionModel.setStartPrice(100L);
 
@@ -83,16 +113,42 @@ public class AuctionModelMapper {
     }
 
     public AuctionModel selectVerifySingleAuctionInfo(Long userId,Long auctionId) {
+        if (new Random().nextInt(2) == 1) return null;
+
         AuctionModel auctionModel = new AuctionModel();
         auctionModel.setAuctionId(auctionId);
-        auctionModel.setType(0);
         auctionModel.setUserId(userId);
-        auctionModel.setTopicId(3333L);
-
+        auctionModel.setTopicId(1145L);
+        auctionModel.setType(0);
+        auctionModel.setCurrentPrice(155L);
+        auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+        auctionModel.setCurrentPriceUserId(3122L);
+        auctionModel.setExpireTimestamp(111111111L);
+        auctionModel.setStartPrice(100L);
         return auctionModel;
     }
 
+    public int update(AuctionModel auctionModel) {
+        return 1;
+    }
+
     public int updateMaxPrice(Long price) {
-        return new Random().nextInt(100);
+        return 1;
+    }
+    /**
+     * 更改买拍信息当
+     * @param auctionModel
+     * @return
+     */
+    public int updateAuctionInfoByAuctionInfo(AuctionModel auctionModel) {
+        return 1;
+    }
+
+    public Long insertSingleTopicForResId(Long userId,Long topic) {
+        return (long)new Random().nextInt(10000);
+    }
+
+    public Long insertSingleForAuctionId(AuctionModel auctionModel) {
+        return (long)new Random().nextInt(10000);
     }
 }

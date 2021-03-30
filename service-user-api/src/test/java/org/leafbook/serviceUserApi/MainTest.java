@@ -19,7 +19,7 @@ public class MainTest {
         String dsadas = encoder.encode("12345678");
         System.out.println(dsadas);
         StringBuffer charSequence = new StringBuffer();
-        charSequence.append("dsadas");
-        System.out.println(encoder.matches(charSequence, "$2a$31$coiyoL8rYVV8QRvEK977MulDjJu4TkgeptLT/mxiYCE/rrlhy0UDy"));
+        charSequence.append("12345678");
+        System.out.println(encoder.matches(charSequence, "$2a$31$LcXnP9OEqLjzhUt98pKiJudlVbujX.9TXQAQrvoS0M57zYILRMiHu"));
     }
 }

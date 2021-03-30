@@ -30,7 +30,7 @@ public class UserModelMapper {
     public UserModel selectSingleUserInfo(Long userId) {
         UserModel userModel = new UserModel();
         userModel.setId(userId);
-        userModel.setBalance(1452L);
+        userModel.setBalance(145200L);
         userModel.setEmail("958803486@qq.com");
         userModel.setLevel(4001);
         userModel.setDesc(TestModel.randomWord());
@@ -49,7 +49,7 @@ public class UserModelMapper {
     }
 
     public Long createSingleUserInfo(String username, String email, String password) {
-        return (long) new Random().nextInt(1000);
+        return (long) new Random().nextInt(1000)+1000;
     }
 
     /**
@@ -62,27 +62,27 @@ public class UserModelMapper {
      * @return
      */
     public int updateSingleUserInfo(String desc, String location, Integer sex, String avatar, String backdrop) {
-        return new Random().nextInt(100);
+        return 1;
     }
 
     public int updateSingleUserInfoUsername(UserModel userModel) {
-        return new Random().nextInt(2);
+        return 1;
     }
 
     public int updateSingleUserInfoPassword(Long userId, String password) {
-        return new Random().nextInt(2);
+        return 1;
     }
 
     public int updateSingleUserInfoPhone(Long userId, String phone) {
-        return new Random().nextInt(2);
+        return 1;
     }
 
     public int updateSingleUserInfoEmail(Long userId, String email) {
-        return new Random().nextInt(2);
+        return 1;
     }
 
     public int updateSingleUserInfoLoginMark(Long userId, String loginMark) {
-        return new Random().nextInt(2);
+        return 1;
     }
     /**
      * 更改用户信息

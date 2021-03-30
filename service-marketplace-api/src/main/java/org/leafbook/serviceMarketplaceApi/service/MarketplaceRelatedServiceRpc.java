@@ -113,14 +113,19 @@ public class MarketplaceRelatedServiceRpc {
     public AuctionModel postSelectSingleResInfo(Long userId,Long auctionId) {
         return auctionModelMapper.selectVerifySingleAuctionInfo(userId,auctionId);
     }
-
+    /**
+     * 竞拍物品
+     * @param userId
+     * @param auctionId
+     * @param price
+     * @return code
+     */
     public int postBidingSingleAuctionInfo(Long userId,Long auctionId,Long price) {
         BidingModel bidingModel = new BidingModel();
         bidingModel.setPrice(price);
         bidingModel.setAuctionId(auctionId);
         bidingModel.setUserId(userId);
-        if (bidingModelMapper.insertSingleModel(bidingModel) == 0) return 0;
-        return auctionModelMapper.updateMaxPrice(price);
+        return bidingModelMapper.insertSingleModel(bidingModel);
     }
     /**
      * 获取number条拍卖物品信息
@@ -128,6 +133,39 @@ public class MarketplaceRelatedServiceRpc {
      * @return
      */
     public List<AuctionModel> getSelectRandomMultiAuctionInfo(Integer number) {
-        return auctionModelMapper.selectNumberAuctionInfo(number);
+        return auctionModelMapper.selectRandomNumberAuctionInfo(number);
+    }
+    /**
+     * 随机获取最新number条拍卖品信息
+     * @return
+     */
+    public List<AuctionModel> getSelectRandomMultiLatestAuction(Integer number) {
+        return auctionModelMapper.selectRandomNumberLatestAuctionInfo(number);
+    }
+
+    /**
+     * 获取拍卖物品信息
+     * @param auctionId
+     * @return
+     */
+    public AuctionModel getSelectSingleAuctionInfo(Long auctionId) {
+        return auctionModelMapper.selectSingleAuctionInfoByAuctionId(auctionId);
+    }
+
+    /**
+     * 检测auctionId合法性
+     * @param auctionId
+     * @return
+     */
+    public int postSelectDetectAuctionIdLegality(Long auctionId) {
+        return auctionModelMapper.selectAuctionInfoIsExist(auctionId);
+    }
+    /**
+     * 更改买拍信息当
+     * @param auctionModel
+     * @return
+     */
+    public int postUpdateAuctionInfoByAuctionInfo(AuctionModel auctionModel) {
+        return auctionModelMapper.updateAuctionInfoByAuctionInfo(auctionModel);
     }
 }

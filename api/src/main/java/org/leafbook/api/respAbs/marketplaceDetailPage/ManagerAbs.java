@@ -7,6 +7,6 @@ public class ManagerAbs {
     private Long userId;
     private String userAvatar;
     private String username;
-    private String userLevel;
+    private Integer userLevel;
     private String sex;
 }

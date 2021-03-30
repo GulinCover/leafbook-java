@@ -203,7 +203,7 @@ public class UserRelatedServiceRpc {
             return "登录失败";
         }
 
-        return "jwt";
+        return "jwt:$2a$31$LcXnP9OEqLjzhUt98pKiJudlVbujX.9TXQAQrvoS0M57zYILRMiHu";
     }
     /**
      * 检测用户合法性

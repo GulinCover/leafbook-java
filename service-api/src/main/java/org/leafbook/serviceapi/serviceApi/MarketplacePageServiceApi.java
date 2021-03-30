@@ -156,7 +156,86 @@ public class MarketplacePageServiceApi {
         return articleInfoAbsList;
     }
 
+    /**
+     * 随机获取最新5-10条拍卖品信息
+     * @return
+     */
+    public List<ArticleInfoAbs> getSelectRandomRecentEntryInfos() {
+        List<ArticleInfoAbs> articleInfoAbsList = new LinkedList<>();
+
+        Integer number = new Random().nextInt(5)+5;
+        List<AuctionModel> auctionModelList = marketplaceServiceRpc.getSelectRandomMultiLatestAuctionRpc(number);
+
+        if (Objects.nonNull(auctionModelList) && !auctionModelList.isEmpty()) {
+            for (AuctionModel auctionModel:auctionModelList) {
+                ArticleInfoAbs articleInfoAbs = new ArticleInfoAbs();
+                articleInfoAbs.setAuctionId(auctionModel.getAuctionId());
+                articleInfoAbs.setBidPrice(auctionModel.getStartPrice());
+                articleInfoAbs.setCurrentPrice(auctionModel.getCurrentPrice());
+
+                final Long userId = auctionModel.getUserId();
+                articleInfoAbs.setTopicId(userId);
+
+                final UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(userId);
+                if (Objects.nonNull(userModel)) {
+                    articleInfoAbs.setUserAvatar(userModel.getAvatar());
+                }
+
+                Integer type = auctionModel.getType();
+                articleInfoAbs.setArticleType(type);
+                switch (type) {
+                    case 0:
+                        TopicModel topicInfo = topicServiceRpc.getSelectSingleTopicInfoRpc(auctionModel.getTopicId());
+                        if (Objects.nonNull(topicInfo)) {
+                            articleInfoAbs.setTopicId(topicInfo.getTopicId());
+                            articleInfoAbs.setTopicTitle(topicInfo.getTopicTitle());
+                            articleInfoAbs.setTopicDesc(topicInfo.getTopicDesc());
+
+                            List<EntryAbs> entryAbsList = new LinkedList<>();
+
+                            List<Long> entryIdList = topicServiceRpc.getSelectSingleTopicInfoForEntryIdsRpc(topicInfo.getTopicId());
+                            if (Objects.nonNull(entryIdList) && !entryIdList.isEmpty()) {
+
+                                List<EntryShowModel> entryInfoList = entryServiceRpc.getSelectMultiEntryInfoRpc(entryIdList);
+                                if (Objects.nonNull(entryInfoList) && !entryInfoList.isEmpty()) {
+                                    for (EntryShowModel entryShowModel:entryInfoList) {
+                                        EntryAbs entryAbs = new EntryAbs();
+                                        entryAbs.setEntryId(entryShowModel.getEntryId());
+                                        entryAbs.setEntryName(entryShowModel.getEntryName());
+                                        entryAbs.setEntryDesc(entryShowModel.getEntryDesc());
+                                        entryAbs.setEntryAvatar(entryShowModel.getEntryAvatar());
+
+                                        entryAbsList.add(entryAbs);
+                                    }
+                                }
+                            }
+
+                            articleInfoAbs.setEntryAbsList(entryAbsList);
+                        }
+                        break;
+                    case 1:
+                        ResModel resModel = userServiceRpc.postSelectSingleResInfoByUserIdRpc(userId);
+                        if (Objects.nonNull(resModel)) {
+                            articleInfoAbs.setNickname(resModel.getNickname());
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                articleInfoAbsList.add(articleInfoAbs);
+            }
+        }
+
+        return articleInfoAbsList;
+    }
+
+    /**
+     * 按词条随机获取拍卖品信息
+     * @return
+     */
     public List<ArticleInfosAbs> getSelectRandomArticleInfosByEntryInfos() {
+
         return MarketplaceTestModel.createRandomArticleInfosAbsList();
     }
 

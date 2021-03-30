@@ -18,13 +18,9 @@ public class ShiroCredentialsMatcher extends SimpleCredentialsMatcher {
         SecureRandom secureRandom = new SecureRandom();
         secureRandom.setSeed(241234254233214L);
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder(31,secureRandom);
-        String encoder = bCryptPasswordEncoder.encode(Arrays.toString(token.getPassword()));
-        Object credentials = getCredentials(info);
-        System.out.println(encoder);
-        System.out.println(credentials);
-        System.out.println(equals(encoder, credentials));
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(credentials.toString());
-        return bCryptPasswordEncoder.matches(stringBuilder, "$2a$31$CbNnLqEWNoL0T/lxfI0n0.4b/yzrwkmAFDnrqqPr2.pODjXYWVO/C");
+
+        StringBuilder password = new StringBuilder();
+        password.append(token.getPassword());
+        return bCryptPasswordEncoder.matches(password, "$2a$31$LcXnP9OEqLjzhUt98pKiJudlVbujX.9TXQAQrvoS0M57zYILRMiHu");
     }
 }

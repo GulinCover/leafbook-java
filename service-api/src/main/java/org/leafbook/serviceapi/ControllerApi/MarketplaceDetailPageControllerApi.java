@@ -2,16 +2,14 @@ package org.leafbook.serviceapi.ControllerApi;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.respAbs.common.MessageResp;
 import org.leafbook.api.respAbs.marketplaceDetailPage.ArticleInfoResp;
-import org.leafbook.api.respAbs.marketplaceDetailPage.BidingResp;
 import org.leafbook.serviceapi.serviceApi.MarketplaceDetailPageServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Objects;
 
 @CrossOrigin("*")
 @Api("MarketplaceDetailPageControllerApi")
@@ -20,35 +18,40 @@ public class MarketplaceDetailPageControllerApi {
     @Autowired
     private MarketplaceDetailPageServiceApi marketplaceDetailPageServiceApi;
 
-    //获取拍卖品信息
-    @ApiOperation("/api/get/select/articleInfo/{id}")
-    @GetMapping("/api/get/select/articleInfo/{id}")
-    public ArticleInfoResp getSelectArticleInfoApi(@PathVariable("id")Long articleId) {
-        ArticleInfoResp resp = marketplaceDetailPageServiceApi.getSelectArticleInfo(articleId);
-        if (Objects.isNull(resp)) {
-            ArticleInfoResp articleInfoResp = new ArticleInfoResp();
-            articleInfoResp.setCode(200);
-            return articleInfoResp;
-        }
-
+    /**
+     * 获取拍卖品信息
+     * @param auctionId
+     * @return
+     */
+    @ApiOperation("/api/get/select/auctionInfo/{auctionId}")
+    @GetMapping("/api/get/select/auctionInfo/{auctionId}")
+    public ArticleInfoResp getSelectAuctionInfoApi(@PathVariable("auctionId")Long auctionId) {
+        ArticleInfoResp resp = marketplaceDetailPageServiceApi.getSelectArticleInfo(auctionId);
         resp.setCode(200);
         return resp;
     }
 
-    //竞拍物品
-    /*
-    article_id:竞拍物品
-    price:出价
+    /**
+     * 竞拍物品
+     * @param userId
+     * @param form: auctionId,price
+     * @return
      */
-    @ApiOperation("/api/get/select/biding/article")
-    @PostMapping(value = "/api/post/insert/biding/article",produces = MediaType.APPLICATION_JSON_VALUE)
-    public BidingResp postInsertBidingArticle(
-            @RequestHeader("user_id")Long userId,
-            @RequestBody Map<String, String> form
+    @ApiOperation("/api/post/insert/biding/auctionInfo")
+    @PostMapping("/api/post/insert/biding/auctionInfo")
+    public MessageResp postInsertBidingAuctionInfoApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String, Long> form
             ) {
-        BidingResp resp = new BidingResp();
-        resp.setCode(200);
-        resp.setMessage("竞拍成功");
+        MessageResp resp = new MessageResp();
+        int ret = marketplaceDetailPageServiceApi.postInsertBidingAuctionInfo(userId,form);
+        if (ret == 1) {
+            resp.setCode(200);
+            resp.setMsg("竞拍成功");
+        } else {
+            resp.setCode(ret);
+            resp.setMsg("竞拍失败");
+        }
         return resp;
     }
 }

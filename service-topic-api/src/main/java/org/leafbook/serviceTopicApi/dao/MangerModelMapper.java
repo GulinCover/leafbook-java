@@ -14,7 +14,11 @@ public class MangerModelMapper {
     public int selectDecideByManagerUserIdAndTopicId(Long userId,Long topicId) {
         return new Random().nextInt(100);
     }
-
+    /**
+     * 获取所有著述管理者id
+     * @param topicId
+     * @return
+     */
     public List<Long> selectMultiForManagerId(Long topicId) {
         final List<Long> lst = new LinkedList<>();
         LongStream.range(1000, new Random().nextInt(50)+1000).forEach(it->{

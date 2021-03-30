@@ -89,18 +89,7 @@ public class TopicModelMapper {
         });
         return lst;
     }
-    /**
-     * 获取著述的管理者id
-     * @param topicId
-     * @return
-     */
-    public List<Long> selectMultiManagerId(Long topicId) {
-        final List<Long> lst = new LinkedList<>();
-        LongStream.range(5,10).forEach(it->{
-            lst.add(it);
-        });
-        return lst;
-    }
+
     /**
      * 根据词条随机查询5~8条著述
      * @param entryId

@@ -373,18 +373,6 @@ public class TopicRelatedControllerRpc {
     }
 
     /**
-     * 获取著述的管理者id
-     * @param topicId
-     * @return
-     */
-    @ApiOperation("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
-    @GetMapping("/rpc/get/select/multi/managerId/by/topicId/{topicId}")
-    public List<Long> getSelectMultiManagerIdByTopicIdRpc(@PathVariable("topicId")Long topicId) {
-        return topicRelatedServiceRpc.getSelectMultiManagerIdByTopicId(topicId);
-    }
-
-
-    /**
      * 根据词条随机查询5~8条著述
      * @param entryId
      * @return
