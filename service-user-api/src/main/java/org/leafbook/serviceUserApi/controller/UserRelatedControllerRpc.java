@@ -3,6 +3,7 @@ package org.leafbook.serviceUserApi.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.leafbook.api.modelApi.billInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
@@ -224,6 +225,7 @@ public class UserRelatedControllerRpc {
      * @param password
      * @return jwt
      */
+//    @RequiresRoles("admin")
     @ApiOperation("/rpc/post/login")
     @PostMapping("/rpc/post/login")
     public String postLoginRpc(

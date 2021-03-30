@@ -1,5 +1,9 @@
 package org.leafbook.serviceUserApi.service;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.leafbook.api.modelApi.billInfo.ResModel;
 import org.leafbook.api.modelApi.common.CodeModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
@@ -190,6 +194,14 @@ public class UserRelatedServiceRpc {
      * @return jwt
      */
     public String postLogin(String email,String password) {
+        UsernamePasswordToken token = new UsernamePasswordToken(email,password);
+
+        Subject subject = SecurityUtils.getSubject();
+        try {
+            subject.login(token);
+        } catch (AuthenticationException e) {
+            return "登录失败";
+        }
 
         return "jwt";
     }
