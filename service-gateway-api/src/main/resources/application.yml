@@ -1,0 +1,14 @@
+server:
+  port: 17000
+spring:
+  application:
+    name: service-gateway-api
+  cloud:
+    gateway:
+      routes:
+        - id: test
+          uri: https://www.baidu.com
+          predicates:
+            - Path=/**
+          filters:
+            - PrefixPath=/

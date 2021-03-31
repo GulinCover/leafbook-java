@@ -1,50 +1,19 @@
-package org.leafbook.serviceUserApi;
+package org.leafbook.serviceGatewayApi.config;
 
-import com.nimbusds.jose.EncryptionMethod;
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.JWEAlgorithm;
-import com.nimbusds.jose.JWEHeader;
-import com.nimbusds.jose.crypto.RSADecrypter;
-import com.nimbusds.jose.crypto.RSAEncrypter;
-import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
-import com.nimbusds.jwt.EncryptedJWT;
-import com.nimbusds.jwt.JWTClaimsSet;
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
-import java.security.InvalidKeyException;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPrivateKeySpec;
 import java.security.spec.RSAPublicKeySpec;
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
-@SpringBootTest
-public class MainTest {
-    @Test
-    void test01() {
-        //$2a$31$1voz2UOuqqmYVeySFWfTvOPqu2qSebU0jOOIKrUmw2RlcxJkP22v2
-        //$2a$31$dGph/VNPXwLQdYJp8A9HeeTz6xaf/PMjB3QLno3lutL8EX6KLgbVa
-        SecureRandom secureRandom = new SecureRandom();
-        secureRandom.setSeed(241234254233214L);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(31, secureRandom);
-        String dsadas = encoder.encode("12345678");
-        System.out.println(dsadas);
-        StringBuffer charSequence = new StringBuffer();
-        charSequence.append("12345678");
-        System.out.println(encoder.matches(charSequence, "$2a$31$CbNnLqEWNoL0T/lxfI0n0.4b/yzrwkmAFDnrqqPr2.pODjXYWVO/C"));
-    }
-
+@Component
+public class AutoGeneratePrivateAndPublicKey {
     private final static byte[] mod = {
             (byte)177, (byte)119, (byte) 33, (byte) 13, (byte)164, (byte) 30, (byte)108, (byte)121,
             (byte)207, (byte)136, (byte)107, (byte)242, (byte) 12, (byte)224, (byte) 19, (byte)226,
@@ -85,7 +54,9 @@ public class MainTest {
             (byte) 35, (byte) 66, (byte)144, (byte)  7, (byte) 65, (byte)154, (byte) 13, (byte) 97,
             (byte) 75, (byte) 55, (byte)230, (byte)132, (byte)  3, (byte) 13, (byte)239, (byte) 71  };
 
+
     private static final byte[] exp= { 1, 0, 1 };
+
 
     private static final byte[] modPriv = {
             (byte) 84, (byte) 80, (byte)150, (byte) 58, (byte)165, (byte)235, (byte)242, (byte)123,
@@ -127,74 +98,30 @@ public class MainTest {
             (byte) 54, (byte) 41, (byte)207, (byte)  3, (byte)136, (byte)229, (byte)134, (byte)131,
             (byte) 93, (byte)139, (byte) 50, (byte)182, (byte)204, (byte) 93, (byte)130, (byte)89   };
 
-    static RSAPublicKey publicKey;
-    static RSAPrivateKey privateKey;
+    private static RSAPublicKey publicKey;
+    private static RSAPrivateKey privateKey;
 
     static {
-        KeyFactory keyFactory = null;
         try {
-            keyFactory = KeyFactory.getInstance("RSA");
-            RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(new BigInteger(1,mod),new BigInteger(1,exp));
-            RSAPrivateKeySpec privateKeySpec = new RSAPrivateKeySpec(new BigInteger(1, mod), new BigInteger(1, modPriv));
-            publicKey = (RSAPublicKey) keyFactory.generatePublic(publicKeySpec);
-            privateKey = (RSAPrivateKey) keyFactory.generatePrivate(privateKeySpec);
+            KeyFactory rsa = KeyFactory.getInstance("RSA");
+
+            RSAPublicKeySpec publicKeySpec = new RSAPublicKeySpec(new BigInteger(1, mod),new BigInteger(1,exp));
+            RSAPrivateKeySpec privateKeySpec = new RSAPrivateKeySpec(new BigInteger(1,mod),new BigInteger(1,modPriv));
+
+            publicKey = (RSAPublicKey)rsa.generatePublic(publicKeySpec);
+            privateKey = (RSAPrivateKey) rsa.generatePrivate(privateKeySpec);
+
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             e.printStackTrace();
         }
     }
 
-    @Test
-    void test02() throws JOSEException, ParseException {
-        String iss = "https://openid.net";
-        String sub = "alice";
-        List<String> aud = new ArrayList<>();
-        aud.add("https://app-one.com");
-        aud.add("https://app-two.com");
-        final Date NOW =  new Date(new Date().getTime() / 1000 * 1000);
-        Date exp = new Date(NOW.getTime() + 1000*60*10);
-        Date nbf = NOW;
-        Date iat = NOW;
-        String jti = UUID.randomUUID().toString();
-        JWTClaimsSet jwtClaims = new JWTClaimsSet.Builder().
-                issuer(iss).
-                subject(sub).
-                audience(aud).
-                expirationTime(exp).
-                notBeforeTime(NOW).
-                issueTime(NOW).
-                jwtID(jti).
-                build();
-        JWEHeader header = new JWEHeader(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A128GCM);
-
-
-        EncryptedJWT jwt = new EncryptedJWT(header, jwtClaims);
-        RSAEncrypter encrypter = new RSAEncrypter(publicKey);
-
-        jwt.encrypt(encrypter);
-
-        String s = jwt.serialize();
-
-        //eyJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.no4hKBVE4-SN-IriLLy6GBy82dRW0aA_HMYfuKLxIqs5epLWy-UiPYnQe-2utSlFYreFTMHxlMeqYF-B3Qu7bA7DGF1apISmxtJHvGQme07paGPx3suEtEiFGS5mUEAExkwqZQRrsCLCoT_Cdg-6glZY9TTREXUb0Xl2USLL0wNh_0df7vwr0nnwqOCq8RqC2Y5v46aZVR3CCMt5258dyeEEmq5KMiapyzMsyaMmMw_UPS_jLwmzxHfgCgPj38gpTJHwS_fvHuxHYPrIpyPCvERfhNDUULdYvpPZ5X9VXPZok12u2Fjvd0BYFkCXxRYj3zm1wuVUrXBQFPd1mceHZA.-CpiHIvaN3I4wod7.C4yAE1E-LR6WpokRwzx1nsGazDbgkEi4LOyjV6hSpUHzyVevzHFl7YopcjA-r3Xljl3e_fIUwGPIY0qDvF5OItEGN9IcbcGTGC-q-tBxVK0ExZsd0i25Es8i-At66PxBxwcFRSV7HNtUf0mCD_YKTvku8-TP8GbYFCtrxekiEmwladq7_wZHxa3GocSYCE0DOzw2x-p4IBnslOlPUPttlPpd1ck6Y6RsNJyrcDMxVT4JpPG_hj_-RLXEWatCKs-CnZfX1Q.fPhB2UJy9FUe7mLv473JoA
-        System.out.println(s);
-
-        jwt = EncryptedJWT.parse(s);
-        RSADecrypter decrypter = new RSADecrypter(privateKey);
-        decrypter.getJCAContext().setProvider(BouncyCastleProviderSingleton.getInstance());
-        jwt.decrypt(decrypter);
-        System.out.println(jwt.getJWTClaimsSet().getSubject());
+    @Bean
+    public RSAPrivateKey getPrivateKey() {
+        return privateKey;
     }
-
-
-    @Test
-    void test03() throws ParseException, JOSEException, InvalidKeyException {
-        //eyJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.Y4qq0SF4LRzWbOFakiDs9fLzqKES04J6ZY9OPHk3FN8I0lTgi2b-EfK9ZLnYlh71eq-7Iqtm9LVM4nX1yptj2o0iqB2ytl7yolCa3zbNV9g8Eso4z7TYR-MuuptN3XAetKvPt9rcwv4X_I-x8Gp4P7WAPf7haZd0axaUwf2FgK58tes9jZWf770xeImibKyjjCY06QygahOyPRXnKM70OwLuy3ycxlFJy4liuIo9vVBugRZ50cva49-icWYzvqCWpYK7sWZSW5zypeX_uXCK5rcFipEhRza8s54-LCoD9wNDHhpgpv1yXf9GqshKmJGCyVvQ9a8htCpcTy_GPGtn_g.XLhFefq7xi6boJC5.dN-nwQbM-4f4Q92uC6veMXhOqSr6b7s3Bl0GnfUonwwrOUEBIotd96Ht2EGpl06_TLVmxE8m3i2-Wxq8iaLimZf1OenuW2XfB_yrb0ZBzSOrUq2nM2MriAoyOl21wCY0N1P6Bxw3W_CCbXnXBqpP1BFEmQeCHu4ClaIaTJbftJLXCVXEPdE3jJ6j1NqeozMrQoN5oBcC1OyUvnQ0p8oj0opJfEbvnbQZbfBLXn5LUiMl8CnkGcgds4MOraxouts34-7R8g.zq5glEkt33k1QUc-06hIaw
-        String s = "eyJlbmMiOiJBMTI4R0NNIiwiYWxnIjoiUlNBLU9BRVAtMjU2In0.Y4qq0SF4LRzWbOFakiDs9fLzqKES04J6ZY9OPHk3FN8I0lTgi2b-EfK9ZLnYlh71eq-7Iqtm9LVM4nX1yptj2o0iqB2ytl7yolCa3zbNV9g8Eso4z7TYR-MuuptN3XAetKvPt9rcwv4X_I-x8Gp4P7WAPf7haZd0axaUwf2FgK58tes9jZWf770xeImibKyjjCY06QygahOyPRXnKM70OwLuy3ycxlFJy4liuIo9vVBugRZ50cva49-icWYzvqCWpYK7sWZSW5zypeX_uXCK5rcFipEhRza8s54-LCoD9wNDHhpgpv1yXf9GqshKmJGCyVvQ9a8htCpcTy_GPGtn_g.XLhFefq7xi6boJC5.dN-nwQbM-4f4Q92uC6veMXhOqSr6b7s3Bl0GnfUonwwrOUEBIotd96Ht2EGpl06_TLVmxE8m3i2-Wxq8iaLimZf1OenuW2XfB_yrb0ZBzSOrUq2nM2MriAoyOl21wCY0N1P6Bxw3W_CCbXnXBqpP1BFEmQeCHu4ClaIaTJbftJLXCVXEPdE3jJ6j1NqeozMrQoN5oBcC1OyUvnQ0p8oj0opJfEbvnbQZbfBLXn5LUiMl8CnkGcgds4MOraxouts34-7R8g.zq5glEkt33k1QUc-06hIaw";
-        RSADecrypter decrypter = new RSADecrypter(privateKey);
-        EncryptedJWT jwt = EncryptedJWT.parse(s);
-        jwt.decrypt(decrypter);
-
-        System.out.println(jwt.getJWTClaimsSet().getSubject());
-
+    @Bean
+    public RSAPublicKey getPublicKey() {
+        return publicKey;
     }
-
 }

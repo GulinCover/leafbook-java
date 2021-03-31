@@ -12,6 +12,7 @@
         <module name="service-file-api" />
         <module name="service-marketplace-api" />
         <module name="service-common-api" />
+        <module name="service-gateway-api" />
         <module name="api" />
         <module name="service-user-api" />
         <module name="service-record-api" />

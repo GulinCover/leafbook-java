@@ -1,6 +1,7 @@
 package org.leafbook.serviceUserApi.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.nimbusds.jose.JOSEException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -231,7 +232,7 @@ public class UserRelatedControllerRpc {
     public String postLoginRpc(
             @RequestParam("email")String email,
             @RequestParam("password")String password
-    ) {
+    ) throws JOSEException {
         return userRelatedServiceRpc.postLogin(email,password);
     }
 

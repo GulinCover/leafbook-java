@@ -45,7 +45,7 @@ public class ShiroRealm extends AuthorizingRealm {
 //            throw new AccountException("该账户不存在");
 //        }
 
-        return new SimpleAuthenticationInfo("alex","$2a$31$dGph/VNPXwLQdYJp8A9HeeTz6xaf/PMjB3QLno3lutL8EX6KLgbVa",getName());
+        return new SimpleAuthenticationInfo("alex",password,getName());
     }
 
 
