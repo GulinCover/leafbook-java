@@ -1,19 +1,27 @@
 package org.leafbook.serviceUserApi.service;
 
+import com.nimbusds.jose.EncryptionMethod;
+import com.nimbusds.jose.JOSEException;
+import com.nimbusds.jose.JWEAlgorithm;
+import com.nimbusds.jose.JWEHeader;
+import com.nimbusds.jose.crypto.RSAEncrypter;
+import com.nimbusds.jose.crypto.bc.BouncyCastleProviderSingleton;
+import com.nimbusds.jwt.EncryptedJWT;
+import com.nimbusds.jwt.JWTClaimsSet;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.leafbook.api.modelApi.billInfo.ResModel;
-import org.leafbook.api.modelApi.common.CodeModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceUserApi.dao.*;
 import org.leafbook.utils.tools.Covert2Tools;
-import org.leafbook.utils.tools.RandomCodeTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.interfaces.RSAPublicKey;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +39,8 @@ public class UserRelatedServiceRpc {
     private AttentionModeMapper attentionModeMapper;
     @Autowired
     private ResModelMapper resModelMapper;
+    @Autowired
+    private RSAPublicKey publicKey;
     /**
      * 单用户查询
      *
@@ -193,7 +203,7 @@ public class UserRelatedServiceRpc {
      * @param password
      * @return jwt
      */
-    public String postLogin(String email,String password) {
+    public String postLogin(String email,String password) throws JOSEException {
         UsernamePasswordToken token = new UsernamePasswordToken(email,password);
 
         Subject subject = SecurityUtils.getSubject();
@@ -203,7 +213,25 @@ public class UserRelatedServiceRpc {
             return "登录失败";
         }
 
-        return "jwt:$2a$31$LcXnP9OEqLjzhUt98pKiJudlVbujX.9TXQAQrvoS0M57zYILRMiHu";
+        //生成jwtHeader
+        JWEHeader jweHeader = new JWEHeader(JWEAlgorithm.RSA_OAEP_256, EncryptionMethod.A128GCM);
+        //生成payload信息
+        JWTClaimsSet jwtClaims = new JWTClaimsSet.Builder()
+                .issuer(email)
+                .subject(email)
+                .expirationTime(new Date(new Date().getTime() + 60*1000*60))
+                .claim("randomString","abcdefghijklmnopqrstuvwxyz")
+                .build();
+
+        EncryptedJWT jwt = new EncryptedJWT(jweHeader, jwtClaims);
+        RSAEncrypter encrypter = new RSAEncrypter(publicKey);
+
+        encrypter.getJCAContext().setProvider(BouncyCastleProviderSingleton.getInstance());
+
+        jwt.encrypt(encrypter);
+
+        System.out.println(jwt.serialize());
+        return "Bearer " + jwt.serialize();
     }
     /**
      * 检测用户合法性

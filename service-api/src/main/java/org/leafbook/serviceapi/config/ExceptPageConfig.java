@@ -6,10 +6,10 @@ import org.springframework.web.bind.MissingRequestHeaderException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ExceptPageConfig {
 
-    @ExceptionHandler(Exception.class)
+//    @ExceptionHandler(Exception.class)
     public MessageResp except(Exception e) {
         MessageResp resp = new MessageResp();
         if (e.getClass() == MissingRequestHeaderException.class) {

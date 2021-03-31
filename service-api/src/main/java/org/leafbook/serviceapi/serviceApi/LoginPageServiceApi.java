@@ -23,7 +23,7 @@ public class LoginPageServiceApi {
         String password = form.get("password");
         if (Objects.isNull(password)) return null;
         String message = userServiceRpc.postLoginRpc(email, password);
-        String[] split = message.split("jwt:");
+        String[] split = message.split("Bearer ");
         if (split.length <= 1) {
             return null;
         }

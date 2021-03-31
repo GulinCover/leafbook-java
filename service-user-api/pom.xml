@@ -12,6 +12,12 @@
     <artifactId>service-user-api</artifactId>
 
     <dependencies>
+        <!-- https://https://connect2id.com/ -->
+        <dependency>
+            <groupId>com.nimbusds</groupId>
+            <artifactId>nimbus-jose-jwt</artifactId>
+            <version>9.7</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.shiro</groupId>
             <artifactId>shiro-spring-boot-starter</artifactId>
