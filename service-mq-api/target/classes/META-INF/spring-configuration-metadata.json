@@ -1,0 +1,41 @@
+{
+  "groups": [
+    {
+      "name": "rocketmq.email",
+      "type": "org.leafbook.serviceMQApi.config.RocketMQEmailProperties",
+      "sourceType": "org.leafbook.serviceMQApi.config.RocketMQEmailProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "rocketmq.email.default-group",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceMQApi.config.RocketMQEmailProperties",
+      "defaultValue": "consumerDefaultGroup"
+    },
+    {
+      "name": "rocketmq.email.default-instance",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceMQApi.config.RocketMQEmailProperties",
+      "defaultValue": "consumerDefault"
+    },
+    {
+      "name": "rocketmq.email.namesrv-addr",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceMQApi.config.RocketMQEmailProperties"
+    },
+    {
+      "name": "rocketmq.email.tag",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceMQApi.config.RocketMQEmailProperties",
+      "defaultValue": ""
+    },
+    {
+      "name": "rocketmq.email.topic",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceMQApi.config.RocketMQEmailProperties",
+      "defaultValue": ""
+    }
+  ],
+  "hints": []
+}

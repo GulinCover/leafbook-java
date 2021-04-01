@@ -1,0 +1,22 @@
+server:
+  port: 18000
+spring:
+  application:
+    name: service-mq-api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+  mail:
+    host: smtp.163.com
+    username: leafbook1208625327@163.com
+    password: QWRSHEXSKLEZHEVY
+    port:
+rocketmq:
+  email:
+    namesrv-addr: 192.168.50.245:9876
+    topic: email
+    tag: 163.email
+    defaultGroup: emailConsumer
+    defaultInstance: emailConsumerInstance

@@ -7,16 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="service-topic-api" />
-        <module name="utils-tools" />
+        <module name="service-mq-api" />
         <module name="service-file-api" />
         <module name="service-marketplace-api" />
         <module name="service-common-api" />
+        <module name="service-user-api" />
+        <module name="service-comment-api" />
+        <module name="service-topic-api" />
+        <module name="utils-tools" />
         <module name="service-gateway-api" />
         <module name="api" />
-        <module name="service-user-api" />
         <module name="service-record-api" />
-        <module name="service-comment-api" />
         <module name="service-entry-api" />
         <module name="service-api" />
       </profile>

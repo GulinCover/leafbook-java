@@ -32,6 +32,8 @@
         <module>service-comment-api</module>
 <!--        PORT:17000-->
         <module>service-gateway-api</module>
+<!--        PORT:18000-->
+        <module>service-mq-api</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -56,6 +58,7 @@
 
         <druid.version>1.1.23</druid.version>
         <mybatis.plus.version>3.4.0</mybatis.plus.version>
+        <rocketMQ.version>4.8.0</rocketMQ.version>
     </properties>
 
     <build>
@@ -166,6 +169,11 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>${druid.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-client</artifactId>
+                <version>${rocketMQ.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

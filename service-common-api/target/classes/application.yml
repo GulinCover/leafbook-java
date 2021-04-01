@@ -11,3 +11,7 @@ spring:
       transport:
         port: 20000
         dashboard: HOSTS:localhost:30000
+rocketmq:
+  namesrvAddr: 192.168.50.245:9876
+  producer:
+    group: demo
