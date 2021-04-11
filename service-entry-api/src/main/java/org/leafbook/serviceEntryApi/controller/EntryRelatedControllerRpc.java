@@ -210,6 +210,21 @@ public class EntryRelatedControllerRpc {
         return entryRelatedServiceRpc.getSelectRandomMultiEntryInfoByType(type,number);
     }
 
+    /**
+     * 搜索符合条件的词条
+     * @param entryName:词条名
+     * @param entryType:词条类型hot,official,nonofficial
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/search/multi/entryInfo")
+    @GetMapping("/rpc/get/select/search/multi/entryInfo")
+    public List<EntryShowModel> getSelectSearchMultiEntryInfoRpc(
+            @RequestParam("entryName")String entryName,
+            @RequestParam("entryType")String entryType
+    ) {
+        return entryRelatedServiceRpc.getSelectSearchMultiEntryInfoRpc(entryName,entryType);
+    }
+
 //    /**
 //     * 单删词条
 //     * @param entryId

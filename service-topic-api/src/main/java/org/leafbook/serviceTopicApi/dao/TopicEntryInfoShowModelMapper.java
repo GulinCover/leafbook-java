@@ -4,12 +4,36 @@ import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.testModel.indexPage.TestModel;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 @Service
 public class TopicEntryInfoShowModelMapper {
+    /**
+     * 根据topicIds组查entryIds
+     * @param topicIds
+     * @return
+     */
+    public List<Long> selectMultiByTopicIds(List<Long> topicIds) {
+        List<Long> entryIds = new LinkedList<>();
+        for (int i = 0; i < new Random().nextInt(5)+2; ++i) {
+            entryIds.add((long) i);
+        }
+        return entryIds;
+    }
+    /**
+     * 根据entryIds获取著述数量
+     * @param entryIds
+     * @return
+     */
+    public Map<Long,Long> selectTopicAmountByEntryIds(List<Long> entryIds) {
+        Map<Long,Long> map = new HashMap<>();
+        for (int i = 0; i < new Random().nextInt(5) + 5; i++) {
+            map.put((long)i, (long)new Random().nextInt(5000));
+        }
+
+        return map;
+    }
+
     public List<Long> selectMultiById(Long topicId) {
         List<Long> entryIds = new LinkedList<>();
         for (int i = 0; i < new Random().nextInt(5)+2; ++i) {

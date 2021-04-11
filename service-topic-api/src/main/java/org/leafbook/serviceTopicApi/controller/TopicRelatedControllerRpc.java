@@ -2,6 +2,7 @@ package org.leafbook.serviceTopicApi.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.modelApi.billInfo.AuctionModel;
 import org.leafbook.api.modelApi.topicInfo.ContributorModel;
 import org.leafbook.api.modelApi.topicInfo.DirectoryModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @Api("TopicRelatedControllerRpc")
@@ -310,6 +312,26 @@ public class TopicRelatedControllerRpc {
     public List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId")Long userId) {
         return topicRelatedServiceRpc.postSelectMeTopicInfo(userId);
     }
+    /**
+     * 获取用户发布的著述
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/me/topic/by/page")
+    @PostMapping("/rpc/post/select/me/topic/by/page")
+    public List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId,@RequestParam("page") Long page) {
+        return topicRelatedServiceRpc.postSelectMeTopicInfo(userId,page);
+    }
+    /**
+     * 获取数量
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/me/topic/page")
+    @PostMapping("/rpc/post/select/me/topic/page")
+    public Long postSelectMeTopicInfoPageRpc(@RequestParam("userId") Long userId) {
+        return topicRelatedServiceRpc.postSelectMeTopicInfoPage(userId);
+    }
 
     /**
      * 模糊搜索自己拥有的著述
@@ -340,17 +362,6 @@ public class TopicRelatedControllerRpc {
     }
 
     /**
-     * 获取著述的贡献者数量
-     * @param topicId
-     * @return
-     */
-    @ApiOperation("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
-    @GetMapping("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
-    public Long getSelectContributorAmountByTopicIdRpc(@PathVariable("topicId")Long topicId) {
-        return topicRelatedServiceRpc.getSelectContributorAmountByTopicId(topicId);
-    }
-
-    /**
      * 获取著述的管理者数量
      * @param topicId
      * @return
@@ -363,13 +374,29 @@ public class TopicRelatedControllerRpc {
 
     /**
      * 获取著述的贡献者id
+     *
      * @param topicId
      * @return
      */
-    @ApiOperation("/rpc/get/select/multi/contributorId/by/topicId/{topicId}")
-    @GetMapping("/rpc/get/select/multi/contributorId/by/topicId/{topicId}")
-    public List<Long> getSelectMultiContributorIdByTopicIdRpc(@PathVariable("topicId")Long topicId) {
-        return topicRelatedServiceRpc.getSelectMultiContributorIdByTopicId(topicId);
+    @ApiOperation("/rpc/post/select/multi/contributorId/by/topicId")
+    @PostMapping("/rpc/post/select/multi/contributorId/by/topicId")
+    public List<Long> postSelectMultiContributorIdByTopicIdRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("page") Long page) {
+        return topicRelatedServiceRpc.postSelectMultiContributorIdByTopicId(topicId,page);
+    }
+
+    /**
+     * 获取著述的贡献者数量
+     *
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/multi/contributorId/by/topicId/page")
+    @PostMapping("/rpc/post/select/multi/contributorId/by/topicId/page")
+    public Long postSelectMultiContributorIdByTopicIdPageRpc(
+            @RequestParam("topicId") Long topicId) {
+        return topicRelatedServiceRpc.postSelectMultiContributorIdByTopicIdPage(topicId);
     }
 
     /**
@@ -415,6 +442,185 @@ public class TopicRelatedControllerRpc {
     public int postUpdateTopicTreadAmountRpc(@RequestParam("topicId")Long topicId) {
         return topicRelatedServiceRpc.postUpdateTopicTreadAmount(topicId);
     }
+
+    /**
+     * 搜索指定著述
+     * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
+     * @param entryIds
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/search/multi/topicInfo")
+    @GetMapping("/rpc/get/select/search/multi/topicInfo")
+    public List<TopicModel> getSelectSearchMultiTopicInfoRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("entryIds") List<Long> entryIds,
+            @RequestParam("content") String content,
+            @RequestParam("startTime") Long startTime,
+            @RequestParam("endTime") Long endTime,
+            @RequestParam("page") Long page
+    ) {
+        return topicRelatedServiceRpc.getSelectSearchMultiTopicInfo(
+                status,
+                entryIds,
+                content,
+                startTime,
+                endTime,
+                page);
+    }
+
+    /**
+     * 获取搜索条数
+     * @param status
+     * @param entryIds
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/search/multi/topicInfo/page")
+    @GetMapping("/rpc/get/select/search/multi/topicInfo/page")
+    public Long getSelectSearchMultiTopicInfoPageRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("entryIds") List<Long> entryIds,
+            @RequestParam("content") String content,
+            @RequestParam("startTime") Long startTime,
+            @RequestParam("endTime") Long endTime,
+            @RequestParam("page") Long page
+    ) {
+        return topicRelatedServiceRpc.getSelectSearchMultiTopicInfoPage(
+                status,
+                entryIds,
+                content,
+                startTime,
+                endTime,
+                page);
+    }
+
+    /**
+     * 搜索指定著述
+     * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
+     * @param content
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/search/multi/by/content/topicInfo")
+    @GetMapping("/rpc/get/select/search/multi/by/content/topicInfo")
+    public List<TopicModel> getSelectSearchMultiTopicInfoByContentRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("content") String content,
+            @RequestParam("page") Long page
+    ) {
+        return topicRelatedServiceRpc.getSelectSearchMultiTopicInfoByContent(status,content,page);
+    }
+
+    /**
+     * 指定著述数量
+     * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
+     * @param content
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/search/multi/topicInfo/by/content/page")
+    @GetMapping("/rpc/get/select/search/multi/topicInfo/by/content/page")
+    public Long getSelectSearchMultiTopicInfoByContentPageRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("content") String content
+    ) {
+        return topicRelatedServiceRpc.getSelectSearchMultiTopicInfoByContentPage(status,content);
+    }
+
+    /**
+     * 限定搜索
+     * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
+     * @param entryId
+     * @param content
+     * @param page
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/search/multi/by/content/and/entryId/topicInfo")
+    @GetMapping("/rpc/get/select/search/multi/by/content/and/entryId/topicInfo")
+    public List<TopicModel> getSelectSearchMultiTopicInfoByContentAndEntryIdRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("entryId") Long entryId,
+            @RequestParam("content") String content,
+            @RequestParam("page") Long page
+    ) {
+        return topicRelatedServiceRpc.getSelectSearchMultiTopicInfoByContentAndEntryId(
+                status,
+                entryId,
+                content,
+                page
+        );
+    }
+
+    /**
+     * 根据topicIds组查entryIds
+     * @param topicIds
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/entryIds/by/topicIds")
+    @GetMapping("/rpc/get/select/entryIds/by/topicIds")
+    public List<Long> getSelectEntryIdsByTopicIdsRpc(@RequestParam("topicIds") List<Long> topicIds) {
+        return topicRelatedServiceRpc.getSelectEntryIdsByTopicIds(topicIds);
+    }
+
+    /**
+     * 根据entryIds获取著述数量
+     * @param entryIds
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/entry/amount/by/entryIds")
+    @GetMapping("/rpc/get/select/entry/amount/by/entryIds")
+    public Map<Long,Long> getSelectEntryAmountByEntryIdsRpc(@RequestParam("entryIds") List<Long> entryIds) {
+        return topicRelatedServiceRpc.getSelectEntryAmountByEntryIds(entryIds);
+    }
+
+    /**
+     * 更改用topic拥有者,用于购买后使用时使用
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/single/topicInfo/with/owner")
+    @PostMapping("/rpc/post/update/single/topicInfo/with/owner")
+    public int postUpdateSingleTopicInfoWithOwnerRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("topicId") Long topicId
+    ) {
+        return topicRelatedServiceRpc.postUpdateSingleTopicInfoWithOwner(userId,topicId);
+    }
+
+    /**
+     * 获取用户最新几条著述信息
+     * @param userId
+     * @param number
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/multi/lastTopicInfo")
+    @PostMapping("/rpc/post/select/multi/lastTopicInfo")
+    public List<TopicModel> postSelectMultiLastTopicInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("number")Integer number
+    ) {
+        return topicRelatedServiceRpc.postSelectMultiLastTopicInfo(userId,number);
+    }
+
+    /**
+     * 获取著述管理者ids
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/all/managerUserInfo")
+    @PostMapping("/rpc/post/select/all/managerUserInfo")
+    public List<Long> postSelectAllManagerUserIdsRpc(
+            @RequestParam("topicId")Long topicId
+    ) {
+        return topicRelatedServiceRpc.postSelectAllManagerUserIds(topicId);
+    }
+
 }
 
 

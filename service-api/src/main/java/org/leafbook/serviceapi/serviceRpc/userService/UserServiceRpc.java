@@ -1,7 +1,6 @@
 package org.leafbook.serviceapi.serviceRpc.userService;
 
-import io.swagger.annotations.ApiOperation;
-import org.leafbook.api.modelApi.billInfo.ResModel;
+import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceapi.openfeinFallback.userService.UserServiceFallback;
@@ -229,5 +228,63 @@ public interface UserServiceRpc {
      * @return
      */
     @PostMapping("/rpc/post/select/single/resInfo/by/userId")
-    ResModel postSelectSingleResInfoByUserIdRpc(@RequestParam("userId")Long userId);
+    ResModel postSelectSingleResInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId);
+
+    /**
+     * 查询用户所有可用物品
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/user/resInfo/by/userId")
+    List<ResModel> postSelectMultiUserResInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
+
+    /**
+     * 使用nickname物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    @PostMapping("rpc/post/use/single/nickname/resInfo")
+    int postUseSingleNicknameResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId);
+
+    /**
+     * 使用renameCard物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    @PostMapping("rpc/post/use/single/renameCard/resInfo")
+    int postUseSingleRenameCardResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId,
+            @RequestParam("newName")String newName);
+
+    /**
+     * 更新用户余额
+     * @param userId
+     * @param balance
+     * @return
+     */
+    @PostMapping("rpc/post/update/single/user/balance")
+    int postUpdateSingleUserBalanceRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("balance")Long balance);
+
+    /**
+     * 取消关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    @PostMapping("/rpc/post/cancel/attention/user")
+    int postCancelAttentionRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("attentionUserId")Long attentionUserId
+    );
 }

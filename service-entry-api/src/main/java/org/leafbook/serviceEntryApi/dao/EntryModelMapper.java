@@ -12,6 +12,16 @@ import java.util.Random;
 @Service
 public class EntryModelMapper {
     /**
+     * 搜索符合条件的词条
+     * @param entryName:词条名
+     * @param entryType:词条类型hot,official,nonofficial
+     * @return
+     */
+    public List<EntryShowModel> selectSearchMultiEntryShowInfo(String entryName,String entryType) {
+        return this.selectRandomMultiEntryInfo();
+    }
+
+    /**
      * 判断词条用户是否点过赞
      * @param userId
      * @param entryId

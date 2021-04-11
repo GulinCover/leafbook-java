@@ -20,14 +20,18 @@ public class PublicCommentPageControllerApi {
     @Autowired
     private PublicCommentPageServiceApi publicCommentPageServiceApi;
 
-    //获取回复的相关信息
+    /**
+     * 获取回复的相关信息
+     * @param userId
+     * @param form:page
+     * @return
+     */
     @ApiOperation("/api/post/select/me/publicComment")
     @PostMapping("/api/post/select/me/publicComment")
-    public CommentInfosResp postSelectPublicCommentInfosApi(@RequestHeader("user_id")Long userId) {
-        CommentInfosResp resp = new CommentInfosResp();
-
-        resp.setCommentInfoAbsList(publicCommentPageServiceApi.postSelectPublicCommentInfoAllEntryList());
-
+    public CommentInfosResp postSelectPublicCommentInfosApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String,Long> form) {
+        CommentInfosResp resp = publicCommentPageServiceApi.postSelectPublicCommentInfoAllEntryList(userId,form);
         resp.setCode(200);
         return resp;
     }
@@ -35,10 +39,10 @@ public class PublicCommentPageControllerApi {
     //获取回复的著述的词条
     @ApiOperation("/api/post/select/me/publicComment/all/entry")
     @PostMapping("/api/post/select/me/publicComment/all/entry")
-    public EntryListResp postSelectPublicTopicInfoAllEntryListApi(@RequestHeader("user_id")Long userId) {
+    public EntryListResp postSelectPublicTopicInfoAllEntryListApi(@RequestHeader("userId")Long userId) {
         EntryListResp resp = new EntryListResp();
 
-        resp.setEntryAbsList(publicCommentPageServiceApi.postSelectPublicTopicInfoAllEntryList());
+//        resp.setEntryAbsList(publicCommentPageServiceApi.postSelectPublicTopicInfoAllEntryList());
 
         resp.setCode(200);
         return resp;
@@ -53,12 +57,12 @@ public class PublicCommentPageControllerApi {
     @ApiOperation("/api/post/select/search/me/publicComment")
     @PostMapping(value = "/api/post/select/search/me/publicComment",produces = MediaType.APPLICATION_JSON_VALUE)
     public CommentInfosResp postSelectSearchPublicCommentInfosApi(
-            @RequestHeader("user_id")Long userId,
+            @RequestHeader("userId")Long userId,
             @RequestBody Map<String, String> form
     ) {
         CommentInfosResp resp = new CommentInfosResp();
 
-        resp.setCommentInfoAbsList(publicCommentPageServiceApi.postSelectPublicCommentInfoAllEntryList());
+//        resp.setCommentInfoAbsList(publicCommentPageServiceApi.postSelectPublicCommentInfoAllEntryList());
 
         resp.setCode(200);
         return resp;

@@ -75,7 +75,7 @@ public class UserBillRelatedServiceRpc {
     }
 
     /**
-     * 获取用户著述相关的总支出
+     * 获取用户著述相关的总收支
      * @param userId
      * @return
      */
@@ -103,7 +103,7 @@ public class UserBillRelatedServiceRpc {
 
 
     /**
-     * 获取用户赞相关的收支
+     * 获取用户购入卖出相关的收支
      * @param userId
      * @param page
      * @return
@@ -113,7 +113,7 @@ public class UserBillRelatedServiceRpc {
     }
 
     /**
-     * 获取用户购入卖出相关的总支出
+     * 获取用户购入卖出相关的总支收支
      * @param userId
      * @return
      */

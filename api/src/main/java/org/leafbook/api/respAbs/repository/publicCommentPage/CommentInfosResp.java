@@ -7,5 +7,6 @@ import java.util.List;
 @Data
 public class CommentInfosResp {
     private Integer code;
+    private Long page;
     private List<CommentInfoAbs> commentInfoAbsList;
 }

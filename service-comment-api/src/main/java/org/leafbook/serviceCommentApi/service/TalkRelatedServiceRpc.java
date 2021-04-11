@@ -1,11 +1,13 @@
 package org.leafbook.serviceCommentApi.service;
 
+import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.talkInfo.Talk2EntryModel;
 import org.leafbook.api.modelApi.talkInfo.Talk2StarAndTreadModel;
 import org.leafbook.api.modelApi.talkInfo.TalkModel;
 import org.leafbook.api.modelApi.talkInfo.commentInfo.TalkComment1Info2EntryInfoModel;
 import org.leafbook.api.modelApi.talkInfo.commentInfo.TalkComment1Model;
 import org.leafbook.api.modelApi.talkInfo.commentInfo.TalkComment2Model;
+import org.leafbook.serviceCommentApi.dao.CommentModelMapper;
 import org.leafbook.serviceCommentApi.dao.talk.*;
 import org.leafbook.serviceCommentApi.dao.talk.comment.TalkComment1Info2EntryInfoModelMapper;
 import org.leafbook.serviceCommentApi.dao.talk.comment.TalkComment1Info2EntryShowModelMapper;
@@ -15,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class TalkRelatedServiceRpc {
@@ -34,6 +37,8 @@ public class TalkRelatedServiceRpc {
     private TalkComment1Info2EntryInfoModelMapper talkComment1Info2EntryInfoModelMapper;
     @Autowired
     private TalkComment1Info2EntryShowModelMapper talkComment1Info2EntryShowModelMapper;
+    @Autowired
+    private CommentModelMapper commentModelMapper;
 
     /**
      * 获取议论信息
@@ -41,8 +46,8 @@ public class TalkRelatedServiceRpc {
      * @param topicId
      * @return
      */
-    public List<TalkModel> getSelectMultiTalkInfo(Long topicId) {
-        return talkModelMapper.selectMultiByTopicId(topicId);
+    public List<CommentModel> getSelectMultiTalkInfo(Long topicId) {
+        return commentModelMapper.selectMultiByTopicId(topicId);
     }
 
     /**
@@ -51,8 +56,8 @@ public class TalkRelatedServiceRpc {
      * @param talkId
      * @return
      */
-    public List<TalkComment1Model> getSelectMultiTalkComment1Info(Long talkId) {
-        return talkComment1ModelMapper.selectMultiByTalkId(talkId);
+    public List<CommentModel> getSelectMultiTalkComment1Info(Long talkId) {
+        return commentModelMapper.selectMultiTalkComment1InfoByTalkId(talkId);
     }
 
     /**
@@ -61,8 +66,8 @@ public class TalkRelatedServiceRpc {
      * @param talkComment1Id
      * @return
      */
-    public List<TalkComment2Model> getSelectMultiTalkComment2Info(Long talkComment1Id) {
-        return talkComment2ModelMapper.selectMultiByTalkComment1Id(talkComment1Id);
+    public List<CommentModel> getSelectMultiTalkComment2Info(Long talkComment1Id) {
+        return commentModelMapper.selectMultiTalkComment2InfoByTalkComment1Id(talkComment1Id);
     }
 
     /**
@@ -75,12 +80,15 @@ public class TalkRelatedServiceRpc {
      * @return
      */
     public int postPublicTalkInfo(Long topicId, Long userId, String talkTitle, String talkDesc) {
-        TalkModel talkModel = new TalkModel();
+
+        CommentModel talkModel = new CommentModel();
         talkModel.setUserId(userId);
         talkModel.setTalkTitle(talkTitle);
         talkModel.setTopicId(topicId);
         talkModel.setTalkDesc(talkDesc);
-        return talkModelMapper.insertByModel(talkModel);
+        final Long talkId = commentModelMapper.insertTalkInfoByModel(talkModel);
+        if (talkId != 0) return 1;
+        return 0;
     }
 
     /**
@@ -92,11 +100,16 @@ public class TalkRelatedServiceRpc {
      * @return
      */
     public int postPublicTalkComment1Info(Long talkId, Long userId, String talkCommentContent) {
-        TalkComment1Model talkComment1Model = new TalkComment1Model();
-        talkComment1Model.setUserId(userId);
-        talkComment1Model.setTalkCommentContent(talkCommentContent);
-        talkComment1Model.setTalkId(talkId);
-        return talkComment1ModelMapper.insertByModel(talkComment1Model);
+        CommentModel talkInfo = commentModelMapper.selectSingleByTalkId(talkId);
+        if (Objects.nonNull(talkInfo)) {
+            talkInfo.setUserId(userId);
+            talkInfo.setContent(talkCommentContent);
+            final Long talkComment1Id = commentModelMapper.insertTalkComment1InfoByModel(talkInfo);
+            if (talkComment1Id != 0) return 1;
+            return 0;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -108,11 +121,16 @@ public class TalkRelatedServiceRpc {
      * @return
      */
     public int postPublicTalkComment2Info(Long talkComment1Id, Long userId, String talkComment2Content) {
-        TalkComment2Model talkComment2Model = new TalkComment2Model();
-        talkComment2Model.setUserId(userId);
-        talkComment2Model.setTalkCommentContent(talkComment2Content);
-        talkComment2Model.setTalkComment1Id(talkComment1Id);
-        return talkComment2ModelMapper.insertByModel(talkComment2Model);
+        CommentModel talkComment1Info = commentModelMapper.selectSingleByTalkComment1Id(talkComment1Id);
+        if (Objects.nonNull(talkComment1Info)) {
+            talkComment1Info.setUserId(userId);
+            talkComment1Info.setContent(talkComment2Content);
+            final Long talkComment2Id = commentModelMapper.insertTalkComment2InfoByModel(talkComment1Info);
+            if (talkComment2Id != 0) return 1;
+            return 0;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -201,7 +219,7 @@ public class TalkRelatedServiceRpc {
      * @return
      */
     public int postIsExistForTalkInfo(Long talkId) {
-        return talkModelMapper.selectIsExistByTalkId(talkId);
+        return commentModelMapper.selectDetectLegalityForTalkId(talkId);
     }
 
     /**
@@ -211,7 +229,7 @@ public class TalkRelatedServiceRpc {
      * @return
      */
     public int postIsExistForTalkComment1Info(Long talkComment1Id) {
-        return talkComment1ModelMapper.selectIsExistByTalkComment1Id(talkComment1Id);
+        return commentModelMapper.selectDetectLegalityForTalkComment1Id(talkComment1Id);
     }
     /**
      * 随机获取一篇议论
@@ -219,8 +237,8 @@ public class TalkRelatedServiceRpc {
      * @param randomNumber
      * @return
      */
-    public List<TalkModel> getSelectRandomTalkInfo(Long topicId,Integer randomNumber) {
-        return talkComment1ModelMapper.selectRandomTalkInfoByTopicId(topicId,randomNumber);
+    public List<CommentModel> getSelectRandomTalkInfo(Long topicId,Integer randomNumber) {
+        return commentModelMapper.selectMultiRandomComment1InfoByTopicId(topicId,randomNumber);
     }
     /**
      * 随机获取一篇议论的评论
@@ -228,24 +246,24 @@ public class TalkRelatedServiceRpc {
      * @param randomNumber
      * @return
      */
-    public List<TalkComment1Model> getSelectRandomTalkComment1Info(Long talkId,Integer randomNumber) {
-        return talkComment1ModelMapper.selectRandomTalkComment1InfoByTalkId(talkId,randomNumber);
+    public List<CommentModel> getSelectRandomTalkComment1Info(Long talkId,Integer randomNumber) {
+        return commentModelMapper.selectMultiRandomTalkComment1InfoByTalkId(talkId,randomNumber);
     }
     /**
      * 获取议论
      * @param talkId
      * @return
      */
-    public TalkModel postSelectSingleTalkInfoRpc(Long talkId) {
-        return talkComment1ModelMapper.selectSingleTalkInfo(talkId);
+    public CommentModel postSelectSingleTalkInfoRpc(Long talkId) {
+        return commentModelMapper.selectSingleByTalkId(talkId);
     }
     /**
      * 获取一级议论评论
      * @param talkComment1Id
      * @return
      */
-    public TalkComment1Model postSelectSingleTalkComment1Info(Long talkComment1Id) {
-        return talkComment1ModelMapper.selectSingleTalkComment1Info(talkComment1Id);
+    public CommentModel postSelectSingleTalkComment1Info(Long talkComment1Id) {
+        return commentModelMapper.selectSingleByTalkComment1Id(talkComment1Id);
     }
     /**
      * 更新talk点赞数量

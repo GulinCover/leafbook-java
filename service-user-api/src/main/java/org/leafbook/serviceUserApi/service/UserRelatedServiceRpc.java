@@ -12,8 +12,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.leafbook.api.modelApi.billInfo.ResModel;
+import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceUserApi.dao.*;
@@ -22,10 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.interfaces.RSAPublicKey;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class UserRelatedServiceRpc {
@@ -271,8 +267,73 @@ public class UserRelatedServiceRpc {
      * @param userId
      * @return
      */
-    public ResModel postSelectSingleResInfoByUserId(Long userId) {
-        return resModelMapper.selectSingleResInfo(userId);
+    public ResModel postSelectSingleResInfoByUserId(Long userId,Long resId) {
+        return resModelMapper.selectSingleResInfo(userId,resId);
+    }
+    /**
+     * 查询用户所有可用物品
+     * @param userId
+     * @return
+     */
+    public List<ResModel> postSelectMultiUserResInfoByUserId(Long userId,Long page) {
+        return resModelMapper.selectMultiResInfoByUserId(userId,page);
+    }
+
+    /**
+     * 使用nickname物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    public int postUseSingleNicknameResInfo(Long userId,Long resId) {
+        UserModel userModel = userModelMapper.selectSingleUserInfo(userId);
+        ResModel resModel = resModelMapper.selectSingleResInfo(userId, resId);
+
+        String nickname = resModel.getNickname();
+
+        //删除物品
+        resModelMapper.deleteSingleResInfoByUserId(userId, resId);
+        String oldName = userModel.getUsername();
+
+        userModel.setUsername(nickname);
+        userModel.setUsedName(userModel.getUsedName() + oldName+";");
+        return userModelMapper.updateSingleUserInfoByUserInfo(userModel);
+    }
+    /**
+     * 使用renameCard物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    public int postUseSingleRenameCardResInfo(Long userId,Long resId,String newName) {
+        //删除物品
+        UserModel userModel = userModelMapper.selectSingleUserInfo(userId);
+        resModelMapper.deleteSingleResInfoByUserId(userId, resId);
+
+        String oldName = userModel.getUsername();
+
+        userModel.setUsername(newName);
+        userModel.setUsedName(userModel.getUsedName() + oldName+";");
+        return userModelMapper.updateSingleUserInfoByUserInfo(userModel);
+    }
+
+    /**
+     * 更新用户余额
+     * @param userId
+     * @param balance
+     * @return
+     */
+    public int postUpdateSingleUserBalanceRpc(Long userId,Long balance) {
+        return userModelMapper.updateSingleUserInfoBalance(userId,balance);
+    }
+    /**
+     * 取消关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    public int postCancelAttention(Long userId,Long attentionUserId) {
+        return attentionModeMapper.deleteCancelAttentionUser(userId,attentionUserId);
     }
 
 }

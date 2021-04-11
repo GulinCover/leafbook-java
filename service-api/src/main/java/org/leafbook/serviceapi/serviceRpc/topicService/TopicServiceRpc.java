@@ -7,12 +7,10 @@ import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel;
 import org.leafbook.serviceapi.openfeinFallback.topicService.TopicServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @FeignClient(
         value = "service-topic-api",
@@ -294,7 +292,15 @@ public interface TopicServiceRpc {
      */
     @PostMapping("/rpc/post/select/me/topic")
     List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId);
-
+    @PostMapping("/rpc/post/select/me/topic/by/page")
+    List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId,@RequestParam("page") Long page);
+    /**
+     * 获取数量
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/me/topic/page")
+    Long postSelectMeTopicInfoPageRpc(@RequestParam("userId") Long userId);
 
     /**
      * 模糊搜索自己拥有的著述
@@ -345,8 +351,20 @@ public interface TopicServiceRpc {
      * @param topicId
      * @return
      */
-    @GetMapping("/rpc/get/select/multi/contributorId/by/topicId/{topicId}")
-    List<Long> getSelectMultiContributorIdByTopicIdRpc(@PathVariable("topicId") Long topicId);
+    @PostMapping("/rpc/post/select/multi/contributorId/by/topicId")
+    List<Long> postSelectMultiContributorIdByTopicIdRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("page") Long page);
+
+    /**
+     * 获取著述的贡献者数量
+     *
+     * @param topicId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/contributorId/by/topicId/page")
+    Long postSelectMultiContributorIdByTopicIdPageRpc(
+            @RequestParam("topicId") Long topicId);
 
     /**
      * 根据词条随机查询5~8条著述
@@ -549,6 +567,138 @@ public interface TopicServiceRpc {
     @PostMapping("/rpc/post/update/article/tread/amount")
     int postUpdateArticleTreadAmountRpc(@RequestParam("articleId") Long articleId);
 
+    /**
+     * 搜索指定著述
+     * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
+     * @param entryIds
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/search/multi/topicInfo")
+    List<TopicModel> getSelectSearchMultiTopicInfoRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("entryIds") List<Long> entryIds,
+            @RequestParam("content") String content,
+            @RequestParam("startTime") Long startTime,
+            @RequestParam("endTime") Long endTime,
+            @RequestParam("page") Long page
+    );
+
+    /**
+     * 获取搜索条数
+     * @param status
+     * @param entryIds
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/search/multi/topicInfo/page")
+    Long getSelectSearchMultiTopicInfoPageRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("entryIds") List<Long> entryIds,
+            @RequestParam("content") String content,
+            @RequestParam("startTime") Long startTime,
+            @RequestParam("endTime") Long endTime,
+            @RequestParam("page") Long page
+    );
+
+    /**
+     * 搜索指定著述
+     * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
+     * @param content
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/search/multi/by/content/topicInfo")
+    List<TopicModel> getSelectSearchMultiTopicInfoByContentRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("content") String content,
+            @RequestParam("page") Long page
+    );
+
+    /**
+     * 指定著述数量
+     * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
+     * @param content
+     * @return
+     */
+    @GetMapping("/rpc/get/select/search/multi/topicInfo/by/content/page")
+    Long getSelectSearchMultiTopicInfoByContentPageRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("content") String content
+    );
+
+    /**
+     * 限定搜索
+     * @param status
+     * @param entryId
+     * @param content
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/search/multi/by/content/and/entryId/topicInfo")
+    List<TopicModel> getSelectSearchMultiTopicInfoByContentAndEntryIdRpc(
+            @RequestParam("status") Integer status,
+            @RequestParam("entryId") Long entryId,
+            @RequestParam("content") String content,
+            @RequestParam("page") Long page
+    );
+
+    /**
+     * 根据topicIds组查entryIds
+     * @param topicIds
+     * @return
+     */
+    @GetMapping("/rpc/get/select/entryIds/by/topicIds")
+    List<Long> getSelectEntryIdsByTopicIdsRpc(@RequestParam("topicIds") List<Long> topicIds);
+
+    /**
+     * 根据entryIds获取著述数量
+     * @param entryIds
+     * @return
+     */
+    @GetMapping("/rpc/get/select/entry/amount/by/entryIds")
+    Map<Long,Long> getSelectEntryAmountByEntryIdsRpc(@RequestParam("entryIds") List<Long> entryIds);
+
+
+    /**
+     * 更改用topic拥有者,用于购买后使用时使用
+     * @param userId
+     * @param topicId
+     * @return
+     */
+    @PostMapping("/rpc/post/update/single/topicInfo/with/owner")
+    int postUpdateSingleTopicInfoWithOwnerRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("topicId") Long topicId
+    );
+
+    /**
+     * 获取用户最新几条著述信息
+     * @param userId
+     * @param number
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/lastTopicInfo")
+    List<TopicModel> postSelectMultiLastTopicInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("number")Integer number
+    );
+
+    /**
+     * 获取著述管理者id
+     * @param topicId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/all/managerUserInfo")
+    List<Long> postSelectAllManagerUserIdsRpc(
+            @RequestParam("topicId")Long topicId
+    );
 }
 
 

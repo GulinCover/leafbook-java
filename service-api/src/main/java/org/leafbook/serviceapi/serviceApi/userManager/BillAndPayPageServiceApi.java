@@ -2,6 +2,7 @@ package org.leafbook.serviceapi.serviceApi.userManager;
 
 import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.modelApi.commentInfo.Comment1Model;
+import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.talkInfo.TalkModel;
 import org.leafbook.api.modelApi.talkInfo.commentInfo.TalkComment1Model;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
@@ -102,21 +103,21 @@ public class BillAndPayPageServiceApi {
                 } else if (commentId != 0) {
                     resId = commentId;
                     type = "comment";
-                    Comment1Model comment1Model = commentServiceRpc.postSelectSingleComment1InfoRpc(commentId);
+                    CommentModel comment1Model = commentServiceRpc.postSelectSingleComment1InfoRpc(commentId);
                     UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(comment1Model.getUserId());
 
                     name = userModel.getUsername();
                 } else if (talkId != 0) {
                     resId = talkId;
                     type = "talk";
-                    TalkModel talkModel = commentServiceRpc.postSelectSingleTalkInfoRpc(talkId);
+                    CommentModel talkModel = commentServiceRpc.postSelectSingleTalkInfoRpc(talkId);
                     UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(talkModel.getUserId());
 
                     name = userModel.getUsername();
                 } else if (talkCommentId != 0) {
                     resId = talkCommentId;
                     type = "talkComment";
-                    TalkComment1Model talkComment1Model = commentServiceRpc.postSelectSingleTalkComment1InfoRpc(talkCommentId);
+                    CommentModel talkComment1Model = commentServiceRpc.postSelectSingleTalkComment1InfoRpc(talkCommentId);
                     UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(talkComment1Model.getUserId());
 
                     name = userModel.getUsername();

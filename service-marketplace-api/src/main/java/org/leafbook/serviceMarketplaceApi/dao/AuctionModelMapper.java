@@ -1,6 +1,8 @@
 package org.leafbook.serviceMarketplaceApi.dao;
 
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
+import org.leafbook.api.modelApi.billInfo.BidingModel;
+import org.leafbook.api.modelApi.billInfo.BillModel;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -9,6 +11,89 @@ import java.util.Random;
 
 @Service
 public class AuctionModelMapper {
+
+    /**
+     * 根据topicIds查询拍卖物品
+     * @param topicIds
+     * @return
+     */
+    public List<AuctionModel> selectMultiAuctionByTopicIds(List<Long> topicIds) {
+        List<AuctionModel> auctionModelList = new LinkedList<>();
+
+        for (int i = 0;i<new Random().nextInt(10) + 5;++i) {
+            AuctionModel auctionModel = new AuctionModel();
+            auctionModel.setAuctionId((long) i);
+            auctionModel.setUserId(31231L);
+            auctionModel.setTopicId(1145L);
+            auctionModel.setType(0);
+            auctionModel.setCurrentPrice(155L);
+            auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+            auctionModel.setCurrentPriceUserId(3122L);
+            auctionModel.setExpireTimestamp(111111111L);
+            auctionModel.setStartPrice(100L);
+            auctionModel.setStatus(2);//正在售卖
+
+            auctionModelList.add(auctionModel);
+        }
+
+        return auctionModelList;
+    }
+
+    /**
+     * 模糊搜索昵称拍卖物品
+     * @param type://0:topic,1:nickname,2:renameCard
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    public List<AuctionModel> selectSearchMultiNickname(
+            Integer type,
+            String content,
+            Long startTime,
+            Long endTime,
+            Long page
+    ) {
+        List<AuctionModel> auctionModelList = new LinkedList<>();
+
+        for (int i = 0;i<new Random().nextInt(10) + 5;++i) {
+            AuctionModel auctionModel = new AuctionModel();
+            auctionModel.setAuctionId((long) i);
+            auctionModel.setUserId(31231L);
+            auctionModel.setTopicId(1145L);
+            auctionModel.setType(0);
+            auctionModel.setCurrentPrice(155L);
+            auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+            auctionModel.setCurrentPriceUserId(3122L);
+            auctionModel.setExpireTimestamp(111111111L);
+            auctionModel.setStartPrice(100L);
+            auctionModel.setStatus(2);//正在售卖
+
+            auctionModelList.add(auctionModel);
+        }
+
+        return auctionModelList;
+    }
+    /**
+     * 获取条数
+     * @param type
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    public Long selectSearchMultiNicknameAmount(
+            Integer type,
+            String content,
+            Long startTime,
+            Long endTime,
+            Long page
+    ) {
+        return (long)new Random().nextInt(5000);
+    }
+
     /**
      * 检测auctionId合法性
      * @param auctionId
@@ -110,6 +195,41 @@ public class AuctionModelMapper {
         }
 
         return auctionModelList;
+    }
+    /**
+     * 查询用户正在售卖的物品
+     * @param userId
+     * @param page
+     * @return
+     */
+    public List<AuctionModel> selectMultiAuctionInfo(Long userId,Long page) {
+        List<AuctionModel> auctionModelList = new LinkedList<>();
+
+        for (int i = 0;i<new Random().nextInt(8);++i) {
+            AuctionModel auctionModel = new AuctionModel();
+            auctionModel.setAuctionId((long) i);
+            auctionModel.setUserId(userId);
+            auctionModel.setTopicId(1145L);
+            auctionModel.setType(0);
+            auctionModel.setStatus(2);
+            auctionModel.setCurrentPrice(155L);
+            auctionModel.setCurrentPriceUserUuid("dasd-231w-321d-das2");
+            auctionModel.setCurrentPriceUserId(3122L);
+            auctionModel.setExpireTimestamp(111111111L);
+            auctionModel.setStartPrice(100L);
+
+            auctionModelList.add(auctionModel);
+        }
+
+        return auctionModelList;
+    }
+    /**
+     * 获取用户正在上架总条数
+     * @param userId
+     * @return
+     */
+    public Long selectMultiAuctionInfoAmount(Long userId) {
+        return (long)new Random().nextInt(500);
     }
 
     public AuctionModel selectVerifySingleAuctionInfo(Long userId,Long auctionId) {

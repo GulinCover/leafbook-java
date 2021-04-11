@@ -47,27 +47,27 @@ public class IndexPageControllerApi {
         return resp;
     }
 
-//    /**
-//     * topbar搜索历史,显示最近8条
-//     * @param userId
-//     * @return
-//     */
-//    @ApiOperation("/api/post/select/me/searchHistory/topics")
-//    @PostMapping("/api/post/select/me/searchHistory/topics")
-//    public TopBarSearchResp postSelectMeSearchHistoryTopicsApi(@RequestHeader("userId")Long userId) {
-//
-//        TopBarSearchResp resp = new TopBarSearchResp();
-//
-//        List<SearchHistoryAbs> searchHistoryAbs = indexPageServiceApi.postSelectMeSearchHistoryTopics(userId);
-//        if (Objects.isNull(searchHistoryAbs)) {
-//            resp.setCode(500);
-//            return resp;
-//        }
-//
-//        resp.setSearchHistories(searchHistoryAbs);
-//        resp.setCode(200);
-//        return resp;
-//    }
+    /**
+     * topbar搜索历史,显示最近4条
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/api/post/select/me/searchHistory/topics")
+    @PostMapping("/api/post/select/me/searchHistory/topics")
+    public TopBarSearchResp postSelectMeSearchHistoryTopicsApi(@RequestHeader("userId")Long userId) {
+
+        TopBarSearchResp resp = new TopBarSearchResp();
+
+        List<SearchHistoryAbs> searchHistoryAbs = indexPageServiceApi.postSelectMeSearchHistoryTopics(userId);
+        if (Objects.isNull(searchHistoryAbs)) {
+            resp.setCode(500);
+            return resp;
+        }
+
+        resp.setSearchHistories(searchHistoryAbs);
+        resp.setCode(200);
+        return resp;
+    }
 
     /**
      * 浏览历史

@@ -2,6 +2,7 @@ package org.leafbook.serviceapi.ControllerApi.repository;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.leafbook.api.respAbs.common.MessageResp;
 import org.leafbook.api.respAbs.repository.publicCommentPage.BillInfosResp;
 import org.leafbook.api.respAbs.repository.publicTopicPage.PublicTopicInfosResp;
 import org.leafbook.api.respAbs.repository.repositoryPage.ConsumableInfosResp;
@@ -22,13 +23,20 @@ public class RepositoryPageControllerApi {
     @Autowired
     private RepositoryPageServiceApi repositoryPageServiceApi;
 
-    //获取用户所有可用物品
+    /**
+     * 获取用户所有可用物品
+     * @param userId
+     * @param form:page
+     * @return
+     */
     @ApiOperation("/api/post/select/me/consumableInfos")
     @PostMapping("/api/post/select/me/consumableInfos")
-    public ConsumableInfosResp postSelectConsumableInfosApi(@RequestHeader("user_id")Long userId) {
+    public ConsumableInfosResp postSelectConsumableInfosApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String,Long> form) {
         ConsumableInfosResp resp = new ConsumableInfosResp();
 
-        resp.setConsumableInfoAbsList(repositoryPageServiceApi.postSelectConsumableInfos());
+        resp.setConsumableInfoAbsList(repositoryPageServiceApi.postSelectConsumableInfos(userId,form));
 
         resp.setCode(200);
         return resp;
@@ -40,33 +48,40 @@ public class RepositoryPageControllerApi {
     page:
      */
     @ApiOperation("/api/post/select/search/me/consumableInfos")
-    @PostMapping(value = "/api/post/select/search/me/consumableInfos",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/api/post/select/search/me/consumableInfos")
     public ConsumableInfosResp postSelectSearchConsumableInfosApi(
-            @RequestHeader("user_id")Long userId,
+            @RequestHeader("userId")Long userId,
             @RequestBody Map<String, String> form
     ) {
         ConsumableInfosResp resp = new ConsumableInfosResp();
 
-        resp.setConsumableInfoAbsList(repositoryPageServiceApi.postSelectConsumableInfos());
+//        resp.setConsumableInfoAbsList(repositoryPageServiceApi.postSelectConsumableInfos());
 
         resp.setCode(200);
         return resp;
     }
 
-    //使用物品
-    /*
-    consumable_id:
-    consumable_uuid:
+
+    /**
+     * 使用物品
+     * @param userId
+     * @param form:resId,newName
+     * @return
      */
     @ApiOperation("/api/post/update/use/consumableInfo")
-    @PostMapping(value = "/api/post/update/use/consumableInfo",produces = MediaType.APPLICATION_JSON_VALUE)
-    public UseConsumableResp postUpdateUseConsumableApi(
-            @RequestHeader("user_id")Long userId,
+    @PostMapping("/api/post/update/use/consumableInfo")
+    public MessageResp postUpdateUseConsumableApi(
+            @RequestHeader("userId")Long userId,
             @RequestBody Map<String, String> form
     ) {
-        UseConsumableResp resp = new UseConsumableResp();
-
-        resp.setMessage("使用成功");
+        MessageResp resp = new MessageResp();
+        int ret = repositoryPageServiceApi.postUpdateUseConsumable(userId,form);
+        if (ret == 0) {
+            resp.setMsg("使用失败");
+            resp.setCode(200);
+            return resp;
+        }
+        resp.setMsg("使用成功");
         resp.setCode(200);
         return resp;
     }

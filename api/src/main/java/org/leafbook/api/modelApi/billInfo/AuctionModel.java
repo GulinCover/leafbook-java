@@ -20,4 +20,5 @@ public class AuctionModel extends Model {
     private Long startPrice;
     private Long currentPrice;
     private Long expireTimestamp;
+    private Long publicTimestamp;
 }

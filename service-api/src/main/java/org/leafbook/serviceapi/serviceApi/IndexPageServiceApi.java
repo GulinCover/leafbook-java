@@ -53,7 +53,7 @@ public class IndexPageServiceApi {
     }
 
     /**
-     * topbar搜索历史,显示最近8条
+     * topbar搜索历史,显示最近4条
      * @param userId
      * @return
      */

@@ -1,6 +1,7 @@
 package org.leafbook.serviceapi.serviceApi.common;
 
 import org.leafbook.api.modelApi.commentInfo.Comment1Model;
+import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
@@ -159,7 +160,7 @@ public class UserInfoServiceApi {
             Long commentId = Covert2Tools.covertToLong(commentIdString);
 
             //检查comment合法性
-            Comment1Model comment1Model = commentServiceRpc.postSelectSingleComment1InfoRpc(commentId);
+            CommentModel comment1Model = commentServiceRpc.postSelectSingleComment1InfoRpc(commentId);
             if (Objects.isNull(comment1Model)) return 403;
 
             //检查是否点过赞
@@ -348,7 +349,7 @@ public class UserInfoServiceApi {
             Long commentId = Covert2Tools.covertToLong(commentIdString);
 
             //检查comment合法性
-            Comment1Model comment1Model = commentServiceRpc.postSelectSingleComment1InfoRpc(commentId);
+            CommentModel comment1Model = commentServiceRpc.postSelectSingleComment1InfoRpc(commentId);
             if (Objects.isNull(comment1Model)) return 403;
 
             //检查是否点过踩
@@ -456,5 +457,17 @@ public class UserInfoServiceApi {
         }
 
         return 200;
+    }
+    /**
+     * 取消关注
+     * @param userId
+     * @param form:attentionUserId
+     * @return
+     */
+    public int postCancelTouchAttention(Long userId,Map<String, Long> form) {
+        Long attentionUserId = form.get("attentionUserId");
+        if (Objects.isNull(attentionUserId)) return 0;
+
+        return userServiceRpc.postCancelAttentionRpc(userId,attentionUserId);
     }
 }

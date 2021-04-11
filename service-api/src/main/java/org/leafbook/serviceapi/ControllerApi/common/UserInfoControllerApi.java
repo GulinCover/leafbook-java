@@ -127,4 +127,30 @@ public class UserInfoControllerApi {
         return resp;
     }
 
+    /**
+     * 取消关注
+     * @param userId
+     * @param form:attentionUserId
+     * @return
+     */
+    @ApiOperation("/api/post/cancel/touch/attention")
+    @PostMapping("/api/post/cancel/touch/attention")
+    public MessageResp postCancelTouchAttentionApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String,Long> form
+    ) {
+        MessageResp resp = new MessageResp();
+        int ret = userInfoServiceApi.postCancelTouchAttention(userId,form);
+        if (ret == 1) {
+            resp.setMsg("取消成功");
+            resp.setCode(200);
+            return resp;
+        } else {
+            resp.setMsg("取消失败");
+            resp.setCode(500);
+            return resp;
+        }
+
+    }
+
 }

@@ -4,12 +4,12 @@ import lombok.Data;
 
 @Data
 public class ConsumableInfoAbs {
-    private Long consumableId;
-    private String consumableUUID;
-    private String type;
+    private Long resId;
+    private Long billId;
+    private Integer type;
     private Long topicId;
     private String topicTitle;
     private String nickname;
-    private String buyTime;
-    private String buyPrice;
+    private Long buyTime;
+    private Long buyPrice;
 }

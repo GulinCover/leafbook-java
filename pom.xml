@@ -11,7 +11,8 @@
 <!--        nacos-server:1.3.2 PORT:8848-->
 <!--        sentinel-server:1.8.0 PORT:30000-->
 <!--        seata-server:1.3.0 PORT:8091-->
-
+<!--        elasticsearch:7.12.0 PORT:9200-->
+<!--        rocketMQ:4.8.0 PORT:server:9876 broker:10911-->
         <module>utils-tools</module>
         <module>api</module>
         <module>service-api</module>

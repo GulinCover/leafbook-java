@@ -1,6 +1,7 @@
 package org.leafbook.serviceapi.serviceApi;
 
 import org.leafbook.api.modelApi.commentInfo.Comment1Model;
+import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.talkInfo.TalkModel;
 import org.leafbook.api.modelApi.talkInfo.commentInfo.TalkComment1Model;
@@ -149,11 +150,11 @@ public class TopicEntryPageServiceApi {
             }
 
             //随机获取一条评论内容
-            List<Comment1Model> randomComment1InfoList = commentServiceRpc.getSelectRandomComment1InfoRpc(topicModel.getTopicId(), 1);
+            List<CommentModel> randomComment1InfoList = commentServiceRpc.getSelectRandomComment1InfoRpc(topicModel.getTopicId(), 1);
             if (!Objects.isNull(randomComment1InfoList)) {
                 if (!randomComment1InfoList.isEmpty()) {
                     CommentAbs commentAbs = new CommentAbs();
-                    commentAbs.setCommentContent(randomComment1InfoList.get(0).getCommentContent());
+                    commentAbs.setCommentContent(randomComment1InfoList.get(0).getContent());
                     commentAbs.setUserId(randomComment1InfoList.get(0).getUserId());
                     commentAbs.setUserCommentTime(randomComment1InfoList.get(0).getPublicTime());
 
@@ -166,7 +167,7 @@ public class TopicEntryPageServiceApi {
 
                     //获取评论词条
                     List<EntryAbs> entryAbsList = new LinkedList<>();
-                    List<Long> comment1EntryIds = commentServiceRpc.getSelectMultiEntryIdsByComment1IdRpc(randomComment1InfoList.get(0).getCommentId());
+                    List<Long> comment1EntryIds = commentServiceRpc.getSelectMultiEntryIdsByComment1IdRpc(randomComment1InfoList.get(0).getComment1Id());
                     if (!Objects.isNull(comment1EntryIds)) {
                         if (!comment1EntryIds.isEmpty()) {
                             List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectMultiEntryInfoRpc(comment1EntryIds);
@@ -190,7 +191,7 @@ public class TopicEntryPageServiceApi {
             }
 
             //随机获取一条议论内容
-            List<TalkModel> randomTalkInfoList = commentServiceRpc.getSelectRandomTalkInfoRpc(topicModel.getTopicId(), 1);
+            List<CommentModel> randomTalkInfoList = commentServiceRpc.getSelectRandomTalkInfoRpc(topicModel.getTopicId(), 1);
             if (!Objects.isNull(randomTalkInfoList)) {
                 if (!randomTalkInfoList.isEmpty()) {
                     TalkAbs talkAbs = new TalkAbs();
@@ -198,11 +199,11 @@ public class TopicEntryPageServiceApi {
                     talkAbs.setTalkId(randomTalkInfoList.get(0).getTalkId());
 
                     //随机获取一条议论评论
-                    List<TalkComment1Model> randomTalkComment1InfoList = commentServiceRpc.getSelectRandomTalkComment1InfoRpc(randomTalkInfoList.get(0).getTalkId(), 1);
+                    List<CommentModel> randomTalkComment1InfoList = commentServiceRpc.getSelectRandomTalkComment1InfoRpc(randomTalkInfoList.get(0).getTalkId(), 1);
                     if (!Objects.isNull(randomTalkComment1InfoList)) {
                         if (!randomTalkComment1InfoList.isEmpty()) {
                             talkAbs.setUserId(randomTalkComment1InfoList.get(0).getUserId());
-                            talkAbs.setTalkCommentContent(randomTalkComment1InfoList.get(0).getTalkCommentContent());
+                            talkAbs.setTalkCommentContent(randomTalkComment1InfoList.get(0).getContent());
                             talkAbs.setUserTalkCommentTime(randomTalkComment1InfoList.get(0).getPublicTime());
 
 

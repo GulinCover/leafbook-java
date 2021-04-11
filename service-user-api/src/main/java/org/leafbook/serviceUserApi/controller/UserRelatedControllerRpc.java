@@ -4,8 +4,7 @@ import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nimbusds.jose.JOSEException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.leafbook.api.modelApi.billInfo.ResModel;
+import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceUserApi.config.PostSelectSingleUserInfoRpcFallback;
@@ -292,7 +291,81 @@ public class UserRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/select/single/resInfo/by/userId")
     @PostMapping("/rpc/post/select/single/resInfo/by/userId")
-    public ResModel postSelectSingleResInfoByUserIdRpc(@RequestParam("userId")Long userId) {
-        return userRelatedServiceRpc.postSelectSingleResInfoByUserId(userId);
+    public ResModel postSelectSingleResInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId) {
+        return userRelatedServiceRpc.postSelectSingleResInfoByUserId(userId,resId);
+    }
+
+    /**
+     * 查询用户所有可用物品
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/multi/user/resInfo/by/userId")
+    @PostMapping("/rpc/post/select/multi/user/resInfo/by/userId")
+    public List<ResModel> postSelectMultiUserResInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page) {
+        return userRelatedServiceRpc.postSelectMultiUserResInfoByUserId(userId,page);
+    }
+
+    /**
+     * 使用nickname物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    @ApiOperation("rpc/post/use/single/nickname/resInfo")
+    @PostMapping("rpc/post/use/single/nickname/resInfo")
+    public int postUseSingleNicknameResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId) {
+        return userRelatedServiceRpc.postUseSingleNicknameResInfo(userId,resId);
+    }
+
+    /**
+     * 使用renameCard物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    @ApiOperation("rpc/post/use/single/renameCard/resInfo")
+    @PostMapping("rpc/post/use/single/renameCard/resInfo")
+    public int postUseSingleRenameCardResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId,
+            @RequestParam("newName")String newName) {
+        return userRelatedServiceRpc.postUseSingleRenameCardResInfo(userId,resId,newName);
+    }
+
+
+    /**
+     * 更新用户余额
+     * @param userId
+     * @param balance
+     * @return
+     */
+    @ApiOperation("rpc/post/update/single/user/balance")
+    @PostMapping("rpc/post/update/single/user/balance")
+    public int postUpdateSingleUserBalanceRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("balance")Long balance) {
+        return userRelatedServiceRpc.postUpdateSingleUserBalanceRpc(userId,balance);
+    }
+
+    /**
+     * 取消关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    @ApiOperation("/rpc/post/cancel/attention/user")
+    @PostMapping("/rpc/post/cancel/attention/user")
+    public int postCancelAttentionRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("attentionUserId")Long attentionUserId
+    ) {
+        return userRelatedServiceRpc.postCancelAttention(userId,attentionUserId);
     }
 }

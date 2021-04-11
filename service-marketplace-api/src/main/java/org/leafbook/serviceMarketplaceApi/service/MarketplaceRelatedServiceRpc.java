@@ -22,31 +22,37 @@ public class MarketplaceRelatedServiceRpc {
     private Auction2EntryModelMapper auction2EntryModelMapper;
     @Autowired
     private BidingModelMapper bidingModelMapper;
+
     /**
      * 著述结算生成 ‘物品’
+     *
      * @param userId
      * @param topicId
      * @return 物品id
      */
-    public Long postCreateSettlementSingleAuctionInfo(Long userId,Long topicId) {
-        return auctionModelMapper.insertSingleTopicForResId(userId,topicId);
+    public Long postCreateSettlementSingleAuctionInfo(Long userId, Long topicId) {
+        return auctionModelMapper.insertSingleTopicForResId(userId, topicId);
     }
+
     /**
      * 根据词条id搜索正在售卖的著述
+     *
      * @param entryId
      * @return
      */
-    public List<AuctionModel> getSelectMultiAuctionInfoByEntryId(Long entryId,Integer page) {
+    public List<AuctionModel> getSelectMultiAuctionInfoByEntryId(Long entryId, Integer page) {
         List<Long> auctionIds = auction2EntryModelMapper.selectMultiAuctionIdByEntryId(entryId);
-        return auctionModelMapper.selectMultiByAuctionIds(auctionIds,page);
+        return auctionModelMapper.selectMultiByAuctionIds(auctionIds, page);
     }
+
     /**
      * 购买改名卡
+     *
      * @param userId
      * @param uuid
      * @return code
      */
-    public int postBuySingleRenameCard(Long userId,String uuid) {
+    public int postBuySingleRenameCard(Long userId, String uuid) {
         //生成物品
         AuctionModel auctionModel = new AuctionModel();
         auctionModel.setType(2);
@@ -65,29 +71,33 @@ public class MarketplaceRelatedServiceRpc {
 
         return billModelMapper.insert(billModel);
     }
+
     /**
      * 上架物品
+     *
      * @param userId
      * @param auctionId
      * @param price
      * @param expireTimestamp
      * @return code
      */
-    public int postAuctionSingleResInfo(Long userId,Long auctionId,Long price,Long expireTimestamp) {
+    public int postAuctionSingleResInfo(Long userId, Long auctionId, Long price, Long expireTimestamp) {
         AuctionModel auctionModel = new AuctionModel();
         auctionModel.setExpireTimestamp(expireTimestamp);
         auctionModel.setStartPrice(price);
         auctionModel.setStatus(2);
         return auctionModelMapper.update(auctionModel);
     }
+
     /**
      * 使用改名卡，并将名称存储下来
+     *
      * @param userId
      * @param auctionId
      * @param newNickname
      * @return code
      */
-    public int postUseSingleRenameCard(Long userId,Long auctionId,String newNickname) {
+    public int postUseSingleRenameCard(Long userId, Long auctionId, String newNickname) {
         AuctionModel auctionModel = new AuctionModel();
         auctionModel.setUserId(userId);
         auctionModel.setAuctionId(auctionId);
@@ -96,47 +106,57 @@ public class MarketplaceRelatedServiceRpc {
         auctionModel.setStatus(1);
         return auctionModelMapper.update(auctionModel);
     }
+
     /**
      * 查询用户下所有物品
+     *
      * @param userId
      * @return
      */
     public List<AuctionModel> postSelectMultiResInfo(Long userId) {
         return auctionModelMapper.selectMultiAuctionInfo(userId);
     }
+
     /**
      * 查询校验
+     *
      * @param userId
      * @param auctionId
      * @return
      */
-    public AuctionModel postSelectSingleResInfo(Long userId,Long auctionId) {
-        return auctionModelMapper.selectVerifySingleAuctionInfo(userId,auctionId);
+    public AuctionModel postSelectSingleResInfo(Long userId, Long auctionId) {
+        return auctionModelMapper.selectVerifySingleAuctionInfo(userId, auctionId);
     }
+
     /**
      * 竞拍物品
+     *
      * @param userId
      * @param auctionId
      * @param price
      * @return code
      */
-    public int postBidingSingleAuctionInfo(Long userId,Long auctionId,Long price) {
+    public int postBidingSingleAuctionInfo(Long userId, Long auctionId, Long price) {
         BidingModel bidingModel = new BidingModel();
         bidingModel.setPrice(price);
         bidingModel.setAuctionId(auctionId);
         bidingModel.setUserId(userId);
         return bidingModelMapper.insertSingleModel(bidingModel);
     }
+
     /**
      * 获取number条拍卖物品信息
+     *
      * @param number
      * @return
      */
     public List<AuctionModel> getSelectRandomMultiAuctionInfo(Integer number) {
         return auctionModelMapper.selectRandomNumberAuctionInfo(number);
     }
+
     /**
      * 随机获取最新number条拍卖品信息
+     *
      * @return
      */
     public List<AuctionModel> getSelectRandomMultiLatestAuction(Integer number) {
@@ -145,6 +165,7 @@ public class MarketplaceRelatedServiceRpc {
 
     /**
      * 获取拍卖物品信息
+     *
      * @param auctionId
      * @return
      */
@@ -154,18 +175,156 @@ public class MarketplaceRelatedServiceRpc {
 
     /**
      * 检测auctionId合法性
+     *
      * @param auctionId
      * @return
      */
     public int postSelectDetectAuctionIdLegality(Long auctionId) {
         return auctionModelMapper.selectAuctionInfoIsExist(auctionId);
     }
+
     /**
      * 更改买拍信息当
+     *
      * @param auctionModel
      * @return
      */
     public int postUpdateAuctionInfoByAuctionInfo(AuctionModel auctionModel) {
         return auctionModelMapper.updateAuctionInfoByAuctionInfo(auctionModel);
+    }
+
+    /**
+     * 模糊搜索昵称拍卖物品
+     *
+     * @param type://0:topic,1:nickname,2:renameCard
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    public List<AuctionModel> getSelectSearchMultiNicknameAuctionInfo(
+            Integer type,
+            String content,
+            Long startTime,
+            Long endTime,
+            Long page) {
+        return auctionModelMapper.selectSearchMultiNickname(type, content, startTime, endTime, page);
+    }
+
+    /**
+     * 获取条数
+     *
+     * @param type
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    public Long getSelectSearchMultiNicknameAuctionInfoPage(
+            Integer type,
+            String content,
+            Long startTime,
+            Long endTime,
+            Long page) {
+        return auctionModelMapper.selectSearchMultiNicknameAmount(type, content, startTime, endTime, page);
+    }
+
+    /**
+     * 根据topicIds查询拍卖物品
+     *
+     * @param topicIds
+     * @return
+     */
+    public List<AuctionModel> getSelectMultiAuctionInfoByTopicIds(List<Long> topicIds) {
+        return auctionModelMapper.selectMultiAuctionByTopicIds(topicIds);
+    }
+
+    /**
+     * 查询用户账单
+     * @param userId
+     * @param page
+     * @return
+     */
+    public List<BillModel> postSelectMultiBillInfoByUserId(Long userId,Long page) {
+        return billModelMapper.selectMultiBillInfoByUserId(userId,page);
+    }
+    /**
+     * 查询用户账单总条数
+     * @param userId
+     * @return
+     */
+    public Long postSelectMultiBillInfoByUserIdPage(Long userId) {
+        return billModelMapper.selectMultiBillInfoAmountByUserId(userId);
+    }
+    /**
+     * 查询用户正在售卖的物品
+     * @param userId
+     * @param page
+     * @return
+     */
+    public List<AuctionModel> postSelectMultiAuctionInfoByUserId(Long userId,Long page) {
+        return auctionModelMapper.selectMultiAuctionInfo(userId,page);
+    }
+    /**
+     * 获取用户正在上架总条数
+     * @param userId
+     * @return
+     */
+    public Long postSelectMultiAuctionInfoByUserIdPage(Long userId) {
+        return auctionModelMapper.selectMultiAuctionInfoAmount(userId);
+    }
+    /**
+     * 获取用户竞拍成功的账单
+     * @param userId
+     * @param page
+     * @return
+     */
+    public List<BillModel> postSelectMultiPhotographedBillInfoByUserId(Long userId,Long page) {
+        return billModelMapper.selectMultiPhotographedBillInfoByUserId(userId,page);
+    }
+    /**
+     * 获取用户竞拍成功的条数
+     * @param userId
+     * @return
+     */
+    public Long postSelectMultiPhotographedBillInfoByUserIdPage(Long userId) {
+        return billModelMapper.selectMultiPhotographedBillInfoAmountByUserId(userId);
+    }
+
+    /**
+     * 获取用户竞拍失败的信息
+     * @param userId
+     * @param page
+     * @return
+     */
+    public List<BidingModel> postSelectMultiBidingFailedInfo(Long userId,Long page) {
+        return bidingModelMapper.selectMultiUserBidingFailedInfo(userId,page);
+    }
+    /**
+     * 获取用户竞拍失败的信息数量
+     * @param userId
+     * @return
+     */
+    public Long postSelectMultiBidingFailedInfoPage(Long userId) {
+        return bidingModelMapper.selectMultiUserBidingFailedInfoAmount(userId);
+    }
+    /**
+     * 获取用户正在竞拍的信息
+     * @param userId
+     * @param page
+     * @return
+     */
+    public List<BidingModel> postSelectMultiBidingInfo(Long userId,Long page) {
+        return bidingModelMapper.selectMultiUserBidingInfo(userId,page);
+    }
+    /**
+     * 获取用户正在竞拍的信息的数量
+     * @param userId
+     * @return
+     */
+    public Long postSelectMultiBidingInfoPage(Long userId) {
+        return bidingModelMapper.selectMultiUserBidingInfoAmount(userId);
     }
 }

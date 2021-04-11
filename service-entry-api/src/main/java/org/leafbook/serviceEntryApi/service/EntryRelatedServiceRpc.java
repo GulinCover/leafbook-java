@@ -176,6 +176,15 @@ public class EntryRelatedServiceRpc {
     public List<EntryShowModel> getSelectRandomMultiEntryInfoByType(String type,Integer number) {
         return entryModelMapper.selectRandomMultiEntryInfoByType(type,number);
     }
+    /**
+     * 搜索符合条件的词条
+     * @param entryName:词条名
+     * @param entryType:词条类型hot,official,nonofficial
+     * @return
+     */
+    public List<EntryShowModel> getSelectSearchMultiEntryInfoRpc(String entryName,String entryType) {
+        return entryModelMapper.selectSearchMultiEntryShowInfo(entryName,entryType);
+    }
 
 //    /**
 //     * 单删词条

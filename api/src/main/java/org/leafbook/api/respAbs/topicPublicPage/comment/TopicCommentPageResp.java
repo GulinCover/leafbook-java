@@ -1,0 +1,11 @@
+package org.leafbook.api.respAbs.topicPublicPage.comment;
+
+import lombok.Data;
+
+import java.util.List;
+
+@Data
+public class TopicCommentPageResp {
+    private Integer code;
+    private List<TopicComment1Abs> topicComment1AbsList;
+}

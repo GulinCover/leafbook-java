@@ -7,5 +7,6 @@ import java.util.List;
 @Data
 public class PublicTopicInfosResp {
     private Integer code;
+    private Long page;
     private List<PublicTopicAbs> publicTopicAbsList;
 }

@@ -26,8 +26,17 @@ public class AttentionModeMapper {
         return lst;
     }
 
-    public int selectIsExistAttention(Long userId,Long attentionId) {
-        return new Random().nextInt(100);
+    public int selectIsExistAttention(Long userId,Long attentionUserId) {
+        return new Random().nextInt(2);
+    }
+    /**
+     * 取消关注
+     * @param userId
+     * @param attentionUserId
+     * @return
+     */
+    public int deleteCancelAttentionUser(Long userId,Long attentionUserId) {
+        return 1;
     }
 }
 

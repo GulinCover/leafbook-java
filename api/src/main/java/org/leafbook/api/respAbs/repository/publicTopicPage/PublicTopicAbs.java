@@ -9,7 +9,7 @@ public class PublicTopicAbs {
     private Long topicId;
     private String topicTitle;
     private String topicDesc;
-    private String updateTime;
-    private String likeNumber;
+    private Long updateTime;
+    private Long likeNumber;
     private List<EntryAbs> entryAbsList;
 }

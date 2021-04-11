@@ -107,13 +107,15 @@ public class MarketplacePageControllerApi {
         return resp;
     }
 
-
-    /*
-    entry_name:词条名
-    entry:词条类型all,hot,official,custom
-    type:拍卖品类型all,topic,nickname
-    public_time:desc按时间查找,以~分割
-    blurry:模糊搜索
+    /**
+     * 搜索
+     * @param entryName:词条名
+     * @param entry:词条类型hot,official,nonofficial
+     * @param type:拍卖品类型topic,nickname
+     * @param publicTime:desc按时间查找,以~分割
+     * @param content:模糊搜索
+     * @param page
+     * @return
      */
     @ApiOperation("/api/get/select/search/entry/articleInfos")
     @GetMapping("/api/get/select/search/entry/articleInfos")
@@ -123,19 +125,9 @@ public class MarketplacePageControllerApi {
             @RequestParam("type") String type,
             @RequestParam("public_time") String publicTime,
             @RequestParam("blurry") String content,
-            @RequestParam("page") Integer page
+            @RequestParam("page") Long page
     ) {
-        SearchArticleInfosResp resp = new SearchArticleInfosResp();
-        if (!entryName.isEmpty()) {
-            resp.setArticleInfosAbsList(marketplacePageServiceApi.getSelectArticleInfosBySearch());
-            resp.setMaxPage(40);
-            resp.setCode(200);
-        } else {
-            resp.setMaxPage(50);
-            resp.setArticleInfosAbsList(marketplacePageServiceApi.getSelectArticleInfosBySearch());
-            resp.setCode(200);
-        }
-        return resp;
+        return marketplacePageServiceApi.getSelectArticleInfosBySearch(entryName,entry,type,publicTime,content,page);
     }
 
 }

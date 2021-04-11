@@ -92,6 +92,15 @@ public class UserModelMapper {
     public int updateSingleUserInfoByUserInfo(UserModel userModel) {
         return 1;
     }
+    /**
+     * 更新用户余额
+     * @param userId
+     * @param balance
+     * @return
+     */
+    public int updateSingleUserInfoBalance(Long userId,Long balance) {
+        return 1;
+    }
 
     /**
      * 添加关注

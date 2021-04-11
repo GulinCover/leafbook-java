@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 public class BillInfosResp {
     private Integer code;
-    private String balance;
+    private Long page;
+    private Long balance;
     private List<BillAbs> billAbsList;
 }

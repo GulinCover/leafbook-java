@@ -1,6 +1,8 @@
 package org.leafbook.serviceapi.serviceRpc.marketplaceService;
 
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
+import org.leafbook.api.modelApi.billInfo.BidingModel;
+import org.leafbook.api.modelApi.billInfo.BillModel;
 import org.leafbook.serviceapi.openfeinFallback.marketplaceService.MarketplaceServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -142,5 +144,149 @@ public interface MarketplaceServiceRpc {
      */
     @PostMapping("/rpc/post/update/auctionInfo/by/auctionInfo")
     int postUpdateAuctionInfoByAuctionInfoRpc(@RequestBody AuctionModel auctionModel);
+
+    /**
+     * 模糊搜索昵称拍卖物品
+     * @param type://0:topic,1:nickname,2:renameCard
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/search/multi/nickname/auctionInfo")
+    List<AuctionModel> getSelectSearchMultiNicknameAuctionInfoRpc(
+            @RequestParam("type")Integer type,
+            @RequestParam("content")String content,
+            @RequestParam("startTime")Long startTime,
+            @RequestParam("endTime")Long endTime,
+            @RequestParam("page")Long page
+    );
+
+    /**
+     * 获取条数
+     * @param type
+     * @param content
+     * @param startTime
+     * @param endTime
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/search/multi/nickname/auctionInfo/page")
+    Long getSelectSearchMultiNicknameAuctionInfoPageRpc(
+            @RequestParam("type")Integer type,
+            @RequestParam("content")String content,
+            @RequestParam("startTime")Long startTime,
+            @RequestParam("endTime")Long endTime,
+            @RequestParam("page")Long page
+    );
+
+    /**
+     * 根据topicIds查询拍卖物品
+     * @param topicIds
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/auctionInfo/topicIds")
+    List<AuctionModel> getSelectMultiAuctionInfoByTopicIdsRpc(@RequestParam("topicIds")List<Long> topicIds);
+
+    /**
+     * 查询用户账单
+     * @param userId
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/billInfo/by/userId")
+    List<BillModel> postSelectMultiBillInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
+    /**
+     * 查询用户账单总条数
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/billInfo/by/userId/Page")
+    Long postSelectMultiBillInfoByUserIdPageRpc(
+            @RequestParam("userId")Long userId);
+
+    /**
+     * 查询用户正在售卖的物品
+     * @param userId
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/auctionInfo/by/userId")
+    List<AuctionModel> postSelectMultiAuctionInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
+
+    /**
+     * 获取用户正在上架总条数
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/auctionInfo/by/userId/page")
+    Long postSelectMultiAuctionInfoByUserIdPageRpc(
+            @RequestParam("userId")Long userId);
+    /**
+     * 获取用户竞拍成功的账单
+     * @param userId
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/photographed/billInfo/by/userId")
+    List<BillModel> postSelectMultiPhotographedBillInfoByUserIdRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
+
+    /**
+     * 获取用户竞拍成功的条数
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/photographed/billInfo/by/userId/page")
+    Long postSelectMultiPhotographedBillInfoByUserIdPageRpc(@RequestParam("userId")Long userId);
+
+    /**
+     * 获取用户竞拍失败的信息
+     * @param userId
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/bidingFailedInfo")
+    List<BidingModel> postSelectMultiBidingFailedInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page
+    );
+
+    /**
+     * 获取用户竞拍失败的信息数量
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/bidingFailedInfo/page")
+    Long postSelectMultiBidingFailedInfoPageRpc(
+            @RequestParam("userId")Long userId
+    );
+
+    /**
+     * 获取用户正在竞拍的信息
+     * @param userId
+     * @param page
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/bidingInfo")
+    List<BidingModel> postSelectMultiBidingInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page
+    );
+    /**
+     * 获取用户正在竞拍的信息的数量
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/bidingInfo/page")
+    Long postSelectMultiBidingInfoPageRpc(
+            @RequestParam("userId")Long userId
+    );
 
 }

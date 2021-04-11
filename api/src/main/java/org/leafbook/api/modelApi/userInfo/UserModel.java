@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class UserModel extends Model implements Serializable {
     private Long id;
     private String username;
-    private String usedName;
+    private String usedName;//;alex;babo;
     private String uuid;
 
     private String desc;

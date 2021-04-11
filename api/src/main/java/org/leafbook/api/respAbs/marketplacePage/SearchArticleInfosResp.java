@@ -7,6 +7,9 @@ import java.util.List;
 @Data
 public class SearchArticleInfosResp {
     private Integer code;
-    private Integer maxPage;
-    private List<ArticleInfosAbs> articleInfosAbsList;
+    private Long maxPage;
+    private Long entryId;
+    private String entryName;
+    private String entryDesc;
+    private List<ArticleInfoAbs> articleInfoAbsList;
 }

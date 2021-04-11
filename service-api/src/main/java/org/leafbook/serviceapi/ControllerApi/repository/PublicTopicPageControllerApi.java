@@ -19,13 +19,19 @@ public class PublicTopicPageControllerApi {
     @Autowired
     private PublicTopicPageServiceApi publicTopicPageServiceApi;
 
-    //获取用户发布的著述
+    /**
+     * 获取用户发布的著述
+     * @param userId
+     * @param form:page
+     * @return
+     */
     @ApiOperation("/api/post/select/me/publicTopic")
     @PostMapping("/api/post/select/me/publicTopic")
-    public PublicTopicInfosResp postSelectPublicTopicInfoApi(@RequestHeader("user_id")Long userId) {
-        PublicTopicInfosResp resp = new PublicTopicInfosResp();
-
-        resp.setPublicTopicAbsList(publicTopicPageServiceApi.postSelectPublicTopicInfo());
+    public PublicTopicInfosResp postSelectPublicTopicInfoApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String, Long> form
+    ) {
+        PublicTopicInfosResp resp = publicTopicPageServiceApi.postSelectPublicTopicInfo(userId,form);
 
         resp.setCode(200);
         return resp;
@@ -34,7 +40,7 @@ public class PublicTopicPageControllerApi {
     //获取用户发布著述的所有词条
     @ApiOperation("/api/post/select/me/publicTopic/all/entry")
     @PostMapping("/api/post/select/me/publicTopic/all/entry")
-    public EntryListResp postSelectPublicTopicInfoAllEntryListApi(@RequestHeader("user_id")Long userId) {
+    public EntryListResp postSelectPublicTopicInfoAllEntryListApi(@RequestHeader("userId")Long userId) {
         EntryListResp resp = new EntryListResp();
 
         resp.setEntryAbsList(publicTopicPageServiceApi.postSelectPublicTopicInfoAllEntryList());
@@ -50,14 +56,14 @@ public class PublicTopicPageControllerApi {
     time_content:一周,一月,所有
      */
     @ApiOperation("/api/post/select/search/me/publicTopic")
-    @PostMapping(value = "/api/post/select/search/me/publicTopic",produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/api/post/select/search/me/publicTopic")
     public PublicTopicInfosResp postSelectSearchPublicTopicInfosApi(
             @RequestHeader("user_id")Long userId,
             @RequestBody Map<String, String> form
             ) {
         PublicTopicInfosResp resp = new PublicTopicInfosResp();
 
-        resp.setPublicTopicAbsList(publicTopicPageServiceApi.postSelectPublicTopicInfo());
+//        resp.setPublicTopicAbsList(publicTopicPageServiceApi.postSelectPublicTopicInfo(userId));
 
         resp.setCode(200);
         return resp;
