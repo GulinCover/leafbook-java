@@ -16,5 +16,6 @@ public class CommentModel extends Model {
     private Long talkComment2Id;
 
     private Long userId;
+    private Long commentedUserId;
     private String content;
 }

@@ -81,14 +81,18 @@ public interface CommentServiceRpc {
      * 发布二级评论
      *
      * @param userId
+     * @param topicId
      * @param comment1Id
+     * @param commentUserId
      * @param comment2Content
      * @return
      */
     @PostMapping("/rpc/post/public/comment2Info")
     int postPublicComment2InfoRpc(
             @RequestParam("userId") Long userId,
+            @RequestParam("topicId") Long topicId,
             @RequestParam("comment1Id") Long comment1Id,
+            @RequestParam("commentUserId") Long commentUserId,
             @RequestParam("comment2Content") String comment2Content);
 
     /**

@@ -108,15 +108,18 @@ public class CommentServiceRpc {
      * 发布二级评论
      *
      * @param userId
+     * @param topicId
      * @param comment1Id
+     * @param commentUserId
      * @param comment2Content
      * @return
      */
-    public int postPublicComment2Info(Long userId, Long comment1Id, String comment2Content) {
+    public int postPublicComment2Info(Long userId, Long topicId, Long comment1Id, Long commentUserId, String comment2Content) {
         CommentModel commentModel = commentModelMapper.selectSingleByComment1Id(comment1Id);
-        if (Objects.nonNull(commentModel)) {
+        if (Objects.nonNull(commentModel) && commentModel.getTopicId().equals(topicId)) {
             commentModel.setUserId(userId);
             commentModel.setContent(comment2Content);
+            commentModel.setCommentedUserId(commentUserId);
             Long comment2Id = commentModelMapper.insertComment2InfoByModel(commentModel);
             if (comment2Id != 0) return 1;
             return 1;

@@ -3,18 +3,18 @@ package org.leafbook.serviceapi.serviceApi.topicPage;
 import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
-import org.leafbook.api.respAbs.topicPublicPage.comment.TopicComment1Abs;
-import org.leafbook.api.respAbs.topicPublicPage.comment.TopicComment1InfoResp;
-import org.leafbook.api.respAbs.topicPublicPage.comment.TopicCommentEntryAbs;
+import org.leafbook.api.respAbs.topicPublicPage.comment.*;
 import org.leafbook.serviceapi.serviceRpc.commentService.CommentServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.entryService.EntryServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.topicService.TopicServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.userService.UserServiceRpc;
+import org.leafbook.utils.tools.Covert2Tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -28,7 +28,7 @@ public class CommentPageServiceApi {
     @Autowired
     private EntryServiceRpc entryServiceRpc;
     /**
-     * 获取普通评论
+     * 获取普通一级评论
      * @param userId
      * @param topicId
      * @param page
@@ -95,7 +95,90 @@ public class CommentPageServiceApi {
         resp.setCommentTotalAmount(commentServiceRpc.postSelectCommentInfoAmountByTopicIdRpc(topicId));
 
         Long maxPage = commentServiceRpc.postSelectComment1InfoAmountByTopicIdRpc(topicId);
-        resp.setPage((long)Math.ceil(maxPage / 20));
+        resp.setPage(maxPage);
         return resp;
+    }
+    /**
+     * 获取二级评论
+     * @param userId
+     * @param page
+     * @return
+     */
+    public TopicComment2InfoResp getSelectTopicComment2Info(Long userId,Long comment1Id,Long page) {
+        TopicComment2InfoResp resp = new TopicComment2InfoResp();
+
+        List<TopicComment2Abs> topicComment2AbsList = new LinkedList<>();
+
+        List<CommentModel> comment2InfoList = commentServiceRpc.getSelectMultiComment2InfoRpc(comment1Id, page);
+        if (Objects.nonNull(comment2InfoList) && !comment2InfoList.isEmpty()) {
+            for (CommentModel commentModel:comment2InfoList) {
+                TopicComment2Abs topicComment2Abs = new TopicComment2Abs();
+                topicComment2Abs.setComment2Id(commentModel.getComment2Id());
+                topicComment2Abs.setCommentContent(commentModel.getContent());
+                topicComment2Abs.setCommentTime(commentModel.getPublicTime());
+
+                UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(commentModel.getUserId());
+                if (Objects.nonNull(userModel)) {
+                    topicComment2Abs.setUserAvatar(userModel.getAvatar());
+                    topicComment2Abs.setUserId(userModel.getId());
+                    topicComment2Abs.setUserLevel(userModel.getLevel());
+                    topicComment2Abs.setUsername(userModel.getUsername());
+                }
+
+                topicComment2AbsList.add(topicComment2Abs);
+            }
+        }
+
+        resp.setTopicComment2AbsList(topicComment2AbsList);
+
+        resp.setPage(commentServiceRpc.postSelectComment2InfoAmountByComment1IdRpc(comment1Id));
+
+        return resp;
+    }
+
+    /**
+     * 发布普通评论
+     * @param userId
+     * @param form:userId,topicId,content,comment1Id
+     * @return
+     */
+    public int postInsertCommentInfo(Long userId, Map<String,String> form) {
+        String commentUserIdStr = form.get("userId");
+        String topicIdStr = form.get("topicId");
+        String content = form.get("content");
+        String comment1IdStr = form.get("comment1Id");
+
+        if (userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId) != 1) {
+            return 403;
+        }
+
+        if (!Covert2Tools.isDigital(topicIdStr)) {
+            return 4000;
+        }
+
+        Long topicId = Covert2Tools.covertToLong(topicIdStr);
+        content = content
+                .replaceAll("<","&lt;")
+                .replaceAll(">","&gt;")
+                .replaceAll("\"","&quot;")
+                .replaceAll("'","&#39;");
+
+        System.out.println(content);
+
+        if ("".equals(comment1IdStr) || "0".equals(comment1IdStr) || Objects.isNull(comment1IdStr)) {
+            return commentServiceRpc.postPublicComment1InfoRpc(userId, topicId, content);
+        } else {
+            if (!Covert2Tools.isDigital(comment1IdStr) || !Covert2Tools.isDigital(commentUserIdStr)) {
+                return 4000;
+            }
+
+            Long comment1Id = Covert2Tools.covertToLong(comment1IdStr);
+            Long commentUserId = Covert2Tools.covertToLong(commentUserIdStr);
+
+            if (userServiceRpc.postSelectDetectLegalityWithUserIdRpc(commentUserId) != 1) {
+                return 403;
+            }
+            return commentServiceRpc.postPublicComment2InfoRpc(userId, topicId, comment1Id, commentUserId, content);
+        }
     }
 }

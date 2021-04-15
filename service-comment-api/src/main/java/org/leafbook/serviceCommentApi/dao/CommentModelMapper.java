@@ -27,9 +27,9 @@ public class CommentModelMapper {
     public CommentModel selectSingleByComment1Id(Long comment1Id) {
         CommentModel commentModel = new CommentModel();
         commentModel.setTopicId(1L);
-        commentModel.setComment1Id(1L);
+        commentModel.setComment1Id((long)new Random().nextInt(100));
         commentModel.setContent(TestModel.randomString().toString());
-        commentModel.setUserId(312L);
+        commentModel.setUserId((long)new Random().nextInt(100));
         return commentModel;
     }
     public CommentModel selectSingleByComment2Id(Long comment2Id) {
@@ -54,14 +54,14 @@ public class CommentModelMapper {
     }
     public CommentModel selectSingleByTalkComment2Id(Long talkComment2Id) {
         CommentModel commentModel = new CommentModel();
-        commentModel.setTopicId(1L);
-        commentModel.setTalkId(1L);
+        commentModel.setTopicId((long)new Random().nextInt(100));
+        commentModel.setTalkId((long)new Random().nextInt(100));
         commentModel.setTalkTitle(TestModel.randomWord());
         commentModel.setTalkDesc(TestModel.randomWord());
-        commentModel.setTalkComment1Id(1L);
-        commentModel.setTalkComment2Id(1L);
+        commentModel.setTalkComment1Id((long)new Random().nextInt(100));
+        commentModel.setTalkComment2Id((long)new Random().nextInt(100));
         commentModel.setContent(TestModel.randomString().toString());
-        commentModel.setUserId(312L);
+        commentModel.setUserId((long)new Random().nextInt(100));
         return commentModel;
     }
 

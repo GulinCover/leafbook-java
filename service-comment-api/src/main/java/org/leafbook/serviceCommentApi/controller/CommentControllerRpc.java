@@ -96,7 +96,9 @@ public class CommentControllerRpc {
      * 发布二级评论
      *
      * @param userId
+     * @param topicId
      * @param comment1Id
+     * @param commentUserId
      * @param comment2Content
      * @return
      */
@@ -104,9 +106,11 @@ public class CommentControllerRpc {
     @PostMapping("/rpc/post/public/comment2Info")
     public int postPublicComment2InfoRpc(
             @RequestParam("userId") Long userId,
+            @RequestParam("topicId") Long topicId,
             @RequestParam("comment1Id") Long comment1Id,
+            @RequestParam("commentUserId") Long commentUserId,
             @RequestParam("comment2Content") String comment2Content) {
-        return commentServiceRpc.postPublicComment2Info(userId, comment1Id, comment2Content);
+        return commentServiceRpc.postPublicComment2Info(userId, topicId, comment1Id, commentUserId, comment2Content);
     }
 
     /**
