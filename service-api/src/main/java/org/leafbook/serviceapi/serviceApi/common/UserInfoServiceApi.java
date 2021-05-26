@@ -1,10 +1,14 @@
 package org.leafbook.serviceapi.serviceApi.common;
 
-import org.leafbook.api.modelApi.commentInfo.Comment1Model;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.commentInfo.CommentModel;
+import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
+import org.leafbook.api.respAbs.common.OtherEntryAbs;
+import org.leafbook.api.respAbs.common.OtherUserTopicAbs;
+import org.leafbook.api.respAbs.common.OtherUserTopicResp;
 import org.leafbook.api.respAbs.common.UserInfoResp;
 import org.leafbook.serviceapi.serviceRpc.commentService.CommentServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.commonService.CommonServiceRpc;
@@ -17,9 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.rmi.ServerError;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class UserInfoServiceApi {
     @Autowired
@@ -32,6 +39,8 @@ public class UserInfoServiceApi {
     private CommentServiceRpc commentServiceRpc;
     @Autowired
     private EntryServiceRpc entryServiceRpc;
+    @Autowired
+    private RecordServiceRpc recordServiceRpc;
 
     /**
      * 获取登录用户信息
@@ -39,21 +48,27 @@ public class UserInfoServiceApi {
      * @param userId
      * @return
      */
-    public UserInfoResp postSelectUserInfo(Long userId) throws ServerError {
-        UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(userId);
-        if (Objects.isNull(userModel)) throw new ServerError("服务器异常", new Error("数据丢失"));
-        UserInfoResp userInfoResp = new UserInfoResp();
-        userInfoResp.setLocation(userModel.getLocation());
-        userInfoResp.setSex(userModel.getSex());
-        userInfoResp.setUserAvatar(userModel.getAvatar());
-        userInfoResp.setUserDesc(userModel.getDesc());
-        userInfoResp.setUserId(userId);
-        userInfoResp.setBalance(userModel.getBalance());
-        userInfoResp.setUserLevel(userModel.getLevel());
-        userInfoResp.setUUID(userModel.getUuid());
-        userInfoResp.setUsername(userModel.getUsername());
+    public UserInfoResp postSelectUserInfo(Long userId,String loginMark) {
+        UserInfoResp resp = new UserInfoResp();
 
-        return userInfoResp;
+        UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(userId);
+        if (!userModel.getLoginMark().contains(loginMark)) {
+            resp.setCode(403);
+            return resp;
+        }
+        if (Objects.isNull(userModel)) return resp;
+        resp.setLocation(userModel.getLocation());
+        resp.setSex(userModel.getSex());
+        resp.setUserAvatar(userModel.getAvatar());
+        resp.setUserDesc(userModel.getUserDesc());
+        resp.setUserId(userId);
+        resp.setBalance(userModel.getBalance());
+        resp.setUserLevel(userModel.getLevel());
+        resp.setUUID(userModel.getUuid());
+        resp.setUsername(userModel.getUsername());
+
+        resp.setCode(200);
+        return resp;
     }
     /**
      * 检测用户合法性
@@ -469,5 +484,56 @@ public class UserInfoServiceApi {
         if (Objects.isNull(attentionUserId)) return 0;
 
         return userServiceRpc.postCancelAttentionRpc(userId,attentionUserId);
+    }
+
+    /**
+     * 获取文章
+     * @param userId
+     * @param form:userId,page
+     * @return
+     */
+    public OtherUserTopicResp getSelectOtherUserTopicInfo(Long userId,Map<String ,Long> form) {
+        OtherUserTopicResp resp = new OtherUserTopicResp();
+        List<OtherUserTopicAbs> otherUserTopicAbsList = new LinkedList<>();
+        Long otherUserId = form.get("userId");
+        Long page = form.get("page");
+        if (Objects.isNull(page) || page <= 0) page = 1L;
+        if (Objects.isNull(otherUserId)) return resp;
+
+        List<TopicModel> topicModelList = topicServiceRpc.postSelectMeTopicInfoRpc(otherUserId,page);
+        if (Objects.nonNull(topicModelList) && !topicModelList.isEmpty()) {
+            for (TopicModel topicModel:topicModelList) {
+                OtherUserTopicAbs userTopicAbs = new OtherUserTopicAbs();
+                userTopicAbs.setPublicTime(topicModel.getCreateTime());
+                userTopicAbs.setTopicId(topicModel.getTopicId());
+                userTopicAbs.setTopicTitle(topicModel.getTopicTitle());
+                userTopicAbs.setTopicDesc(topicModel.getTopicDesc());
+
+                userTopicAbs.setStarAmount(topicServiceRpc.getSelectTopicStarAmountRpc(topicModel.getTopicId()));
+
+                userTopicAbs.setBrowseAmount(recordServiceRpc.getSelectTopicBrowseInfoAmountByTopicIdRpc(topicModel.getTopicId()));
+
+                List<Long> entryIdList = topicServiceRpc.getSelectSingleTopicInfoForEntryIdsRpc(topicModel.getTopicId());
+                List<OtherEntryAbs> otherEntryAbsList = new LinkedList<>();
+                if (Objects.nonNull(entryIdList) && !entryIdList.isEmpty()) {
+                    List<EntryShowModel> entryInfoList = entryServiceRpc.getSelectMultiEntryInfoRpc(entryIdList);
+                    if (Objects.nonNull(entryInfoList) && !entryInfoList.isEmpty()) {
+                        for (EntryShowModel entryShowModel:entryInfoList) {
+                            OtherEntryAbs otherEntryAbs = new OtherEntryAbs();
+                            otherEntryAbs.setEntryId(entryShowModel.getEntryId());
+                            otherEntryAbs.setEntryName(entryShowModel.getEntryName());
+
+                            otherEntryAbsList.add(otherEntryAbs);
+                        }
+                    }
+                }
+                userTopicAbs.setEntryAbsList(otherEntryAbsList);
+                otherUserTopicAbsList.add(userTopicAbs);
+            }
+        }
+
+        resp.setTopicAbsList(otherUserTopicAbsList);
+        resp.setPage(topicServiceRpc.getSelectTopicAmountByUserIdRpc(otherUserId));
+        return resp;
     }
 }

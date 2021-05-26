@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
 import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@GlobalTransactional
 @Service
 public class MarketplacePageServiceApi {
     @Autowired
@@ -34,7 +36,7 @@ public class MarketplacePageServiceApi {
      * 获取售卖类型
      * @return
      */
-    public List<String> getSelectSellType() {
+    public List<String> getSelectSellType(Long userId) {
         List<String> list = new LinkedList<>();
         list.add("nickname");
         list.add("topic");
@@ -45,7 +47,7 @@ public class MarketplacePageServiceApi {
      * 获取板块类型(#只显示官方)
      * @return
      */
-    public List<EntryAbs> getSelectOfficialEntryInfos() {
+    public List<EntryAbs> getSelectOfficialEntryInfos(Long userId) {
         List<EntryAbs> entryAbsList = new LinkedList<>();
         List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectAllEntryInfoWithTypeRpc("official");
         if (Objects.nonNull(entryShowModelList) && !entryShowModelList.isEmpty()) {
@@ -65,9 +67,9 @@ public class MarketplacePageServiceApi {
      * 随机推荐4条官方词条信息
      * @return
      */
-    public List<EntryAbs> getSelectRandomFourOfficialEntryInfos() {
+    public List<EntryAbs> getSelectRandomFourOfficialEntryInfos(Long userId) {
         List<EntryAbs> entryAbsList = new LinkedList<>();
-        List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectRandomMultiEntryInfoByTypeRpc("official",4);
+        List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectRandomMultiEntryInfoByTypeRpc("official",4L);
         if (Objects.nonNull(entryShowModelList) && !entryShowModelList.isEmpty()) {
             for (EntryShowModel entryShowModel:entryShowModelList) {
                 EntryAbs entryAbs = new EntryAbs();
@@ -85,7 +87,7 @@ public class MarketplacePageServiceApi {
      * 随机获取5-10条拍卖品信息
      * @return
      */
-    public List<ArticleInfoAbs> getSelectRandomPopularArticleInfos() {
+    public List<ArticleInfoAbs> getSelectRandomPopularArticleInfos(Long userId) {
         List<ArticleInfoAbs> articleInfoAbsList = new LinkedList<>();
 
         Integer number = new Random().nextInt(5)+5;
@@ -98,15 +100,16 @@ public class MarketplacePageServiceApi {
                 articleInfoAbs.setBidPrice(auctionModel.getStartPrice());
                 articleInfoAbs.setCurrentPrice(auctionModel.getCurrentPrice());
 
-                final Long userId = auctionModel.getUserId();
-                articleInfoAbs.setTopicId(userId);
+                final Long userId1 = auctionModel.getUserId();
+                articleInfoAbs.setTopicId(userId1);
 
-                final UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(userId);
+                final UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(userId1);
                 if (Objects.nonNull(userModel)) {
                     articleInfoAbs.setUserAvatar(userModel.getAvatar());
+                    articleInfoAbs.setUserId(userModel.getId());
                 }
 
-                Integer type = auctionModel.getType();
+                Integer type = auctionModel.getAuctionType();
                 articleInfoAbs.setArticleType(type);
                 switch (type) {
                     case 0:
@@ -156,7 +159,7 @@ public class MarketplacePageServiceApi {
      * 随机获取最新5-10条拍卖品信息
      * @return
      */
-    public List<ArticleInfoAbs> getSelectRandomRecentEntryInfos() {
+    public List<ArticleInfoAbs> getSelectRandomRecentEntryInfos(Long userId) {
         List<ArticleInfoAbs> articleInfoAbsList = new LinkedList<>();
 
         Integer number = new Random().nextInt(5)+5;
@@ -169,15 +172,15 @@ public class MarketplacePageServiceApi {
                 articleInfoAbs.setBidPrice(auctionModel.getStartPrice());
                 articleInfoAbs.setCurrentPrice(auctionModel.getCurrentPrice());
 
-                final Long userId = auctionModel.getUserId();
-                articleInfoAbs.setTopicId(userId);
+                final Long userId1 = auctionModel.getUserId();
+                articleInfoAbs.setTopicId(userId1);
 
-                final UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(userId);
+                final UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(userId1);
                 if (Objects.nonNull(userModel)) {
                     articleInfoAbs.setUserAvatar(userModel.getAvatar());
                 }
 
-                Integer type = auctionModel.getType();
+                Integer type = auctionModel.getAuctionType();
                 articleInfoAbs.setArticleType(type);
                 switch (type) {
                     case 0:
@@ -227,9 +230,75 @@ public class MarketplacePageServiceApi {
      * 按词条随机获取拍卖品信息
      * @return
      */
-    public List<ArticleInfosAbs> getSelectRandomArticleInfosByEntryInfos() {
+    public List<ArticleInfosAbs> getSelectRandomArticleInfosByEntryInfos(Long userId) {
+        List<ArticleInfosAbs> articleInfosAbsList = new LinkedList<>();
+        List<EntryShowModel> entryInfoList = entryServiceRpc.getSelectRandomMultiEntryInfoRpc();
+        if (Objects.nonNull(entryInfoList) && !entryInfoList.isEmpty()) {
+            for (EntryShowModel entryShowModel:entryInfoList) {
+                ArticleInfosAbs articleInfosAbs = new ArticleInfosAbs();
+                articleInfosAbs.setEntryId(entryShowModel.getEntryId());
+                articleInfosAbs.setEntryDesc(entryShowModel.getEntryDesc());
+                articleInfosAbs.setEntryName(entryShowModel.getEntryName());
 
-        return MarketplaceTestModel.createRandomArticleInfosAbsList();
+                List<ArticleInfoAbs> articleInfoAbsList = new LinkedList<>();
+                List<Long> topicIds = topicServiceRpc.getSelectRandomMultiTopicIdsByEntryIdForAuctionInfoRpc(entryShowModel.getEntryId());
+                if (Objects.nonNull(topicIds) && !topicIds.isEmpty()) {
+                    List<AuctionModel> auctionModelList = marketplaceServiceRpc.getSelectMultiAuctionInfoByTopicIdsRpc(topicIds);
+                    if (Objects.nonNull(auctionModelList) && !auctionModelList.isEmpty()) {
+                        for (AuctionModel auctionModel:auctionModelList) {
+                            ArticleInfoAbs model = new ArticleInfoAbs();
+                            model.setAuctionId(auctionModel.getAuctionId());
+
+                            model.setUserId(auctionModel.getUserId());
+                            UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(auctionModel.getUserId());
+                            if (Objects.nonNull(userModel)) {
+                                model.setUserAvatar(userModel.getAvatar());
+                            }
+
+                            model.setCurrentPrice(auctionModel.getCurrentPrice());
+                            model.setBidPrice(auctionModel.getStartPrice());
+
+                            model.setArticleType(auctionModel.getAuctionType());
+                            if (auctionModel.getAuctionType() == 0) {
+                                model.setTopicId(auctionModel.getTopicId());
+                                TopicModel topicInfo = topicServiceRpc.getSelectSingleTopicInfoRpc(auctionModel.getTopicId());
+                                if (Objects.nonNull(topicInfo)) {
+                                    model.setTopicTitle(topicInfo.getTopicTitle());
+                                    model.setTopicDesc(topicInfo.getTopicDesc());
+                                }
+
+                            } else if (auctionModel.getAuctionType() == 1) {
+                                model.setNickname(auctionModel.getNickname());
+                            }
+
+                            List<Long> entryIds = topicServiceRpc.getSelectSingleTopicInfoForEntryIdsRpc(auctionModel.getTopicId());
+                            List<EntryAbs> entryAbsList = new LinkedList<>();
+                            if (Objects.nonNull(entryIds) && !entryIds.isEmpty()) {
+                                List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectMultiEntryInfoRpc(entryIds);
+                                if (Objects.nonNull(entryShowModelList) && !entryShowModelList.isEmpty()) {
+                                    for (EntryShowModel entryShowModel1:entryShowModelList) {
+                                        EntryAbs entryAbs = new EntryAbs();
+                                        entryAbs.setEntryId(entryShowModel1.getEntryId());
+                                        entryAbs.setEntryName(entryShowModel1.getEntryName());
+
+                                        entryAbsList.add(entryAbs);
+                                    }
+                                }
+                            }
+                            model.setEntryAbsList(entryAbsList);
+
+                            articleInfoAbsList.add(model);
+                        }
+                    }
+                }
+
+                articleInfosAbs.setArticleInfoAbsList(articleInfoAbsList);
+
+                articleInfosAbsList.add(articleInfosAbs);
+            }
+        }
+
+        return articleInfosAbsList;
     }
     /**
      * 搜索
@@ -242,6 +311,7 @@ public class MarketplacePageServiceApi {
      * @return
      */
     public SearchArticleInfosResp getSelectArticleInfosBySearch(
+            Long userId,
             String entryName,
             String entry,
             String type,
@@ -281,7 +351,7 @@ public class MarketplacePageServiceApi {
             Long maxPage = marketplaceServiceRpc.getSelectSearchMultiNicknameAuctionInfoPageRpc(1,content,startTime,endTime,page);
 
             if (Objects.isNull(auctionModelList) || auctionModelList.isEmpty()) {
-                resp.setMaxPage(0L);
+                resp.setPage(0L);
                 resp.setCode(200);
                 return resp;
             }
@@ -306,13 +376,13 @@ public class MarketplacePageServiceApi {
 
             resp.setArticleInfoAbsList(articleInfoAbsList);
             resp.setCode(200);
-            resp.setMaxPage((long) Math.ceil(maxPage / 20));
+            resp.setPage(maxPage);
             return resp;
-        } else {
+        } else if ("topic".equals(type)) {
             List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectSearchMultiEntryInfoRpc(entryName,entry);
 
             if (Objects.isNull(entryShowModelList) || entryShowModelList.isEmpty()) {
-                resp.setMaxPage(0L);
+                resp.setPage(0L);
                 resp.setCode(200);
                 return resp;
             }
@@ -342,7 +412,7 @@ public class MarketplacePageServiceApi {
             List<AuctionModel> auctionModelList = marketplaceServiceRpc.getSelectMultiAuctionInfoByTopicIdsRpc(topicIds);
 
             if (Objects.isNull(auctionModelList) || auctionModelList.isEmpty()) {
-                resp.setMaxPage(0L);
+                resp.setPage(0L);
                 resp.setCode(200);
                 return resp;
             }
@@ -361,11 +431,16 @@ public class MarketplacePageServiceApi {
             }
 
             resp.setArticleInfoAbsList(articleInfoAbsList);
-            resp.setMaxPage((long) Math.ceil(maxPage / 20));
+            resp.setPage(maxPage);
             resp.setCode(200);
             return resp;
-
+        } else {
+            resp.setArticleInfoAbsList(articleInfoAbsList);
+            resp.setPage(0L);
+            resp.setCode(200);
+            return resp;
         }
+
     }
 }
 

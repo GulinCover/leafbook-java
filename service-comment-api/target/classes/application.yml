@@ -1,13 +1,56 @@
-server:
-  port: 16000
-spring:
-  application:
-    name: service-comment-api
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${HOSTS:localhost:8848}
-    sentinel:
-      transport:
-        port: 26000
-        dashboard: HOSTS:localhost:30000
+#server:
+#  port: 16000
+#spring:
+#  application:
+#    name: service-comment-api
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: ${HOSTS:localhost:8848}
+#        group: LEAFBOOK_GROUP
+#
+#    sentinel:
+#      transport:
+#        port: 26000
+#        dashboard: HOSTS:localhost:30000
+#  datasource:
+#    username: root
+#    password: ACDCacdc120
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://127.0.0.1:3306/leafbook?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#swagger:
+#  title: service-comment-api
+#  version: 1.0.0
+#  base-package: org.leafbook.serviceCommentApi
+#  description: "service comment api"
+#  group-name: service-comment-api
+#snowflake:
+#  datacenterId: 1
+#  workId: 8
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**
+
+#seata:
+#  use-jdk-proxy: true
+#  application-id: ${spring.application.name}
+#  enabled: true
+#  tx-service-group: my_test_tx_group
+#  config:
+#    type: nacos
+#    nacos:
+#      namespace: 827b88a6-365d-4812-912a-cb7e91056825
+#      server-addr: localhost:8848
+#      group: SEATA_GROUP
+#      username: nacos
+#      password: nacos
+#  registry:
+#    type: nacos
+#    nacos:
+#      application: seata-server
+#      server-addr: localhost:8848
+#      group: SEATA_GROUP
+#      namespace: 827b88a6-365d-4812-912a-cb7e91056825
+#      username: nacos
+#      password: nacos
+

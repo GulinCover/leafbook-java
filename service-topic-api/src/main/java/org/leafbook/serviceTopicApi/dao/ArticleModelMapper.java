@@ -1,125 +1,86 @@
 package org.leafbook.serviceTopicApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel;
-import org.leafbook.api.testModel.indexPage.TestModel;
-import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
-@Service
-public class ArticleModelMapper {
-    /**
-     * 权限检测
-     *
-     * @param topicId
-     * @param article
-     * @return
-     */
-    public int selectDecideByUserIdAndArticleId(Long topicId, Long article) {
-        return new Random().nextInt(100);
-    }
-    /**
-     * 随机获取一篇文章
-     * @param topicId
-     * @return
-     */
-    public List<ArticleModel> selectRandomSingleArticleInfoByTopicId(Long topicId,Integer randomNumber) {
-        List<ArticleModel> articleModelList = new LinkedList<>();
-        for (int i = 0; i < randomNumber; ++i) {
-            ArticleModel articleModel = new ArticleModel();
-            articleModel.setNextArticleId(2132L);
-            articleModel.setArticleDesc(TestModel.randomString().toString());
-            articleModel.setArticleTitle(TestModel.randomWord());
-            articleModel.setArticleContent(TestModel.randomString().toString());
-            articleModel.setTopicId(topicId);
-            articleModel.setArticleId(312321L);
-            articleModel.setUserId(321132L);
-            articleModel.setMainNumber(31L);
-            articleModel.setBranchNumber(0L);
+@Mapper
+public interface ArticleModelMapper extends BaseMapper<ArticleModel> {
+    Long selectMainArticleAmount(@Param("topicId") Long topicId);
 
-            articleModelList.add(articleModel);
-        }
+    List<ArticleModel> selectMultiMainArticleByTopicId(
+            @Param("topicId") Long topicId,
+            @Param("start") Long start,
+            @Param("end") Long end
+    );
 
-        return articleModelList;
-    }
-    /**
-     * 获取文章展示词条
-     * @param articleId
-     * @return
-     */
-    public List<Long> selectMultiEntryIdByArticleId(Long articleId) {
-        final List<Long> lst = new LinkedList<>();
-        LongStream.range(5,8).forEach(it->{
-            lst.add(it);
-        });
-        return lst;
-    }
-    /**
-     * 获取最近一条文章
-     * @param topicId
-     * @return
-     */
-    public ArticleModel selectLastArticleByTopicId(Long topicId) {
-        ArticleModel articleModel = new ArticleModel();
-        articleModel.setUserId(545L);
-        articleModel.setTopicId(46464L);
-        articleModel.setArticleContent(TestModel.randomString().toString());
-        articleModel.setArticleTitle(TestModel.randomWord());
-        articleModel.setArticleDesc(TestModel.randomWord());
-        articleModel.setMainNumber(1L);
-        articleModel.setBranchNumber(1L);
-        return articleModel;
-    }
+    List<ArticleModel> selectMultiBranchByMainNumber(
+            @Param("topicId") Long topicId,
+            @Param("mainNumber") Long mainNumber
+    );
 
-    public int selectByMainNumber(Long topicId, Long mainNumber) {
-        return new Random().nextInt(100);
-    }
+    Integer selectDetectIsExistArticleByNumber(
+            @Param("topicId")Long topicId,
+            @Param("mainNumber")Long mainNumber,
+            @Param("branchNumber")Long branchNumber
+    );
 
-    public Long selectSingleMaxMainNumberByTopicId(Long topicId) {
-        return (long) new Random().nextInt(10000);
+    Long selectAllArticleAmountByTopicId(@Param("topicId")Long topicId);
 
-    }
+    ArticleModel selectSingleArticleByNumber(
+            @Param("topicId")Long topicId,
+            @Param("mainNumber")Long mainNumber,
+            @Param("branchNumber")Long branchNumber
+    );
 
-    public Long selectMaxBranchNumberByMainNumber(Long mainNumber) {
-        return (long) new Random().nextInt(15);
-    }
+    Integer selectDetectAuthorityForTopicIdWithArticleId(
+            @Param("topicId")Long topicId,
+            @Param("articleId")Long articleId
+    );
 
-    public int[] selectSingleForBranchNumberByMainNumber(Long mainNumber) {
-        return IntStream.range(0, 10).toArray();
-    }
+    List<ArticleModel> selectMultiRandomArticleByTopicId(
+            @Param("topicId")Long topicId,
+            @Param("randomNumber")Integer randomNumber
+    );
 
+    ArticleModel selectSingleLatestArticleByTopicId(@Param("topicId")Long topicId);
 
-    public ArticleModel selectByArticleId(Long articleId) {
-        ArticleModel articleModel = new ArticleModel();
-        articleModel.setUserId(545L);
-        articleModel.setTopicId(46464L);
-        articleModel.setArticleContent(TestModel.randomString().toString());
-        articleModel.setArticleTitle(TestModel.randomWord());
-        articleModel.setArticleDesc(TestModel.randomWord());
-        articleModel.setMainNumber(1L);
-        articleModel.setBranchNumber(1L);
-        return articleModel;
-    }
+    Integer selectDetectIsExistMainNumber(@Param("topicId")Long topicId,@Param("mainNumber")Long mainNumber);
 
-    public Long insertByModelForArticleId(ArticleModel articleModel) {
-        return (long) new Random().nextInt(10000);
-    }
+    Long selectSingleMaxMainNumberByTopicId(@Param("topicId")Long topicId);
 
-    public int insert(ArticleModel articleModel) {
-        return new Random().nextInt(100);
-    }
+    Long selectSingleMaxBranchNumberByMainNumber(
+            @Param("topicId")Long topicId,
+            @Param("mainNumber")Long mainNumber
+    );
 
-    public int updateForNextArticleId(Long articleId,Long nextArticleId) {
-        return new Random().nextInt(100);
-    }
+    ArticleModel selectSingleArticleById(@Param("articleId")Long articleId);
 
-    public int updateByModel(ArticleModel articleModel) {
-        return new Random().nextInt(100);
-    }
+    int updateArticleNextId(
+            @Param("articleId")Long articleId,
+            @Param("nextArticleId")Long nextArticleId,
+            @Param("updateTime")Long updateTime
+    );
 
-
+    int updateArticleContent(
+            @Param("userId")Long userId,
+            @Param("articleId")Long articleId,
+            @Param("content")String content,
+            @Param("updateTime")Long updateTime
+    );
 }
+
+
+
+
+
+
+
+
+
+
+
+

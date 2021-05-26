@@ -27,7 +27,11 @@ public class EntryRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/create/single/entryInfo")
     @PostMapping("/rpc/post/create/single/entryInfo")
-    public int postCreateSingleEntryInfoRpc(@RequestParam("userId")Long userId,@RequestParam("entryName")String entryName,@RequestParam("entryDesc")String entryDesc,@RequestParam("type")String type) {
+    public int postCreateSingleEntryInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("entryName")String entryName,
+            @RequestParam("entryDesc")String entryDesc,
+            @RequestParam("type")String type) {
         return entryRelatedServiceRpc.postCreateSingleEntryInfo(userId,entryName,entryDesc,type);
     }
 
@@ -140,20 +144,6 @@ public class EntryRelatedControllerRpc {
     }
 
     /**
-     * 判断词条用户是否点过赞
-     * @param userId
-     * @param entryId
-     * @return
-     */
-    @ApiOperation("/rpc/post/select/isLiked/with/userId")
-    @PostMapping("/rpc/post/select/isLiked/with/userId")
-    public Integer postSelectIsLikedWithUserIdRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("entryId")Long entryId) {
-        return entryRelatedServiceRpc.postSelectIsLikedWithUserId(userId,entryId);
-    }
-
-    /**
      * 随机获取2~4条热门词条
      * @return
      */
@@ -206,7 +196,7 @@ public class EntryRelatedControllerRpc {
     @GetMapping("/rpc/get/select/random/multi/entryInfo/by/type")
     public List<EntryShowModel> getSelectRandomMultiEntryInfoByTypeRpc(
             @RequestParam("type")String type,
-            @RequestParam("number")Integer number) {
+            @RequestParam("number")Long number) {
         return entryRelatedServiceRpc.getSelectRandomMultiEntryInfoByType(type,number);
     }
 
@@ -223,6 +213,29 @@ public class EntryRelatedControllerRpc {
             @RequestParam("entryType")String entryType
     ) {
         return entryRelatedServiceRpc.getSelectSearchMultiEntryInfoRpc(entryName,entryType);
+    }
+
+    /**
+     * 词条查重
+     * @param entryName
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/detect/is/exist/by/entry")
+    @PostMapping("/rpc/post/select/detect/is/exist/by/entry")
+    public int postSelectDetectIsExistByEntryContentRpc(
+            @RequestParam("entryName") String entryName
+    ) {
+        return entryRelatedServiceRpc.postSelectDetectIsExistByEntryContent(entryName);
+    }
+
+    /**
+     * 词条数量
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/entryInfo/page/amount")
+    @GetMapping("/rpc/get/select/all/entryInfo/page/amount")
+    public Long getSelectAllEntryInfoPageAmountRpc() {
+        return entryRelatedServiceRpc.getSelectAllEntryInfoPageAmount();
     }
 
 //    /**

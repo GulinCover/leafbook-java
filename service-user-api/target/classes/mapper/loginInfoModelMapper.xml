@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceUserApi.dao.LoginInfoModelMapper">
+    <select id="selectLoginIngoByLoginMarks" resultType="org.leafbook.api.modelApi.userInfo.LoginInfoModel">
+        select * from login_info_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+            and login_info_id in
+            <foreach collection="loginMarks" item="loginMark" index="index" separator="," open="(" close=")">
+                #{loginMark}
+            </foreach>
+        </where>
+    </select>
+
+
+    <update id="deleteWithLogic">
+        update login_info_model
+        <set>
+            is_black=1,
+            update_time=#{time}
+        </set>
+        <where>
+            user_id=#{userId}
+            and is_black=0
+            and login_info_id=#{loginMark}
+        </where>
+    </update>
+</mapper>

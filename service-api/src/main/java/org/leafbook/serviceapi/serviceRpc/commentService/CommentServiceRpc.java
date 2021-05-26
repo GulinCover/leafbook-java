@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
-import java.util.Map;
 
 @FeignClient(
         value = "service-comment-api",
@@ -161,9 +160,10 @@ public interface CommentServiceRpc {
      * @param topicId
      * @return
      */
-    @GetMapping("/rpc/select/multi/talkInfo/by/topicId/{topicId}")
+    @GetMapping("/rpc/select/multi/talkInfo/by/topicId/{topicId}/page/{page}")
     List<CommentModel> getSelectMultiTalkInfoRpc(
-            @PathVariable("topicId") Long topicId);
+            @PathVariable("topicId") Long topicId,
+            @PathVariable("page") Long page);
 
     /**
      * 获取议论一级评论
@@ -171,9 +171,10 @@ public interface CommentServiceRpc {
      * @param talkId
      * @return
      */
-    @GetMapping("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}")
+    @GetMapping("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}/page/{page}")
     List<CommentModel> getSelectMultiTalkComment1InfoRpc(
-            @PathVariable("talkId") Long talkId);
+            @PathVariable("talkId") Long talkId,
+            @PathVariable("page") Long page);
 
     /**
      * 获取议论二级评论
@@ -181,9 +182,10 @@ public interface CommentServiceRpc {
      * @param talkComment1Id
      * @return
      */
-    @GetMapping("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}")
+    @GetMapping("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}/page/{page}")
     List<CommentModel> getSelectMultiTalkComment2InfoRpc(
-            @PathVariable("talkComment1Id") Long talkComment1Id);
+            @PathVariable("talkComment1Id") Long talkComment1Id,
+            @PathVariable("page") Long page);
 
     /**
      * 发布talkInfo
@@ -195,7 +197,7 @@ public interface CommentServiceRpc {
      * @return
      */
     @PostMapping("/rpc/post/public/talkInfo")
-    int postPublicTalkInfoRpc(
+    Long postPublicTalkInfoRpc(
             @RequestParam("topicId") Long topicId,
             @RequestParam("userId") Long userId,
             @RequestParam("talkTitle") String talkTitle,
@@ -462,34 +464,10 @@ public interface CommentServiceRpc {
     @PostMapping("/rpc/post/select/comment2Info/amount/by/comment1Id")
     Long postSelectComment2InfoAmountByComment1IdRpc(@RequestParam("comment1Id") Long comment1Id);
 
-    /**
-     * 判断一级评论是否点过赞
-     *
-     * @param userId
-     * @param comment1Id
-     * @return
-     */
-    @PostMapping("/rpc/post/select/is/star/for/comment1Info")
-    int postSelectIsStarForComment1InfoRpc(
-            @RequestParam("userId") Long userId,
-            @RequestParam("comment1Id") Long comment1Id
-    );
-
-    /**
-     * 判断一级评论是否点过踩
-     *
-     * @param userId
-     * @param comment1Id
-     * @return
-     */
-    @PostMapping("/rpc/post/select/is/tread/for/comment1Info")
-    int postSelectIsTreadForComment1InfoRpc(
-            @RequestParam("userId") Long userId,
-            @RequestParam("comment1Id") Long comment1Id
-    );
 
     /**
      * 获取著述下所有普通评论的总数量
+     *
      * @param topicId
      * @return
      */
@@ -497,11 +475,90 @@ public interface CommentServiceRpc {
     Long postSelectCommentInfoAmountByTopicIdRpc(
             @RequestParam("topicId") Long topicId
     );
+
     /**
      * 获取著述下所有普通1级评论的总数量
+     *
      * @param topicId
      * @return
      */
     @PostMapping("/rpc/post/comment1Info/amount/by/topicId")
     Long postSelectComment1InfoAmountByTopicIdRpc(@RequestParam("topicId") Long topicId);
+
+    /**
+     * 获取talk下所有评论数量
+     *
+     * @param topicId
+     * @param talkId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/single/talk/for/talkCommentAmount")
+    Long getSelectSingleTalkForTalkCommentAmountRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("talkId") Long talkId
+    );
+
+    /**
+     * 获取talk点赞数量
+     *
+     * @param talkId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/single/talk/for/talkStarAmount")
+    Long getSelectSingleTalkForTalkStarAmountRpc(
+            @RequestParam("talkId") Long talkId
+    );
+
+    /**
+     * 获取著述下所有talk评论数量
+     *
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/talkCommentNumber/by/topicId")
+    Long getSelectTalkCommentNumberByTopicIdRpc(
+            @RequestParam("topicId") Long topicId
+    );
+
+    /**
+     * 获取topic下所有talk评论
+     *
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/talkCommentAmount/by/topicId")
+    Long getSelectAllTalkCommentAmountByTopicIdRpc(
+            @RequestParam("topicId") Long topicId);
+
+
+    /**
+     * 获取talk下一级评论的数量
+     *
+     * @param talkId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/talkComment1InfoAmount/by/talkId")
+    Long getSelectTalkComment1InfoAmountByTalkIdRpc(
+            @RequestParam("talkId") Long talkId
+    );
+
+    /**
+     * 获取talk一级评论下二级评论的数量
+     *
+     * @param talkComment1Id
+     * @return
+     */
+    @GetMapping("/rpc/get/select/talkComment2InfoAmount/by/talkComment1Id")
+    Long getSelectTalkComment2InfoAmountByTalkComment1IdRpc(
+            @RequestParam("talkComment1Id") Long talkComment1Id
+    );
+
+    /**
+     * 获取著述所有评论数量
+     *
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/commentAmount")
+    Long getSelectAllCommentAmountRpc(@RequestParam("topicId") Long topicId);
 }

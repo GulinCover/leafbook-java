@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceMarketplaceApi.dao.BidingModelMapper">
+    <select id="selectMultiBidingFailedByUserId" resultType="org.leafbook.api.modelApi.billInfo.BidingModel">
+        select * from biding_model
+        <where>
+            user_id=#{userId}
+            and status=2
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiBidingFailedAmountByUserId" resultType="java.lang.Long">
+        select count(biding_id) from biding_model
+        <where>
+            user_id=#{userId}
+            and status=2
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiBidingByUserId" resultType="org.leafbook.api.modelApi.billInfo.BidingModel">
+        select * from biding_model
+        <where>
+            user_id=#{userId}
+            and status=0
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiBidingAmountByUserId" resultType="java.lang.Long">
+        select count(biding_id) from biding_model
+        <where>
+            user_id=#{userId}
+            and status=0
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiBidingSuccessByUserId" resultType="org.leafbook.api.modelApi.billInfo.BidingModel">
+        select * from biding_model
+        <where>
+            user_id=#{userId}
+            and status=1
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiBidingSuccessAmountByUserId" resultType="java.lang.Long">
+        select count(biding_id) from biding_model
+        <where>
+            user_id=#{userId}
+            and status=1
+            and is_black=0
+        </where>
+    </select>
+</mapper>

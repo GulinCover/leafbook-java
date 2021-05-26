@@ -1,16 +1,14 @@
 package org.leafbook.serviceapi.serviceApi;
 
-import org.leafbook.api.modelApi.commentInfo.Comment1Model;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
-import org.leafbook.api.modelApi.talkInfo.TalkModel;
-import org.leafbook.api.modelApi.talkInfo.commentInfo.TalkComment1Model;
 import org.leafbook.api.modelApi.topicInfo.ContributorModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
+import org.leafbook.api.respAbs.explorePage.EntryInfosResp;
 import org.leafbook.api.respAbs.topicEntryPage.*;
-import org.leafbook.api.testModel.topicEntryPage.TopicEntryTestModel;
 import org.leafbook.serviceapi.serviceRpc.commentService.CommentServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.entryService.EntryServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.topicService.TopicServiceRpc;
@@ -21,7 +19,9 @@ import org.springframework.stereotype.Service;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
+@GlobalTransactional
 @Service
 public class TopicEntryPageServiceApi {
     @Autowired
@@ -39,7 +39,7 @@ public class TopicEntryPageServiceApi {
      * @param entryId
      * @return
      */
-    public EntryInfoResp getSelectEntryInfo(Long entryId) {
+    public EntryInfoResp getSelectEntryInfo(Long userId, Long entryId) {
         EntryShowModel entryShowModel = entryServiceRpc.getSelectSingleEntryInfoRpc(entryId);
         if (Objects.isNull(entryShowModel)) return null;
 
@@ -55,7 +55,7 @@ public class TopicEntryPageServiceApi {
         entryInfoResp.setEntryName(entryShowModel.getEntryName());
         entryInfoResp.setEntryAvatar(entryShowModel.getEntryAvatar());
         entryInfoResp.setEntryCreatorId(entryShowModel.getUserId());
-        entryInfoResp.setPassTime(entryShowModel.getPublicTime());
+        entryInfoResp.setPassTime(entryShowModel.getCreateTime());
 
         //查询点赞数
         Long starAmount = entryServiceRpc.getSelectEntryInfoStarAmountRpc(entryId);
@@ -72,12 +72,15 @@ public class TopicEntryPageServiceApi {
      * @param page: 页码
      * @return
      */
-    public List<TopicDetailAbs> getSelectTopicInfos(Long entryId,Long page) {
-        List<TopicModel> topicModelList = topicServiceRpc.getSelectMultiTopicInfoRpcByEntryIdRpc(entryId, page);
+    public TopicInfosResp getSelectTopicInfos(Long userId, Long entryId,Long page) {
+        if (page <= 0) page = 1L;
+
+        TopicInfosResp resp = new TopicInfosResp();
+        List<TopicModel> topicModelList = topicServiceRpc.getSelectMultiTopicInfoByEntryIdRpc(entryId, page);
         if (Objects.isNull(topicModelList)) {
-            return null;
+            return resp;
         } else if (topicModelList.isEmpty()) {
-            return null;
+            return resp;
         }
 
         List<TopicDetailAbs> topicDetailAbsList = new LinkedList<>();
@@ -87,9 +90,16 @@ public class TopicEntryPageServiceApi {
             topicDetailAbs.setTopicTitle(topicModel.getTopicTitle());
             topicDetailAbs.setUserId(topicModel.getUserId());
 
+            ArticleModel latestArticleModel = topicServiceRpc.getSelectLastTimeArticleInfoByTopicIdRpc(topicModel.getTopicId());
+            if (Objects.isNull(latestArticleModel)) {
+                topicDetailAbs.setUpdateTime(topicModel.getUpdateTime());
+            } else {
+                topicDetailAbs.setUpdateTime(latestArticleModel.getUpdateTime());
+            }
+
             //获取用户信息
             UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(topicModel.getUserId());
-            if (Objects.isNull(userModel)) return null;
+            if (Objects.isNull(userModel)) return resp;
             topicDetailAbs.setUsername(userModel.getUsername());
 
             topicDetailAbs.setLikedNumber(topicServiceRpc.getSelectTopicStarAmountRpc(topicModel.getTopicId()));
@@ -156,7 +166,7 @@ public class TopicEntryPageServiceApi {
                     CommentAbs commentAbs = new CommentAbs();
                     commentAbs.setCommentContent(randomComment1InfoList.get(0).getContent());
                     commentAbs.setUserId(randomComment1InfoList.get(0).getUserId());
-                    commentAbs.setUserCommentTime(randomComment1InfoList.get(0).getPublicTime());
+                    commentAbs.setUserCommentTime(randomComment1InfoList.get(0).getCreateTime());
 
                     //获取用户信息
                     UserModel commentUserInfo = userServiceRpc.postSelectSingleUserInfoRpc(randomComment1InfoList.get(0).getUserId());
@@ -204,7 +214,7 @@ public class TopicEntryPageServiceApi {
                         if (!randomTalkComment1InfoList.isEmpty()) {
                             talkAbs.setUserId(randomTalkComment1InfoList.get(0).getUserId());
                             talkAbs.setTalkCommentContent(randomTalkComment1InfoList.get(0).getContent());
-                            talkAbs.setUserTalkCommentTime(randomTalkComment1InfoList.get(0).getPublicTime());
+                            talkAbs.setUserTalkCommentTime(randomTalkComment1InfoList.get(0).getCreateTime());
 
 
                             //获取用户信息
@@ -271,6 +281,34 @@ public class TopicEntryPageServiceApi {
             topicDetailAbsList.add(topicDetailAbs);
         }
 
-        return topicDetailAbsList;
+        resp.setPage(topicServiceRpc.getSelectAllTopicInfoPageAmountByEntryIdRpc(entryId));
+        resp.setTopicDetailAbsList(topicDetailAbsList);
+        return resp;
     }
+
+    /**
+     * 随机获取相关词条
+     * @param userId
+     * @param number
+     * @return
+     */
+    public org.leafbook.api.respAbs.topicEntryPage.EntryInfosResp getSelectRandomRelatedEntry(Long userId, Long number) {
+        org.leafbook.api.respAbs.topicEntryPage.EntryInfosResp resp = new org.leafbook.api.respAbs.topicEntryPage.EntryInfosResp();
+        List<org.leafbook.api.respAbs.common.EntryAbs> entryAbsList = new LinkedList<>();
+        String[] params = {"nonofficial","official","hot"};
+        List<EntryShowModel> entryInfoList = entryServiceRpc.getSelectRandomMultiEntryInfoByTypeRpc(params[new Random().nextInt(3)], number);
+        if (Objects.nonNull(entryInfoList) && !entryInfoList.isEmpty()) {
+            for (EntryShowModel entryShowModel:entryInfoList) {
+                org.leafbook.api.respAbs.common.EntryAbs entryAbs = new org.leafbook.api.respAbs.common.EntryAbs();
+                entryAbs.setEntryId(entryShowModel.getEntryId());
+                entryAbs.setEntryName(entryShowModel.getEntryName());
+
+                entryAbsList.add(entryAbs);
+            }
+        }
+
+        resp.setEntryAbsList(entryAbsList);
+        return resp;
+    }
+
 }

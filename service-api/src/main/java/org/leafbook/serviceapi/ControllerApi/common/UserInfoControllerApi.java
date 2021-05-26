@@ -3,6 +3,7 @@ package org.leafbook.serviceapi.ControllerApi.common;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.respAbs.common.MessageResp;
+import org.leafbook.api.respAbs.common.OtherUserTopicResp;
 import org.leafbook.api.respAbs.common.UserInfoResp;
 import org.leafbook.serviceapi.serviceApi.common.UserInfoServiceApi;
 import org.leafbook.utils.tools.Covert2Tools;
@@ -27,9 +28,11 @@ public class UserInfoControllerApi {
      */
     @ApiOperation("/api/post/select/me/userInfo")
     @PostMapping("/api/post/select/me/userInfo")
-    public UserInfoResp postSelectUserInfoApi(@RequestHeader("userId")Long userId) throws ServerError {
-        UserInfoResp resp = userInfoServiceApi.postSelectUserInfo(userId);
-        resp.setCode(200);
+    public UserInfoResp postSelectUserInfoApi(
+            @RequestHeader("userId")Long userId,
+            @RequestHeader("loginMark")String loginMark
+    ) {
+        UserInfoResp resp = userInfoServiceApi.postSelectUserInfo(userId,loginMark);
         return resp;
     }
 
@@ -61,7 +64,9 @@ public class UserInfoControllerApi {
      */
     @ApiOperation("/api/post/insert/attention")
     @PostMapping("/api/post/insert/attention")
-    public MessageResp postInsertAttentionApi(@RequestHeader("userId") Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postInsertAttentionApi(
+            @RequestHeader("userId") Long userId,
+            @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         final String attentionUserId = form.get("attentionUserId");
         if (Objects.isNull(attentionUserId) || !Covert2Tools.isDigital(attentionUserId)) {
@@ -151,6 +156,23 @@ public class UserInfoControllerApi {
             return resp;
         }
 
+    }
+
+    /**
+     * 获取文章
+     * @param userId
+     * @param form:userId,page
+     * @return
+     */
+    @ApiOperation("/api/post/select/otherUser/topicInfo")
+    @PostMapping("/api/post/select/otherUser/topicInfo")
+    public OtherUserTopicResp postSelectOtherUserTopicInfoApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String,Long> form
+    ) {
+        OtherUserTopicResp resp = userInfoServiceApi.getSelectOtherUserTopicInfo(userId,form);
+        resp.setCode(200);
+        return resp;
     }
 
 }

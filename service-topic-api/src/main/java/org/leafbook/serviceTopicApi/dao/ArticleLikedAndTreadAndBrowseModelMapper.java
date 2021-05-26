@@ -1,40 +1,15 @@
 package org.leafbook.serviceTopicApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleLikedAndTreadAndBrowseModel;
-import org.springframework.stereotype.Service;
 
-import java.util.Random;
+@Mapper
+public interface ArticleLikedAndTreadAndBrowseModelMapper extends BaseMapper<ArticleLikedAndTreadAndBrowseModel> {
+    ArticleLikedAndTreadAndBrowseModel selectByArticleId(@Param("articleId")Long articleId);
 
-@Service
-public class ArticleLikedAndTreadAndBrowseModelMapper {
-
-    public ArticleLikedAndTreadAndBrowseModel selectSingleByArticleId(Long articleId) {
-        ArticleLikedAndTreadAndBrowseModel model = new ArticleLikedAndTreadAndBrowseModel();
-        model.setLikedAmount((long)new Random().nextInt(1200));
-        model.setTreadAmount((long)new Random().nextInt(1200));
-        model.setBrowseAmount((long)new Random().nextInt(1200));
-        return model;
-    }
-
-    public int updateByModel(ArticleLikedAndTreadAndBrowseModel model) {
-        return new Random().nextInt(100);
-    }
-    /**
-     * 更新文章点赞数量
-     *
-     * @param articleId
-     * @return
-     */
-    public int updateArticleInfoStarAmountByArticleId(Long articleId) {
-        return 1;
-    }
-    /**
-     * 更新文章点踩数量
-     *
-     * @param articleId
-     * @return
-     */
-    public int updateArticleInfoTreadAmountByArticleId(Long articleId) {
-        return 1;
-    }
+    int updateArticleStarAmountByArticleId(@Param("articleId")Long articleId);
+    int updateArticleTreadAmountByArticleId(@Param("articleId")Long articleId);
+    int updateArticleBrowseAmountByArticleId(@Param("articleId")Long articleId);
 }

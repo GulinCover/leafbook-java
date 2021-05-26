@@ -29,7 +29,7 @@ public class ProfilePageControllerApi {
     public MessageResp postUpdateUserInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
         int ret = profilePageServiceApi.postUpdateUserInfo(userId,form);
-        if (ret == 200) {
+        if (ret == 1) {
             resp.setCode(200);
             resp.setMsg("修改成功");
             return resp;

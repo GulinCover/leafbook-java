@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.create;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.serviceapi.serviceRpc.entryService.EntryServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class CreateHotPageServiceApi {
     @Autowired
@@ -24,7 +26,9 @@ public class CreateHotPageServiceApi {
         String entryDesc = form.get("entryDesc");
         if (Objects.isNull(entryDesc)) return 4000;
 
-        int ret = entryServiceRpc.postCreateSingleEntryInfoRpc(userId,entryContent,entryDesc,"hot");
+        int ret = entryServiceRpc.postSelectDetectIsExistByEntryContentRpc(entryContent);
+        if (ret == 1) return 4004;
+        ret = entryServiceRpc.postCreateSingleEntryInfoRpc(userId,entryContent,entryDesc,"hot");
         return ret != 0 ? 200 : 500;
     }
 }

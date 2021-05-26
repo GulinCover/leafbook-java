@@ -1,24 +1,26 @@
-server:
-  port: 9000
-spring:
-  application:
-    name: service-api
-#  mvc:
-#    throw-exception-if-no-handler-found: false
-#  resources:
-#    add-mappings: false
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${HOSTS:localhost:8848}
-    sentinel:
-      transport:
-        port: 29000
-        dashboard: HOSTS:localhost:30000
-swagger:
-  base-package: org.leafbook.serviceapi
-  description: "hello world"
-  group-name: "api"
-feign:
-  sentinel:
-    enabled: true
+#server:
+#  port: 9000
+#spring:
+#  application:
+#    name: service-api
+##  mvc:
+##    throw-exception-if-no-handler-found: false
+##  resources:
+##    add-mappings: false
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#    sentinel:
+#      transport:
+#        port: 29000
+#        dashboard: HOSTS:localhost:30000
+#swagger:
+#  title: service-api
+#  version: 1.0.0
+#  base-package: org.leafbook.serviceApi
+#  description: "service api"
+#  group-name: service-api
+#feign:
+#  sentinel:
+#    enabled: true

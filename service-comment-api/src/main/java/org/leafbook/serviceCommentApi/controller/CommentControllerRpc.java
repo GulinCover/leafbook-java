@@ -150,7 +150,7 @@ public class CommentControllerRpc {
     @GetMapping("/rpc/get/select/random/comment1Info/by/topicId/{topicId}")
     List<CommentModel> getSelectRandomComment1InfoRpc(
             @PathVariable("topicId") Long topicId,
-            Integer randomNumber) {
+            @RequestParam("randomNumber") Long randomNumber) {
         return commentServiceRpc.getSelectRandomComment1Info(topicId, randomNumber);
     }
 
@@ -210,13 +210,15 @@ public class CommentControllerRpc {
      * 获取议论信息
      *
      * @param topicId
+     * @param page
      * @return
      */
-    @ApiOperation("/rpc/select/multi/talkInfo/by/topicId/{topicId}")
-    @GetMapping("/rpc/select/multi/talkInfo/by/topicId/{topicId}")
+    @ApiOperation("/rpc/select/multi/talkInfo/by/topicId/{topicId}/page/{page}")
+    @GetMapping("/rpc/select/multi/talkInfo/by/topicId/{topicId}/page/{page}")
     public List<CommentModel> getSelectMultiTalkInfoRpc(
-            @PathVariable("topicId") Long topicId) {
-        return commentServiceRpc.getSelectMultiTalkInfo(topicId);
+            @PathVariable("topicId") Long topicId,
+            @PathVariable("page") Long page) {
+        return commentServiceRpc.getSelectMultiTalkInfo(topicId,page);
     }
 
     /**
@@ -225,11 +227,12 @@ public class CommentControllerRpc {
      * @param talkId
      * @return
      */
-    @ApiOperation("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}")
-    @GetMapping("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}")
+    @ApiOperation("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}/page/{page}")
+    @GetMapping("/rpc/select/multi/talkInfo/comment1Info/by/{talkId}/page/{page}")
     public List<CommentModel> getSelectMultiTalkComment1InfoRpc(
-            @PathVariable("talkId") Long talkId) {
-        return commentServiceRpc.getSelectMultiTalkComment1Info(talkId);
+            @PathVariable("talkId") Long talkId,
+            @PathVariable("page") Long page) {
+        return commentServiceRpc.getSelectMultiTalkComment1Info(talkId,page);
     }
 
     /**
@@ -238,11 +241,12 @@ public class CommentControllerRpc {
      * @param talkComment1Id
      * @return
      */
-    @ApiOperation("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}")
-    @GetMapping("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}")
+    @ApiOperation("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}/page/{page}")
+    @GetMapping("/rpc/select/multi/talkInfo/comment2Info/by/{talkComment1Id}/page/{page}")
     public List<CommentModel> getSelectMultiTalkComment2InfoRpc(
-            @PathVariable("talkComment1Id") Long talkComment1Id) {
-        return commentServiceRpc.getSelectMultiTalkComment2Info(talkComment1Id);
+            @PathVariable("talkComment1Id") Long talkComment1Id,
+            @PathVariable("page") Long page) {
+        return commentServiceRpc.getSelectMultiTalkComment2Info(talkComment1Id,page);
     }
 
     /**
@@ -256,7 +260,7 @@ public class CommentControllerRpc {
      */
     @ApiOperation("/rpc/post/public/talkInfo")
     @PostMapping("/rpc/post/public/talkInfo")
-    public int postPublicTalkInfoRpc(
+    public Long postPublicTalkInfoRpc(
             @RequestParam("topicId") Long topicId,
             @RequestParam("userId") Long userId,
             @RequestParam("talkTitle") String talkTitle,
@@ -416,7 +420,7 @@ public class CommentControllerRpc {
     @GetMapping("/rpc/get/select/random/talkInfo/by/topicId/{topicId}")
     public List<CommentModel> getSelectRandomTalkInfoRpc(
             @PathVariable("topicId") Long topicId,
-            @RequestParam("randomNumber") Integer randomNumber) {
+            @RequestParam("randomNumber") Long randomNumber) {
         return commentServiceRpc.getSelectRandomTalkInfo(topicId, randomNumber);
     }
 
@@ -430,7 +434,7 @@ public class CommentControllerRpc {
     @GetMapping("/rpc/get/select/random/talkComment1Info/by/talkId/{talkId}")
     public List<CommentModel> getSelectRandomTalkComment1InfoRpc(
             @PathVariable("talkId") Long talkId,
-            @RequestParam("randomNumber") Integer randomNumber) {
+            @RequestParam("randomNumber") Long randomNumber) {
         return commentServiceRpc.getSelectRandomTalkComment1Info(talkId, randomNumber);
     }
 
@@ -583,35 +587,7 @@ public class CommentControllerRpc {
         return commentServiceRpc.postSelectComment2InfoAmountByComment1Id(comment1Id);
     }
 
-    /**
-     * 判断一级评论是否点过赞
-     * @param userId
-     * @param comment1Id
-     * @return
-     */
-    @ApiOperation("/rpc/post/select/is/star/for/comment1Info")
-    @PostMapping("/rpc/post/select/is/star/for/comment1Info")
-    public int postSelectIsStarForComment1InfoRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("comment1Id")Long comment1Id
-    ) {
-        return commentServiceRpc.postSelectIsStarForComment1Info(userId,comment1Id);
-    }
 
-    /**
-     * 判断一级评论是否点过踩
-     * @param userId
-     * @param comment1Id
-     * @return
-     */
-    @ApiOperation("/rpc/post/select/is/tread/for/comment1Info")
-    @PostMapping("/rpc/post/select/is/tread/for/comment1Info")
-    public int postSelectIsTreadForComment1InfoRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("comment1Id")Long comment1Id
-    ) {
-        return commentServiceRpc.postSelectIsTreadForComment1Info(userId,comment1Id);
-    }
 
     /**
      * 获取著述下所有普通评论的总数量
@@ -634,5 +610,99 @@ public class CommentControllerRpc {
     @PostMapping("/rpc/post/comment1Info/amount/by/topicId")
     public Long postSelectComment1InfoAmountByTopicIdRpc(@RequestParam("topicId") Long topicId) {
         return commentServiceRpc.postSelectComment1InfoAmountByTopicId(topicId);
+    }
+
+    /**
+     * 获取talk下所有评论数量
+     *
+     * @param topicId
+     * @param talkId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/single/talk/for/talkCommentAmount")
+    @GetMapping("/rpc/get/select/single/talk/for/talkCommentAmount")
+    public Long getSelectSingleTalkForTalkCommentAmountRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("talkId") Long talkId
+    ) {
+        return commentServiceRpc.getSelectSingleTalkForTalkCommentAmount(topicId,talkId);
+    }
+
+    /**
+     * 获取talk点赞数量
+     *
+     * @param talkId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/single/talk/for/talkStarAmount")
+    @GetMapping("/rpc/get/select/single/talk/for/talkStarAmount")
+    public Long getSelectSingleTalkForTalkStarAmountRpc(
+            @RequestParam("talkId") Long talkId
+    ) {
+        return commentServiceRpc.getSelectSingleTalkForTalkStarAmount(talkId);
+    }
+
+    /**
+     * 获取著述下所有talk评论数量
+     *
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/talkCommentNumber/by/topicId")
+    @GetMapping("/rpc/get/select/talkCommentNumber/by/topicId")
+    public Long getSelectTalkCommentNumberByTopicIdRpc(
+            @RequestParam("topicId") Long topicId
+    ) {
+        return commentServiceRpc.getSelectTalkCommentNumberByTopicId(topicId);
+    }
+
+    /**
+     * 获取topic下所有talk评论
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/talkCommentAmount/by/topicId")
+    @GetMapping("/rpc/get/select/all/talkCommentAmount/by/topicId")
+    public Long getSelectAllTalkCommentAmountByTopicIdRpc(@RequestParam("topicId") Long topicId) {
+        return commentServiceRpc.getSelectAllTalkCommentAmountByTopicId(topicId);
+    }
+
+    /**
+     * 获取talk下一级评论的数量
+     *
+     * @param talkId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/talkComment1InfoAmount/by/talkId")
+    @GetMapping("/rpc/get/select/talkComment1InfoAmount/by/talkId")
+    public Long getSelectTalkComment1InfoAmountByTalkIdRpc(
+            @RequestParam("talkId") Long talkId
+    ) {
+        return commentServiceRpc.getSelectTalkComment1InfoAmountByTalkId(talkId);
+    }
+
+    /**
+     * 获取talk一级评论下二级评论的数量
+     * @param talkComment1Id
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/talkComment2InfoAmount/by/talkComment1Id")
+    @GetMapping("/rpc/get/select/talkComment2InfoAmount/by/talkComment1Id")
+    public Long getSelectTalkComment2InfoAmountByTalkComment1IdRpc(
+            @RequestParam("talkComment1Id") Long talkComment1Id
+    ) {
+        return commentServiceRpc.getSelectTalkComment2InfoAmountByTalkComment1Id(talkComment1Id);
+    }
+
+
+    /**
+     * 获取著述所有评论数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/commentAmount")
+    @GetMapping("/rpc/get/select/all/commentAmount")
+    public Long getSelectAllCommentAmountRpc(@RequestParam("topicId")Long topicId) {
+        return commentServiceRpc.getSelectAllCommentAmount(topicId);
     }
 }

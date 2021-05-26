@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: prod
+  application:
+    name: service-topic-api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        group: LEAFBOOK_GROUP
+        server-addr: localhost:8848
+        prefix: nacos-config-service-topic-api
+        file-extension: yml

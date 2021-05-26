@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceCommentApi.dao.Comment2StarAndTreadModelMapper">
+    <select id="selectSingleByComment1Id" resultType="org.leafbook.api.modelApi.commentInfo.CommentStarAndTreadModel">
+        select * from comment_star_and_tread_model
+        <where>
+            comment_1_id=#{comment1Id}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleByTalkComment1Id" resultType="org.leafbook.api.modelApi.commentInfo.CommentStarAndTreadModel">
+        select * from comment_star_and_tread_model
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleByTalkId" resultType="org.leafbook.api.modelApi.commentInfo.CommentStarAndTreadModel">
+        select * from comment_star_and_tread_model
+        <where>
+            talk_id=#{talkId}
+            and is_black=0
+        </where>
+    </select>
+
+    <update id="updateTouchStarAmountByComment1Id">
+        update comment_star_and_tread_model
+        <set>
+            update_time=#{time},
+            star_amount=star_amount+1
+        </set>
+        <where>
+            comment_1_id=#{comment1Id}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateTouchTreadAmountByComment1Id">
+        update comment_star_and_tread_model
+        <set>
+            update_time=#{time},
+            tread_amount=tread_amount+1
+        </set>
+        <where>
+            comment_1_id=#{comment1Id}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateTouchTreadAmountByTalkComment1Id">
+        update comment_star_and_tread_model
+        <set>
+            update_time=#{time},
+            tread_amount=tread_amount+1
+        </set>
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateTouchStarAmountByTalkComment1Id">
+        update comment_star_and_tread_model
+        <set>
+            update_time=#{time},
+            star_amount=star_amount+1
+        </set>
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateTouchTreadAmountByTalkId">
+        update comment_star_and_tread_model
+        <set>
+            update_time=#{time},
+            tread_amount=tread_amount+1
+        </set>
+        <where>
+            talk_id=#{talkId}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateTouchStarAmountByTalkId">
+        update comment_star_and_tread_model
+        <set>
+            update_time=#{time},
+            star_amount=star_amount+1
+        </set>
+        <where>
+            talk_id=#{talkId}
+            and is_black=0
+        </where>
+    </update>
+</mapper>
+
+
+
+
+
+
+
+

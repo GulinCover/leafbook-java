@@ -1,9 +1,5 @@
 package org.leafbook.api.respAbs.hotPage;
 
-import lombok.Data;
+public class EntryAbs extends org.leafbook.api.respAbs.common.EntryAbs {
 
-@Data
-public class EntryAbs {
-    private Long entryId;
-    private String entryName;
 }

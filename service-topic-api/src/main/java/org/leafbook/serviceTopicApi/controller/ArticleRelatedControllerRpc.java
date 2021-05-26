@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @CrossOrigin("*")
 @Api("ArticleRelatedControllerRpc")
@@ -35,34 +36,35 @@ public class ArticleRelatedControllerRpc {
      * @param articleId
      * @return
      */
-    @ApiOperation("/rpc/select/single/articleInfo/{articleId}/with/topicInfo/{topicId}")
-    @GetMapping("/rpc/select/single/articleInfo/{articleId}/with/topicInfo/{topicId}")
-    public ArticleModel getSelectSingleArticleInfoRpc(@PathVariable("articleId") Long articleId) {
+    @ApiOperation("/rpc/select/single/articleInfo/{articleId}")
+    @GetMapping("/rpc/select/single/articleInfo/{articleId}")
+    public ArticleModel getSelectSingleArticleInfoRpc(
+            @PathVariable("articleId") Long articleId) {
         return articleRelatedServiceRpc.getSelectSingleArticleInfo(articleId);
     }
 
     /**
      * 著述拥有者提交文章
      *
-     * @param articleAbs
-     * @return code
+     * @param articleModel
+     * @return map:articleId,mainNumber
      */
-    @ApiOperation("/rpc/post/public/article/by/owner")
     @PostMapping("/rpc/post/public/article/by/owner")
-    public int postPublicArticleByOwnerRpc(@RequestParam("articleAbs") ArticleAbs articleAbs) {
-        return articleRelatedServiceRpc.postPublicArticleByOwner(articleAbs);
+    @ApiOperation("/rpc/post/public/article/by/owner")
+    public Map<String,Long> postPublicMainArticleByOtherReturnMainNumberRpc(@RequestBody ArticleModel articleModel) {
+        return articleRelatedServiceRpc.postPublicMainArticleByOtherReturnMainNumber(articleModel);
     }
 
     /**
      * 非著述拥有者提交文章
      *
-     * @param articleAbs
-     * @return code
+     * @param articleModel
+     * @return map:articleId,branchNumber
      */
     @ApiOperation("/rpc/post/public/article/by/other")
     @PostMapping("/rpc/post/public/article/by/other")
-    public int postPublicArticleByOtherRpc(@RequestParam("articleAbs") ArticleAbs articleAbs) {
-        return articleRelatedServiceRpc.postPublicArticleByOther(articleAbs);
+    public Map<String,Long> postPublicBranchArticleByOtherReturnBranchNumberRpc(@RequestBody ArticleModel articleModel) {
+        return articleRelatedServiceRpc.postPublicBranchArticleByOtherReturnBranchNumber(articleModel);
     }
 
     /**
@@ -212,6 +214,127 @@ public class ArticleRelatedControllerRpc {
     @PostMapping("/rpc/post/update/article/tread/amount")
     public int postUpdateArticleTreadAmountRpc(@RequestParam("articleId") Long articleId) {
         return articleRelatedServiceRpc.postUpdateArticleTreadAmount(articleId);
+    }
+
+    /**
+     * 根据mainNumber,branchNumber,topicId获取article
+     * @param topicId
+     * @param mainNumber
+     * @param branchNumber
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/single/articleInfo/by/topicId/and/number")
+    @GetMapping("/rpc/get/select/single/articleInfo/by/topicId/and/number")
+    public ArticleModel getSelectSingleArticleByTopicIdAndNumberRpc(
+            @RequestParam("topicId")Long topicId,
+            @RequestParam("mainNumber")Long mainNumber,
+            @RequestParam("branchNumber")Long branchNumber
+    ) {
+        return articleRelatedServiceRpc.getSelectSingleArticleByTopicIdAndNumber(topicId,mainNumber,branchNumber);
+    }
+
+
+    /**
+     * 获取著述所有文章数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/articleAmount/by/topicId")
+    @GetMapping("/rpc/get/select/articleAmount/by/topicId")
+    public Long getSelectArticleAmountByTopicIdRpc(@RequestParam("topicId")Long topicId) {
+        return articleRelatedServiceRpc.getSelectArticleAmountByTopicId(topicId);
+    }
+
+    /**
+     * 检测文章是否存在
+     * @param topicId
+     * @param mainNumber
+     * @param branchNumber
+     * @return
+     */
+    @ApiOperation("/api/get/select/is/exist/topicArticleInfo")
+    @GetMapping("/api/get/select/is/exist/topicArticleInfo")
+    public int getSelectIsExistTopicArticleInfoRpc(
+            @RequestParam("topicId")Long topicId,
+            @RequestParam("mainNumber")Long mainNumber,
+            @RequestParam("branchNumber")Long branchNumber
+    ) {
+        return articleRelatedServiceRpc.getSelectIsExistTopicArticleInfo(topicId,mainNumber,branchNumber);
+    }
+
+    /**
+     * 获取当前主线下所有分支
+     * @param topicId
+     * @param mainNumber
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/branchInfo/by/mainNumber")
+    @GetMapping("/rpc/get/select/all/branchInfo/by/mainNumber")
+    public List<ArticleModel> getSelectAllBranchInfoByMainNumberRpc(
+            @RequestParam("topicId")Long topicId,
+            @RequestParam("mainNumber")Long mainNumber
+    ) {
+        return articleRelatedServiceRpc.getSelectAllBranchInfoByMainNumber(topicId,mainNumber);
+    }
+
+
+    /**
+     * 获取著述下所有主线文章
+     * @param topicId
+     * @param page
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/mainInfos")
+    @GetMapping("/rpc/get/select/multi/mainInfos")
+    public List<ArticleModel> getSelectMultiMainInfosRpc(
+            @RequestParam("topicId")Long topicId,
+            @RequestParam("page")Long page
+    ) {
+        return articleRelatedServiceRpc.getSelectMultiMainInfos(topicId,page);
+    }
+
+    /**
+     * 获取著述下所有主线文章数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/mainInfoAmount")
+    @GetMapping("/rpc/get/select/multi/mainInfoAmount")
+    public Long getSelectMultiMainInfoAmountRpc(@RequestParam("topicId")Long topicId) {
+        return articleRelatedServiceRpc.getSelectMultiMainInfoAmount(topicId);
+    }
+
+
+    /**
+     * 发布文章时组添加词条
+     * @param articleId
+     * @param entryIds
+     * @return
+     */
+    @ApiOperation("/rpc/post/add/multi/articleEntryIds")
+    @PostMapping("/rpc/post/add/multi/articleEntryIds")
+    public int postAddMultiArticleEntryIdsRpc(
+            @RequestParam("articleId")Long articleId,
+            @RequestParam("entryIds")List<Long> entryIds
+    ) {
+        return articleRelatedServiceRpc.postAddMultiArticleEntryIds(articleId,entryIds);
+    }
+
+    /**
+     * 更新文章
+     * @param userId
+     * @param articleId
+     * @param content
+     * @return
+     */
+    @ApiOperation("/rpc/post/update/articleInfo")
+    @PostMapping("/rpc/post/update/articleInfo")
+    public int postUpdateArticleInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("articleId")Long articleId,
+            @RequestParam("content")String content
+    ) {
+        return articleRelatedServiceRpc.postUpdateArticleInfo(userId,articleId,content);
     }
 
 }

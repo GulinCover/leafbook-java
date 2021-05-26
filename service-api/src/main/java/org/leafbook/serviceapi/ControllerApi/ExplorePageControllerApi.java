@@ -34,15 +34,16 @@ public class ExplorePageControllerApi {
 
     /**
      * 随机获取3~8条词条信息
-     * @param from: userId?可传可不传,
+     * @param userId:
      * @return
      */
     @ApiOperation("/api/post/select/random/entryInfos")
     @PostMapping("/api/post/select/random/entryInfos")
-    public EntryInfosResp postSelectEntryInfosApi(@RequestBody Map<String,String> from) {
+    public EntryInfosResp postSelectEntryInfosApi(
+            @RequestHeader("userId")Long userId
+    ) {
         EntryInfosResp resp = new EntryInfosResp();
-
-        resp.setEntryAbsList(explorePageServiceApi.postSelectEntryInfos(from));
+        resp.setEntryAbsList(explorePageServiceApi.postSelectEntryInfos(userId));
         resp.setCode(200);
         return resp;
     }

@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.entryInfo.EntryModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class OverviewPageServiceApi {
     @Autowired
@@ -37,7 +39,7 @@ public class OverviewPageServiceApi {
         if (Objects.nonNull(topicModelList) && !topicModelList.isEmpty()) {
             for (TopicModel topicModel:topicModelList) {
                 LastTopicAbs lastTopicAbs = new LastTopicAbs();
-                lastTopicAbs.setPublicTime(topicModel.getPublicTime());
+                lastTopicAbs.setPublicTime(topicModel.getCreateTime());
                 lastTopicAbs.setTopicDesc(topicModel.getTopicDesc());
                 lastTopicAbs.setTopicId(topicModel.getTopicId());
                 lastTopicAbs.setTopicTitle(topicModel.getTopicTitle());
@@ -90,7 +92,7 @@ public class OverviewPageServiceApi {
                     for (CommentModel commentModel:commentModelList) {
                         LastCommentAbs lastCommentAbs = new LastCommentAbs();
                         lastCommentAbs.setComment(commentModel.getContent());
-                        lastCommentAbs.setPublicTime(commentModel.getPublicTime());
+                        lastCommentAbs.setPublicTime(commentModel.getCreateTime());
 
                         lastCommentAbsList.add(lastCommentAbs);
                     }

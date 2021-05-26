@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.topicPage;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.api.respAbs.topicPublicPage.contributor.TopicContributorAbs;
 import org.leafbook.api.respAbs.topicPublicPage.contributor.TopicContributorInfoResp;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class TopicContributorPageServiceApi {
     @Autowired
@@ -42,7 +44,7 @@ public class TopicContributorPageServiceApi {
                 for (UserModel userModel:userModelList) {
                     TopicContributorAbs contributorAbs = new TopicContributorAbs();
                     contributorAbs.setUserAvatar(userModel.getAvatar());
-                    contributorAbs.setUserDesc(userModel.getDesc());
+                    contributorAbs.setUserDesc(userModel.getUserDesc());
                     contributorAbs.setUserId(userModel.getId());
                     contributorAbs.setUsername(userModel.getUsername());
                     contributorAbs.setUuid(userModel.getUuid());

@@ -1,17 +1,34 @@
-server:
-  port: 14000
-spring:
-  application:
-    name: service-entry-api
-  resources:
-    add-mappings: false
-  mvc:
-    throw-exception-if-no-handler-found: true
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${HOSTS:localhost:8848}
-    sentinel:
-      transport:
-        port: 24000
-        dashboard: localhost:30000
+#server:
+#  port: 14000
+#spring:
+#  application:
+#    name: service-entry-api
+#  resources:
+#    add-mappings: false
+#  mvc:
+#    throw-exception-if-no-handler-found: true
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: ${HOSTS:localhost:8848}
+#    sentinel:
+#      transport:
+#        port: 24000
+#        dashboard: localhost:30000
+#  datasource:
+#    username: root
+#    password: ACDCacdc120
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://127.0.0.1:3306/leafbook?useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#swagger:
+#  title: service-entry-api
+#  version: 1.0.0
+#  base-package: org.leafbook.serviceEntryApi
+#  description: "service entry api"
+#  group-name: service-entry-api
+#snowflake:
+#  datacenterId: 1
+#  workId: 6
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**

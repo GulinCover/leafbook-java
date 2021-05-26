@@ -34,10 +34,7 @@ public class RepositoryPageControllerApi {
     public ConsumableInfosResp postSelectConsumableInfosApi(
             @RequestHeader("userId")Long userId,
             @RequestBody Map<String,Long> form) {
-        ConsumableInfosResp resp = new ConsumableInfosResp();
-
-        resp.setConsumableInfoAbsList(repositoryPageServiceApi.postSelectConsumableInfos(userId,form));
-
+        ConsumableInfosResp resp = repositoryPageServiceApi.postSelectConsumableInfos(userId,form);
         resp.setCode(200);
         return resp;
     }
@@ -76,13 +73,13 @@ public class RepositoryPageControllerApi {
     ) {
         MessageResp resp = new MessageResp();
         int ret = repositoryPageServiceApi.postUpdateUseConsumable(userId,form);
-        if (ret == 0) {
-            resp.setMsg("使用失败");
+        if (ret == 1) {
+            resp.setMsg("使用成功");
             resp.setCode(200);
             return resp;
         }
-        resp.setMsg("使用成功");
-        resp.setCode(200);
+        resp.setMsg("使用失败");
+        resp.setCode(ret);
         return resp;
     }
 }

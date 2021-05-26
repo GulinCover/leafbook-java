@@ -7,5 +7,6 @@ import java.util.List;
 @Data
 public class BuyAndSellRelatedIncomeAndExpenditureResp {
     private Integer code;
+    private Long page;
     private List<BuyAndSellRelatedIncomeAndExpenditureAbs> buyAndSellRelatedIncomeAndExpenditureAbsList;
 }

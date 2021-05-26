@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceUserApi.dao.UserModelMapper">
+    <select id="selectSingleUserInfoByEmail" resultType="org.leafbook.api.modelApi.userInfo.UserModel">
+        select * from user_model
+        <where>
+            email=#{email}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectPwdByEmail" resultType="java.lang.String">
+        select password from user_model
+        <where>
+            email=#{email}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectByUuid" resultType="org.leafbook.api.modelApi.userInfo.UserModel">
+        select * from user_model
+        <where>
+            uuid=#{uuid}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleUserIsExist" resultType="java.lang.Integer">
+        select 1 from user_model
+        <where>
+            id=#{userId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleEmailIsExist" resultType="java.lang.Integer">
+        select 1 from user_model
+        <where>
+            email=#{email}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectForLoginMarkByUserId" resultType="java.lang.String">
+        select login_mark from user_model
+        <where>
+            id=#{userId}
+            and is_black=0
+        </where>
+    </select>
+
+
+    <select id="selectMultiUserInfoByUserIds" resultType="org.leafbook.api.modelApi.userInfo.UserModel">
+        select * from user_model
+        <where>
+            is_black=0
+            and id in
+            <foreach collection="userIds" item="userId" index="index" separator="," open="(" close=")">
+                #{userId}
+            </foreach>
+        </where>
+    </select>
+
+    <update id="updateUserPassword">
+        update user_model set password=#{password},update_time=#{time}
+        <where>
+            id=#{userId}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateUserPasswordByEmail">
+        update user_model
+        <set>
+            password=#{password},
+            update_time=#{time}
+        </set>
+        <where>
+            email=#{email}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateUserPhone">
+        update user_model set phone=#{phone},update_time=#{time}
+        <where>
+            id=#{userId}
+            and is_black=0
+        </where>
+    </update>
+    <update id="updateUserEmail">
+        update user_model set email=#{email},update_time=#{time}
+        <where>
+            id=#{userId}
+            and is_black=0
+        </where>
+    </update>
+    <update id="updateUserLoginMark">
+        update user_model
+        <set>
+            login_mark=#{loginMark},
+            update_time=#{time}
+        </set>
+        <where>
+            id=#{userId}
+            and is_black=0
+        </where>
+    </update>
+    <update id="updateUserBalance">
+        update user_model set balance=#{balance},update_time=#{time}
+        <where>
+            id=#{userId}
+            and is_black=0
+        </where>
+    </update>
+
+
+</mapper>

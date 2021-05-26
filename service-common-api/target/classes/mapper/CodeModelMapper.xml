@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceCommonApi.dao.CodeModelMapper">
+    <select id="selectEmailCode" resultType="java.lang.String">
+        select code from code_model
+        <where>
+            email=#{email}
+            and timestamp <![CDATA[ >= ]]> #{time}
+        </where>
+    </select>
+    <select id="selectSingleCodeByEmail" resultType="org.leafbook.api.modelApi.common.CodeModel">
+        select * from code_model
+        <where>
+            email=#{email}
+            and timestamp <![CDATA[ >= ]]> #{time}
+        </where>
+    </select>
+
+    <update id="deleteLogicCodeByEmail">
+        update code_model
+        <set>
+            is_black=1,
+            update_time=#{time}
+        </set>
+        <where>
+            email=#{email}
+            and code_type=#{type}
+            and is_black=0
+        </where>
+    </update>
+</mapper>

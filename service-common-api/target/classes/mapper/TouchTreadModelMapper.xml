@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceCommonApi.dao.TouchTreadModelMapper">
+    <select id="selectDetectIsExist" resultType="java.lang.Integer">
+        select 1 from tread_model
+        <where>
+            user_id=#{userId}
+            and tread_type=#{type}
+            <if test="tread_type == 'topic'">
+                and topic_id=#{objectId}
+            </if>
+            <if test="tread_type == 'comment'">
+                and topic_id=#{objectId}
+            </if>
+            <if test="tread_type == 'talk'">
+                and topic_id=#{objectId}
+            </if>
+            <if test="tread_type == 'talk_comment'">
+                and topic_id=#{objectId}
+            </if>
+            <if test="tread_type == 'entry'">
+                and topic_id=#{objectId}
+            </if>
+            <if test="tread_type == 'user'">
+                and topic_id=#{objectId}
+            </if>
+            and is_black=0
+        </where>
+    </select>
+</mapper>

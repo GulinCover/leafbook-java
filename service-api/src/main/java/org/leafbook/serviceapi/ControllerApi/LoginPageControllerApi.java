@@ -6,10 +6,7 @@ import org.leafbook.api.respAbs.common.MessageResp;
 import org.leafbook.serviceapi.serviceApi.LoginPageServiceApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 import java.util.Objects;
@@ -23,14 +20,17 @@ public class LoginPageControllerApi {
 
     /**
      * 账号登陆
+     * @param ip:
      * @param form: email,password
      * @return jwt
      */
     @ApiOperation("/api/inset/user/login")
     @PostMapping("/api/inset/user/login")
-    public MessageResp postInsertUserLoginApi(@RequestBody Map<String, String> form) {
+    public MessageResp postInsertUserLoginApi(
+            @RequestHeader("ip")String ip,
+            @RequestBody Map<String, String> form) {
         MessageResp resp = new MessageResp();
-        String jwt = loginPageServiceApi.postInsertUserLogin(form);
+        String jwt = loginPageServiceApi.postInsertUserLogin(ip, form);
         if (Objects.isNull(jwt)) {
             resp.setMsg("登陆失败");
             resp.setCode(403);

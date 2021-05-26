@@ -1,9 +1,4 @@
 package org.leafbook.api.respAbs.topicEntryPage;
 
-import lombok.Data;
-
-@Data
-public class EntryAbs {
-    private Long entryId;
-    private String entryName;
+public class EntryAbs extends org.leafbook.api.respAbs.common.EntryAbs {
 }

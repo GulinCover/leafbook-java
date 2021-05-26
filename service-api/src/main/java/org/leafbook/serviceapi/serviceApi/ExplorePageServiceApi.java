@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
@@ -7,6 +8,7 @@ import org.leafbook.api.respAbs.explorePage.EntryAbs;
 import org.leafbook.api.respAbs.explorePage.EntryInfoResp;
 import org.leafbook.api.respAbs.explorePage.TopicAbs;
 import org.leafbook.api.respAbs.explorePage.UserReplyDataResp;
+import org.leafbook.serviceapi.serviceRpc.commonService.CommonServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.entryService.EntryServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.topicService.TopicServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.userService.UserServiceRpc;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@GlobalTransactional
 @Service
 public class ExplorePageServiceApi {
     @Autowired
@@ -24,6 +27,8 @@ public class ExplorePageServiceApi {
     private TopicServiceRpc topicServiceRpc;
     @Autowired
     private EntryServiceRpc entryServiceRpc;
+    @Autowired
+    private CommonServiceRpc commonServiceRpc;
     /**
      * 获取用户信息，著述回复的数量，评论回复的数量，议论回复的数量
      * @param userId
@@ -47,10 +52,10 @@ public class ExplorePageServiceApi {
 
     /**
      * 随机获取3~8条词条信息
-     * @param from: userId?可传可不传,
+     * @param userId:
      * @return
      */
-    public List<EntryAbs> postSelectEntryInfos(Map<String,String> from) {
+    public List<EntryAbs> postSelectEntryInfos(Long userId) {
         List<EntryAbs> entryAbsList = new LinkedList<>();
         List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectRandomMultiEntryInfoRpc();
         if (Objects.nonNull(entryShowModelList) && !entryShowModelList.isEmpty()) {
@@ -64,9 +69,8 @@ public class ExplorePageServiceApi {
                 Long starAmount = entryServiceRpc.getSelectEntryInfoStarAmountRpc(entryModel.getEntryId());
                 entryAbs.setLikeNumber(starAmount);
 
-                String userId = from.get("userId");
-                if (Objects.nonNull(userId) && Covert2Tools.isDigital(userId)) {
-                    entryAbs.setIsLiked(entryServiceRpc.postSelectIsLikedWithUserIdRpc(Covert2Tools.covertToLong(userId),entryModel.getEntryId()));
+                if (userId != 0) {
+                    entryAbs.setIsLiked(commonServiceRpc.postSelectTouchedStarRpc(userId,entryModel.getEntryId(), "entry"));
                 }
 
                 entryAbsList.add(entryAbs);
@@ -181,7 +185,7 @@ public class ExplorePageServiceApi {
 
                 Long userId = form.get("userId");
                 if (Objects.nonNull(userId)) {
-                    entryAbs.setIsLiked(entryServiceRpc.postSelectIsLikedWithUserIdRpc(userId, entryShowModel.getEntryId()));
+                    entryAbs.setIsLiked(commonServiceRpc.postSelectTouchedStarRpc(userId, entryShowModel.getEntryId(),"entry"));
                 }
 
                 entryAbsList.add(entryAbs);

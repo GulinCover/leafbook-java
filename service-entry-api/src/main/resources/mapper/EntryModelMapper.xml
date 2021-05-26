@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceEntryApi.dao.EntryModelMapper">
+    <select id="selectDetectIsExistByEntry" resultType="java.lang.Integer">
+        select 1 from entry_model
+        <where>
+            entry_name=#{entryName}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleEntryByEntryId" resultType="org.leafbook.api.modelApi.entryInfo.EntryModel">
+        select * from entry_model
+        <where>
+            entry_id=#{entryId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiEntryByEntryIds" resultType="org.leafbook.api.modelApi.entryInfo.EntryModel">
+        select * from entry_model
+        <where>
+            is_black=0
+            and entry_id in
+            <foreach collection="entryIds" item="entryId" open="(" close=")" index="index" separator=",">
+                #{entryId}
+            </foreach>
+        </where>
+    </select>
+
+
+    <update id="deleteSingleForLogic">
+        update entry_model
+        <set>
+            create_time=#{time},
+            is_black=1
+        </set>
+        <where>
+            entry_id=#{entryId}
+        </where>
+    </update>
+    <update id="deleteMultiForLogic">
+        update entry_model
+        <set>
+            create_time=#{time},
+            is_black=1
+        </set>
+        <where>
+            entry_id in
+            <foreach collection="entryIds" item="entryId" index="index" open="(" close=")" separator=",">
+                #{entryId}
+            </foreach>
+        </where>
+    </update>
+</mapper>

@@ -26,7 +26,10 @@ public class CreateEntryPageControllerApi {
      */
     @ApiOperation("/api/post/create/entry")
     @PostMapping("/api/post/create/entry")
-    public MessageResp postCreateEntryInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
+    public MessageResp postCreateEntryInfoApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String, String> form
+    ) {
         MessageResp resp = new MessageResp();
         int ret = createEntryPageServiceApi.postCreateEntryInfo(userId,form);
         if (ret == 200) {

@@ -1,0 +1,727 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceCommentApi.dao.CommentModelMapper">
+    <!--    单查询-->
+    <select id="selectSingleByTalkId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_id=#{talkId}
+            and talk_comment_1_id is null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleByComment1Id"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            comment_1_id=#{comment1Id}
+            and comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleByComment2Id"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            comment_2_id=#{comment2Id}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleByTalkComment1Id"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleByTalkComment2Id"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_comment_2_id=#{talkComment2Id}
+            and is_black=0
+        </where>
+    </select>
+
+
+    <!--    组查询-->
+    <select id="selectMultiTalkInfoByUserId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            user_id=#{userId}
+            and talk_id is not null
+            and talk_comment_1_id is null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiComment1InfoByUserId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            user_id=#{userId}
+            and comment_1_id is not null
+            and comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiComment2InfoByUserId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            user_id=#{userId}
+            and comment_2_id is not null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiTalkComment1InfoByUserId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            user_id=#{userId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiTalkComment2InfoByUserId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            user_id=#{userId}
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+    </select>
+
+    <!--    分页组查询-->
+    <select id="selectMultiTalkInfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and talk_id is not null
+            and talk_comment_1_id is null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiComment1InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and comment_1_id is not null
+            and comment_2_id is null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiComment2InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and comment_2_id is not null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiTalkComment1InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiTalkComment2InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiComment2InfoByComment1Id"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            comment_1_id=#{comment1Id}
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiTalkComment2InfoByTalkComment1Id"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <!--    随机-->
+    <select id="selectMultiRandomTalkInfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and talk_id is not null
+            and talk_comment_1_id is null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+        order by rand()
+    </select>
+
+    <select id="selectMultiRandomComment1InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and comment_1_id is not null
+            and comment_2_id is null
+            and is_black=0
+        </where>
+        order by rand()
+    </select>
+
+    <select id="selectMultiRandomComment2InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and comment_1_id is not null
+            and comment_2_id is not null
+            and is_black=0
+        </where>
+        order by rand()
+    </select>
+
+    <select id="selectMultiRandomTalkComment1InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+        order by rand()
+    </select>
+
+    <select id="selectMultiRandomTalkComment2InfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+        order by rand()
+    </select>
+
+    <select id="selectMultiRandomTalkComment1InfoByTalkId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talkId=#{talkId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+        order by rand()
+    </select>
+
+    <!--    根据talkId分页-->
+    <select id="selectMultiTalkComment1InfoByTalkId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_id=#{talkId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiTalkComment2InfoByTalkId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_id=#{talkId}
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectAllTalkCommentInfoByTalkId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_id=#{talkId}
+            and talk_comment_1_id is not null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <!--    最新-->
+    <select id="selectMultiLatestAllCommentInfo"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and
+            (
+            (
+            comment_1_id is not null
+            and comment_2_id is null
+            )
+            or
+            (
+            comment_1_id is not null
+            and comment_2_id is not null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+        order by create_time DESC
+        limit #{number}
+    </select>
+
+    <select id="selectMultiCommentInfoByUserId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            user_id=#{userId}
+            and
+            (
+            (
+            comment_1_id is not null
+            and comment_2_id is null
+            )
+            or
+            (
+            comment_1_id is not null
+            and comment_2_id is not null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+<!--    总查询-->
+    <select id="selectAllInfoByUserId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllInfoByTopicId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllInfoByTalkId"
+            resultType="org.leafbook.api.modelApi.commentInfo.CommentModel">
+        select * from comment_model
+        <where>
+            talk_id=#{talkId}
+            and is_black=0
+        </where>
+    </select>
+
+<!--    数量查询-->
+    <select id="selectMultiTalkInfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(talk_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and talk_comment_1_id is null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiComment1InfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(comment_1_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and comment_1_id null null
+            and comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiComment2InfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(comment_2_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and comment_2_id nul null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiTalkComment1InfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(talk_comment_1_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiTalkComment2InfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(talk_comment_2_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+    </select>
+
+<!--    根据userId所有数量-->
+    <select id="selectAllTypeCommentInfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(topic_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and
+            (
+            (
+            comment_1_id is not null
+            and comment_2_id is null
+            )
+            or
+            (
+            comment_1_id is not null
+            and comment_2_id is not null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllTalkCommentInfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(topic_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and
+            (
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllCommentInfoAmountByUserId"
+            resultType="java.lang.Long">
+        select count(topic_id) from comment_model
+        <where>
+            user_id=#{userId}
+            and
+            (
+            (
+            comment_1_id is not null
+            and comment_2_id is null
+            )
+            or
+            (
+            comment_1_id is not null
+            and comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+<!--    根据topicId所有数量-->
+    <select id="selectAllTypeCommentInfoAmountByTopicId"
+            resultType="java.lang.Long">
+        select count(topic_id) from comment_model
+        <where>
+            topic_id=#{topicId}
+            and
+            (
+            (
+            comment_1_id is not null
+            and comment_2_id is null
+            )
+            or
+            (
+            comment_1_id is not null
+            and comment_2_id is not null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllCommentInfoAmountByTopicId"
+            resultType="java.lang.Long">
+        select count(topic_id) from comment_model
+        <where>
+            topic_id=#{topicId}
+            and
+            (
+            (
+            comment_1_id is not null
+            and comment_2_id is null
+            )
+            or
+            (
+            comment_1_id is not null
+            and comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllTalkCommentInfoAmountByTopicId"
+            resultType="java.lang.Long">
+        select count(topic_id) from comment_model
+        <where>
+            topic_id=#{topicId}
+            and
+            (
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllTalkCommentInfoAmountByTalkId"
+            resultType="java.lang.Long">
+        select count(talk_id) from comment_model
+        <where>
+            talk_id=#{talkId}
+            and
+            (
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            )
+            or
+            (
+            talk_comment_1_id is not null
+            and talk_comment_2_id is not null
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+<!--    单一数量-->
+    <select id="selectAllComment1InfoAmountByTopicId"
+            resultType="java.lang.Long">
+        select count(comment_1_id) from comment_model
+        <where>
+            topic_id=#{topic}
+            and comment_1_id is not null
+            and comment_1_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllComment2InfoAmountByComment1Id"
+            resultType="java.lang.Long">
+        select count(comment_2_id) from comment_model
+        <where>
+            comment_1_id=#{comment1Id}
+            and comment_2_id is not null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllTalkComment1InfoAmountByTalkId"
+            resultType="java.lang.Long">
+        select count(talk_comment_1_id) from comment_model
+        <where>
+            talk_id=#{talkId}
+            and talk_comment_1_id is not null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllTalkComment2InfoAmountByTalkComment1Id"
+            resultType="java.lang.Long">
+        select count(talk_comment_2_id) from comment_model
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and talk_comment_2_id is not null
+            and is_black=0
+        </where>
+    </select>
+
+<!--    检查合法性-->
+    <select id="selectDetectLegalityForTalkId"
+            resultType="java.lang.Integer">
+        select 1 from comment_model
+        <where>
+            talk_id=#{talkId}
+            and talk_comment_1_id is null
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectDetectLegalityForComment1Id"
+            resultType="java.lang.Integer">
+        select 1 from comment_model
+        <where>
+            comment_1_id=#{comment1Id}
+            and comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectDetectLegalityForComment2Id"
+            resultType="java.lang.Integer">
+        select 1 from comment_model
+        <where>
+            comment_2_id=#{comment2Id}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectDetectLegalityForTalkComment1Id"
+            resultType="java.lang.Integer">
+        select 1 from comment_model
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and talk_comment_2_id is null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectDetectLegalityForTalkComment2Id"
+            resultType="java.lang.Integer">
+        select 1 from comment_model
+        <where>
+            talk_comment_2_id=#{talkComment2Id}
+            and is_black=0
+        </where>
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

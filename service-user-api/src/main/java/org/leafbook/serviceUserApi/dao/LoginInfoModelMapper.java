@@ -1,26 +1,22 @@
 package org.leafbook.serviceUserApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
-import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
-@Service
-public class LoginInfoModelMapper {
+@Mapper
+public interface LoginInfoModelMapper extends BaseMapper<LoginInfoModel> {
+    List<LoginInfoModel> selectLoginIngoByLoginMarks(
+            @Param("userId") Long userId,
+            @Param("loginMarks") List<Long> loginMarks
+    );
 
-    public List<LoginInfoModel> selectLoginInfoListByLoginMarks(List<Integer> loginMarks) {
-        List<LoginInfoModel> loginInfoModelList = new LinkedList<>();
-        for (int i = 0;i<5;++i) {
-            LoginInfoModel loginInfoModel = new LoginInfoModel();
-            loginInfoModel.setIP("172.8.16.2");
-            loginInfoModel.setLoginInfoId((long) new Random().nextInt(100));
-            loginInfoModel.setUserId((long) new Random().nextInt(100));
-            loginInfoModel.setLoginLocation("shanghai");
-            loginInfoModelList.add(loginInfoModel);
-        }
-
-        return loginInfoModelList;
-    }
+    int deleteWithLogic(
+            @Param("userId") Long userId,
+            @Param("loginMark") Long loginMark,
+            @Param("time") Long time
+    );
 }

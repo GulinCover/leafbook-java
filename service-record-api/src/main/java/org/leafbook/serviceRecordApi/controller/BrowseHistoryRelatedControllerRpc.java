@@ -5,10 +5,7 @@ import io.swagger.annotations.ApiOperation;
 import org.leafbook.api.modelApi.recordInfo.BrowseHistoryModel;
 import org.leafbook.serviceRecordApi.service.BrowseHistoryRelatedServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class BrowseHistoryRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/select/multi/browseHistoryInfo")
     @PostMapping("/rpc/post/select/multi/browseHistoryInfo")
-    public List<BrowseHistoryModel> postSelectBrowseHistoryInfosRpc(@RequestParam("userId")Long userId,@RequestParam("page")Integer page) {
+    public List<BrowseHistoryModel> postSelectBrowseHistoryInfosRpc(@RequestParam("userId")Long userId,@RequestParam("page")Long page) {
         return browseHistoryRelatedServiceRpc.postSelectBrowseHistoryInfos(userId,page);
     }
 
@@ -63,5 +60,33 @@ public class BrowseHistoryRelatedControllerRpc {
     @PostMapping("/rpc/post/delete/multi/browseHistoryInfo")
     public int postDeleteMultiBrowseHistoryInfoRpc(@RequestParam("userId")Long userId,@RequestParam("topicIds")List<Long> browseHistoryIds) {
         return browseHistoryRelatedServiceRpc.postDeleteMultiBrowseHistoryInfo(userId,browseHistoryIds);
+    }
+
+    /**
+     * 获取topic的浏览数量
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/topic/browseInfoAmount/by/topicId")
+    @GetMapping("/rpc/get/select/topic/browseInfoAmount/by/topicId")
+    public Long getSelectTopicBrowseInfoAmountByTopicIdRpc(
+            @RequestParam("topicId") Long topicId
+    ) {
+        return browseHistoryRelatedServiceRpc.getSelectTopicBrowseInfoAmountByTopicId(topicId);
+    }
+
+    /**
+     * 查询用户是否浏览过某文章
+     * @param userId
+     * @param articleId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/user/isBrowseArticle")
+    @PostMapping("/rpc/post/select/user/isBrowseArticle")
+    public int postSelectUserIsBrowseArticleRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("articleId") Long articleId
+    ) {
+        return browseHistoryRelatedServiceRpc.postSelectUserIsBrowseArticle(userId,articleId);
     }
 }

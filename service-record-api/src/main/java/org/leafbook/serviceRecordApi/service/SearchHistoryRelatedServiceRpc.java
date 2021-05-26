@@ -1,16 +1,18 @@
 package org.leafbook.serviceRecordApi.service;
 
 import org.leafbook.api.modelApi.recordInfo.SearchHistoryModel;
-import org.leafbook.serviceRecordApi.dao.SearchHistoryModelMapper;
+import org.leafbook.serviceRecordApi.daoImpl.SearchHistoryModelMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class SearchHistoryRelatedServiceRpc {
     @Autowired
-    private SearchHistoryModelMapper searchHistoryModelMapper;
+    private SearchHistoryModelMapperImpl searchHistoryModelMapperImpl;
     /**
      * 增加搜索记录
      * @param userId
@@ -21,7 +23,7 @@ public class SearchHistoryRelatedServiceRpc {
         SearchHistoryModel searchHistoryModel = new SearchHistoryModel();
         searchHistoryModel.setUserId(userId);
         searchHistoryModel.setContent(searchContent);
-        return searchHistoryModelMapper.insert(searchHistoryModel);
+        return searchHistoryModelMapperImpl.insert(searchHistoryModel);
     }
     /**
      * 搜索历史,显示最近8条
@@ -29,6 +31,6 @@ public class SearchHistoryRelatedServiceRpc {
      * @return code
      */
     public List<SearchHistoryModel> postSelectMultiSearchHistoryInfo(Long userId) {
-        return searchHistoryModelMapper.selectMultiSearchByUserIdAnd8(userId);
+        return searchHistoryModelMapperImpl.selectMultiSearchByUserIdAnd8(userId);
     }
 }

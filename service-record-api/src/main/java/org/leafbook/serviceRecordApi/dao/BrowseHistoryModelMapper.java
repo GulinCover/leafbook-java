@@ -1,38 +1,30 @@
 package org.leafbook.serviceRecordApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.recordInfo.BrowseHistoryModel;
-import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
-@Service
-public class BrowseHistoryModelMapper {
-    public List<BrowseHistoryModel> selectMultiBrowseHistoryByUserIdAndPage(Long userId,Integer page) {
-        List<BrowseHistoryModel> browseHistoryModelList = new LinkedList<>();
-        for (int i = 0; i < new Random().nextInt(5)+5; ++i) {
-            BrowseHistoryModel browseHistoryModel = new BrowseHistoryModel();
-            browseHistoryModel.setHistoryModelId((long) i);
-            browseHistoryModel.setTopicId((long) i);
-            browseHistoryModel.setUserId(userId);
+@Mapper
+public interface BrowseHistoryModelMapper extends BaseMapper<BrowseHistoryModel> {
+    Integer selectDetectIsExistArticleIdByUserId(@Param("userId")Long userId,@Param("articleId")Long articleId);
+    Long selectTopicBrowseAmount(@Param("topicId")Long topicId);
+    List<BrowseHistoryModel> selectMultiBrowseHistoryByUserId(
+            @Param("userId")Long userId,
+            @Param("start")Long start,
+            @Param("end")Long end
+            );
 
-            browseHistoryModelList.add(browseHistoryModel);
-        }
 
-        return browseHistoryModelList;
-    }
+    int deleteSingleBrowseHistoryByUserId(
+            @Param("userId")Long userId,
+            @Param("browseHistoryId")Long browseHistoryId
+    );
 
-    public int deleteSingleBrowseHistoryByBrowseHistoryId(Long userId,Long browseHistoryId) {
-        return new Random().nextInt(100);
-    }
-
-    public int insert(BrowseHistoryModel browseHistoryModel) {
-        return new Random().nextInt(100);
-    }
-
-    public int deleteMultiBrowseHistoryByBrowseHistoryIds(Long userId,List<Long> browseHistoryIds) {
-        return new Random().nextInt(100);
-    }
-
+    int deleteMultiBrowseHistoryByUserId(
+            @Param("userId")Long userId,
+            @Param("browseHistoryIds")List<Long> browseHistoryIds
+    );
 }

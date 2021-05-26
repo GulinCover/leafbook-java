@@ -1,13 +1,60 @@
-server:
-  port: 11000
-spring:
-  application:
-    name: service-user-api
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${HOSTS:localhost:8848}
-    sentinel:
-      transport:
-        port: 21000
-        dashboard: localhost:30000
+#server:
+#  port: 11000
+#spring:
+#  application:
+#    name: service-user-api
+#  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/leafbook?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: ACDCacdc120
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    type: com.alibaba.druid.pool.DruidDataSource
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#    sentinel:
+#      transport:
+#        port: 21000
+#        dashboard: localhost:30000
+#custom-mybatis-plus:
+#  datasource:
+#    url: jdbc:mysql://127.0.0.1:3306/leafbook?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: ACDCacdc120
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+##    type: com.alibaba.druid.pool.DruidDataSource
+#swagger:
+#  title: service-user-api
+#  version: 1.0.0
+#  description: service user api
+#  groupName: service-user-api
+#  basePackage: org.leafbook.serviceUserApi
+#snowflake:
+#  datacenterId: 1
+#  workId: 1
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**
+#seata:
+#  enable-auto-data-source-proxy: false
+##  use-jdk-proxy: true
+#  application-id: ${spring.application.name}
+#  enabled: true
+#  tx-service-group: my_test_tx_group
+#  config:
+#    type: nacos
+#    nacos:
+#      namespace: 827b88a6-365d-4812-912a-cb7e91056825
+#      server-addr: localhost:8848
+#      group: SEATA_GROUP
+#      username: nacos
+#      password: nacos
+#  registry:
+#    type: nacos
+#    nacos:
+#      application: seata-server
+#      server-addr: localhost:8848
+#      group: SEATA_GROUP
+#      namespace: 827b88a6-365d-4812-912a-cb7e91056825
+#      username: nacos
+#      password: nacos

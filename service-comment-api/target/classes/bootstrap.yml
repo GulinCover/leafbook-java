@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: prod
+  application:
+    name: service-comment-api
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+      config:
+        group: LEAFBOOK_GROUP
+        server-addr: localhost:8848
+        prefix: nacos-config-service-comment-api
+        file-extension: yml

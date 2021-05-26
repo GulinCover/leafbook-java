@@ -1,31 +1,15 @@
 package org.leafbook.serviceCommonApi.dao;
 
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.leafbook.api.modelApi.common.StarModel;
 
-import java.util.Random;
-
-@Service
-public class TouchStarModelMapper {
-    /**
-     * 查询是否点过赞
-     * @param userId
-     * @param objectId
-     * @param type
-     * @return
-     */
-    public int selectTouchStar(Long userId, Long objectId, String type) {
-        return 0;
-    }
-
-
-    /**
-     * 插入点赞信息
-     * @param userId
-     * @param objectId
-     * @param type
-     * @return
-     */
-    public int insertTouchStar(Long userId, Long objectId, String type) {
-        return 1;
-    }
+@Mapper
+public interface TouchStarModelMapper extends BaseMapper<StarModel> {
+    Integer selectDetectIsExist(
+            @Param("userId")Long userId,
+            @Param("objectId")Long objectId,
+            @Param("type")String type
+    );
 }

@@ -24,8 +24,8 @@ public class UserBillRelatedControllerRpc {
      * @param userId
      * @return
      */
-    @ApiOperation("/api/post/select/user/balance/income")
-    @PostMapping("/api/post/select/user/balance/income")
+    @ApiOperation("/rpc/post/select/user/balance/income")
+    @PostMapping("/rpc/post/select/user/balance/income")
     public Long postSelectUserBalanceIncomeForMonthRpc(@RequestParam("userId") Long userId) {
         return userBillRelatedServiceRpc.postSelectUserBalanceIncomeForMonth(userId);
     }
@@ -34,8 +34,8 @@ public class UserBillRelatedControllerRpc {
      * @param userId
      * @returnE
      */
-    @ApiOperation("/api/post/select/user/balance/expenditure")
-    @PostMapping("/api/post/select/user/balance/expenditure")
+    @ApiOperation("/rpc/post/select/user/balance/expenditure")
+    @PostMapping("/rpc/post/select/user/balance/expenditure")
     public Long postSelectUserBalanceExpenditureForMonthRpc(@RequestParam("userId") Long userId) {
         return userBillRelatedServiceRpc.postSelectUserBalanceExpenditureForMonth(userId);
     }
@@ -177,5 +177,37 @@ public class UserBillRelatedControllerRpc {
         return userBillRelatedServiceRpc.postSelectUserBuyAndSellRelatedExpenditureAmount(userId);
     }
 
-
+    /**
+     * 买卖相关数据条数
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/user/buyAndSell/incomeAndExpenditure/page")
+    @PostMapping("/rpc/post/select/user/buyAndSell/incomeAndExpenditure/page")
+    public Long postSelectUserBuyAndSellRelatedIncomeAndExpenditurePageAmountRpc(
+            @RequestParam("userId") Long userId) {
+        return userBillRelatedServiceRpc.postSelectUserBuyAndSellRelatedIncomeAndExpenditurePageAmount(userId);
+    }
+    /**
+     * topic相关数据条数
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/user/topic/incomeAndExpenditure/page")
+    @PostMapping("/rpc/post/select/user/topic/incomeAndExpenditure/page")
+    public Long postSelectUserTopicRelatedIncomeAndExpenditurePageAmountRpc(
+            @RequestParam("userId") Long userId) {
+        return userBillRelatedServiceRpc.postSelectUserTopicRelatedIncomeAndExpenditurePageAmount(userId);
+    }
+    /**
+     * 赞相关数据条数
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/user/star/incomeAndExpenditure/page")
+    @PostMapping("/rpc/post/select/user/star/incomeAndExpenditure/page")
+    public Long postSelectUserStarRelatedIncomeAndExpenditurePageAmountRpc(
+            @RequestParam("userId") Long userId) {
+        return userBillRelatedServiceRpc.postSelectUserStarRelatedIncomeAndExpenditurePageAmount(userId);
+    }
 }

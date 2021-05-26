@@ -1,21 +1,25 @@
 package org.leafbook.serviceEntryApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.entryInfo.Entry2StarAndTreadAmountModel;
-import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.List;
 
-@Service
-public class Entry2StarAndTreadAmountModelMapper {
-    public Entry2StarAndTreadAmountModel selectByEntryId(Long entryId) {
-        Entry2StarAndTreadAmountModel model = new Entry2StarAndTreadAmountModel();
-        model.setEntryId(entryId);
-        model.setEntryStarAmount(145L);
-        model.setEntryTreadAmount(866L);
-        return model;
-    }
+@Mapper
+public interface Entry2StarAndTreadAmountModelMapper extends BaseMapper<Entry2StarAndTreadAmountModel> {
+    Entry2StarAndTreadAmountModel selectSingleEntryStarAndTreadAmountByEntryId(@Param("entryId")Long entryId);
 
-    public int updateByModel(Entry2StarAndTreadAmountModel model) {
-        return new Random().nextInt(100);
-    }
+    List<Entry2StarAndTreadAmountModel> selectMultiEntryStarAndTreadAmountByEntryId(@Param("entryIds")List<Long> entryIds);
+
+    int updateStarIncreaseByEntryId(
+            @Param("entryId")Long entryId,
+            @Param("time")Long time
+    );
+
+    int updateTreadIncreaseByEntryId(
+            @Param("entryId")Long entryId,
+            @Param("time")Long time
+    );
 }

@@ -1,20 +1,36 @@
-server:
-  port: 17000
-spring:
-  application:
-    name: service-gateway-api
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${HOSTS:localhost:8848}
-    gateway:
-      discovery:
-        locator:
-          enabled: true
-          lower-case-service-id: true
-      routes:
-        - id: serviceUserApi
-          uri: lb://service-api
-          predicates:
-            - Path=/api/**
-
+#server:
+#  port: 17000
+#spring:
+#  application:
+#    name: service-gateway-api
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: ${HOSTS:localhost:8848}
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#          lower-case-service-id: true
+#      routes:
+#        - id: serviceUserApi
+#          uri: lb://service-api
+#          predicates:
+#            - Path=/api/**
+#  datasource:
+#    username: root
+#    password: ACDCacdc120
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://127.0.0.1:3306/leafbook?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#swagger:
+#  title: service-gateway-api
+#  version: 1.0.0
+#  base-package: org.leafbook.serviceGatewayApi
+#  description: "service gateway api"
+#  group-name: service-gateway-api
+#snowflake:
+#  datacenterId: 1
+#  workId: 5
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**

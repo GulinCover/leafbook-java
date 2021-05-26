@@ -1,13 +1,15 @@
 package org.leafbook.serviceCommonApi.service;
 
-import org.leafbook.serviceCommonApi.dao.TouchStarModelMapper;
+import org.leafbook.serviceCommonApi.daoImpl.TouchStarModelMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 @Service
 public class TouchStarServiceRpc {
     @Autowired
-    private TouchStarModelMapper touchStarModelMapper;
+    private TouchStarModelMapperImpl touchStarModelMapperImpl;
     /**
      * 点赞
      * @param userId
@@ -17,7 +19,7 @@ public class TouchStarServiceRpc {
      */
     public int postInsertTouchStar(Long userId,Long objectId,String type) {
         if ("topic".equals(type)  || "article".equals(type) || "comment".equals(type) || "entry".equals(type) || "talk".equals(type) || "talkComment".equals(type)) {
-            return touchStarModelMapper.insertTouchStar(userId, objectId, type);
+            return touchStarModelMapperImpl.insertTouchStar(userId, objectId, type);
         } else {
             return 0;
         }
@@ -31,7 +33,7 @@ public class TouchStarServiceRpc {
      */
     public int postSelectTouchedStar(Long userId,Long objectId,String type) {
         if ("topic".equals(type)  || "article".equals(type) || "comment".equals(type) || "entry".equals(type) || "talk".equals(type) || "talkComment".equals(type)) {
-            return touchStarModelMapper.selectTouchStar(userId, objectId, type);
+            return touchStarModelMapperImpl.selectTouchStar(userId, objectId, type);
         } else {
             return 0;
         }

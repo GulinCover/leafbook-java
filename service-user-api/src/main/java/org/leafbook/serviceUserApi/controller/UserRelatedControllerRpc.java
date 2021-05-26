@@ -1,13 +1,11 @@
 package org.leafbook.serviceUserApi.controller;
 
-import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nimbusds.jose.JOSEException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.LoginInfoModel;
+import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
-import org.leafbook.serviceUserApi.config.PostSelectSingleUserInfoRpcFallback;
 import org.leafbook.serviceUserApi.service.UserRelatedServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,14 +26,9 @@ public class UserRelatedControllerRpc {
      * @param userId
      * @return
      */
-    @SentinelResource(
-            value = "postSelectSingleUserInfoRpc",
-            fallbackClass = PostSelectSingleUserInfoRpcFallback.class,
-            fallback = "fallbackHandle"
-    )
     @ApiOperation("/rpc/post/select/single/userInfo")
     @PostMapping("/rpc/post/select/single/userInfo")
-    public UserModel postSelectSingleUserInfoRpc(@RequestParam("userId")Long userId) {
+    public UserModel postSelectSingleUserInfoRpc(@RequestParam("userId") Long userId) {
         return userRelatedServiceRpc.postSelectSingleUserInfo(userId);
     }
 
@@ -59,8 +52,10 @@ public class UserRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/select/multi/attentionUserInfo")
     @PostMapping("/rpc/post/select/multi/attentionUserInfo")
-    public List<Long> postSelectMultiAttentionUserInfoRpc(@RequestParam("userId") Long userId) {
-        return userRelatedServiceRpc.postSelectMultiAttentionUserInfo(userId);
+    public List<Long> postSelectMultiAttentionUserInfoRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("page") Long page) {
+        return userRelatedServiceRpc.postSelectMultiAttentionUserInfo(userId, page);
     }
 
     /**
@@ -71,8 +66,10 @@ public class UserRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/select/multi/followedUserInfo")
     @PostMapping("/rpc/post/select/multi/followedUserInfo")
-    public List<Long> postSelectMultiFollowedUserInfoRpc(@RequestParam("userId") Long userId) {
-        return userRelatedServiceRpc.postSelectMultiFollowedUserInfo(userId);
+    public List<Long> postSelectMultiFollowedUserInfoRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("page") Long page) {
+        return userRelatedServiceRpc.postSelectMultiFollowedUserInfo(userId, page);
     }
 
     /**
@@ -101,14 +98,15 @@ public class UserRelatedControllerRpc {
     public Long postCreateSingleUserInfoRpc(
             @RequestParam("username") String username,
             @RequestParam("email") String email,
-            @RequestParam("password") String password) {
-        return userRelatedServiceRpc.postCreateSingleUserInfo(username, email, password);
+            @RequestParam("password") String password,
+            @RequestParam("ip") String ip) {
+        return userRelatedServiceRpc.postCreateSingleUserInfo(username, email, password,ip);
     }
 
     /**
      * 用户数据更新
      *
-     * @param form form: desc,location,sex,avatar,backdrop
+     * @param form:userId,,userAvatar,userDesc,userLocation,userSex,backdrop
      * @return code
      */
     @ApiOperation("/rpc/post/update/single/userInfo")
@@ -149,13 +147,19 @@ public class UserRelatedControllerRpc {
     /**
      * 邮箱更改密码
      *
-     * @param userId
      * @param password
      * @return code
      */
     @ApiOperation("/rpc/post/update/single/userInfo/password/by/email")
     @PostMapping("/rpc/post/update/single/userInfo/password/by/email")
     public int postUpdateSingleUserInfoPasswordByEmailRpc(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password) {
+        return userRelatedServiceRpc.postUpdateSingleUserInfoPasswordByEmail(email, password);
+    }
+    @ApiOperation("/rpc/post/update/single/userInfo/password/by/userId")
+    @PostMapping("/rpc/post/update/single/userInfo/password/by/userId")
+    int postUpdateSingleUserInfoPasswordByUserIdRpc(
             @RequestParam("userId") Long userId,
             @RequestParam("password") String password) {
         return userRelatedServiceRpc.postUpdateSingleUserInfoPassword(userId, password);
@@ -221,45 +225,49 @@ public class UserRelatedControllerRpc {
 
     /**
      * 账户密码登陆
+     *
      * @param email
      * @param password
      * @return jwt
      */
-//    @RequiresRoles("admin")
     @ApiOperation("/rpc/post/login")
     @PostMapping("/rpc/post/login")
     public String postLoginRpc(
-            @RequestParam("email")String email,
-            @RequestParam("password")String password
+            @RequestParam("email") String email,
+            @RequestParam("password") String password,
+            @RequestParam("ip") String ip
     ) throws JOSEException {
-        return userRelatedServiceRpc.postLogin(email,password);
+        return userRelatedServiceRpc.postLogin(email, password, ip);
     }
 
     /**
      * 检测用户合法性
+     *
      * @param userId
      * @return
      */
     @ApiOperation("/rpc/post/select/detect/legality/with/userId")
     @PostMapping("/rpc/post/select/detect/legality/with/userId")
-    public int postSelectDetectLegalityWithUserIdRpc(@RequestParam("userId")Long userId) {
+    public int postSelectDetectLegalityWithUserIdRpc(@RequestParam("userId") Long userId) {
         return userRelatedServiceRpc.postSelectDetectLegalityWithUserId(userId);
     }
 
     /**
      * 检测登陆id合法性
+     *
      * @param userId
      * @return
      */
     @ApiOperation("/rpc/post/select/detect/LoginId")
     @PostMapping("/rpc/post/select/detect/LoginId")
-    public int postSelectDetectLoginIdRpc(@RequestParam("userId")Long userId,@RequestParam("loginId")Long loginId) {
-        return userRelatedServiceRpc.postSelectDetectLoginId(userId,loginId);
+    public int postSelectDetectLoginIdRpc(@RequestParam("userId") Long userId, @RequestParam("loginId") Long loginId) {
+        return userRelatedServiceRpc.postSelectDetectLoginId(userId, loginId);
     }
 
 
     /**
      * 更改用户信息
+     *
      * @param userModel
      * @return
      */
@@ -272,6 +280,7 @@ public class UserRelatedControllerRpc {
 
     /**
      * 添加关注
+     *
      * @param userId
      * @param attentionUserId
      * @return
@@ -279,39 +288,54 @@ public class UserRelatedControllerRpc {
     @ApiOperation("/rpc/post/add/attentionUser")
     @PostMapping("/rpc/post/add/attentionUser")
     public int postAddAttentionUserRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("attentionUserId")Long attentionUserId) {
-        return userRelatedServiceRpc.postAddAttentionUser(userId,attentionUserId);
+            @RequestParam("userId") Long userId,
+            @RequestParam("attentionUserId") Long attentionUserId) {
+        return userRelatedServiceRpc.postAddAttentionUser(userId, attentionUserId);
     }
 
     /**
      * 获取物品信息
+     *
      * @param userId
      * @return
      */
     @ApiOperation("/rpc/post/select/single/resInfo/by/userId")
     @PostMapping("/rpc/post/select/single/resInfo/by/userId")
     public ResModel postSelectSingleResInfoByUserIdRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("resId")Long resId) {
-        return userRelatedServiceRpc.postSelectSingleResInfoByUserId(userId,resId);
+            @RequestParam("userId") Long userId,
+            @RequestParam("resId") Long resId) {
+        return userRelatedServiceRpc.postSelectSingleResInfoByUserId(userId, resId);
     }
 
     /**
      * 查询用户所有可用物品
+     *
      * @param userId
      * @return
      */
     @ApiOperation("/rpc/post/select/multi/user/resInfo/by/userId")
     @PostMapping("/rpc/post/select/multi/user/resInfo/by/userId")
     public List<ResModel> postSelectMultiUserResInfoByUserIdRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("page")Long page) {
-        return userRelatedServiceRpc.postSelectMultiUserResInfoByUserId(userId,page);
+            @RequestParam("userId") Long userId,
+            @RequestParam("page") Long page) {
+        return userRelatedServiceRpc.postSelectMultiUserResInfoByUserId(userId, page);
+    }
+
+    /**
+     * 查询用户所有可用物品数量
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/multi/user/resInfo/amount/by/userId/page")
+    @PostMapping("/rpc/post/select/multi/user/resInfo/amount/by/userId/page")
+    public Long postSelectMultiUserResInfoAmountByUserIdRpc(
+            @RequestParam("userId")Long userId) {
+        return userRelatedServiceRpc.postSelectMultiUserResInfoAmountByUserId(userId);
     }
 
     /**
      * 使用nickname物品
+     *
      * @param userId
      * @param resId
      * @return
@@ -319,13 +343,14 @@ public class UserRelatedControllerRpc {
     @ApiOperation("rpc/post/use/single/nickname/resInfo")
     @PostMapping("rpc/post/use/single/nickname/resInfo")
     public int postUseSingleNicknameResInfoRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("resId")Long resId) {
-        return userRelatedServiceRpc.postUseSingleNicknameResInfo(userId,resId);
+            @RequestParam("userId") Long userId,
+            @RequestParam("resId") Long resId) {
+        return userRelatedServiceRpc.postUseSingleNicknameResInfo(userId, resId);
     }
 
     /**
      * 使用renameCard物品
+     *
      * @param userId
      * @param resId
      * @return
@@ -333,15 +358,16 @@ public class UserRelatedControllerRpc {
     @ApiOperation("rpc/post/use/single/renameCard/resInfo")
     @PostMapping("rpc/post/use/single/renameCard/resInfo")
     public int postUseSingleRenameCardResInfoRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("resId")Long resId,
-            @RequestParam("newName")String newName) {
-        return userRelatedServiceRpc.postUseSingleRenameCardResInfo(userId,resId,newName);
+            @RequestParam("userId") Long userId,
+            @RequestParam("resId") Long resId,
+            @RequestParam("newName") String newName) {
+        return userRelatedServiceRpc.postUseSingleRenameCardResInfo(userId, resId, newName);
     }
 
 
     /**
      * 更新用户余额
+     *
      * @param userId
      * @param balance
      * @return
@@ -349,13 +375,14 @@ public class UserRelatedControllerRpc {
     @ApiOperation("rpc/post/update/single/user/balance")
     @PostMapping("rpc/post/update/single/user/balance")
     public int postUpdateSingleUserBalanceRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("balance")Long balance) {
-        return userRelatedServiceRpc.postUpdateSingleUserBalanceRpc(userId,balance);
+            @RequestParam("userId") Long userId,
+            @RequestParam("balance") Long balance) {
+        return userRelatedServiceRpc.postUpdateSingleUserBalanceRpc(userId, balance);
     }
 
     /**
      * 取消关注
+     *
      * @param userId
      * @param attentionUserId
      * @return
@@ -363,9 +390,51 @@ public class UserRelatedControllerRpc {
     @ApiOperation("/rpc/post/cancel/attention/user")
     @PostMapping("/rpc/post/cancel/attention/user")
     public int postCancelAttentionRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("attentionUserId")Long attentionUserId
+            @RequestParam("userId") Long userId,
+            @RequestParam("attentionUserId") Long attentionUserId
     ) {
-        return userRelatedServiceRpc.postCancelAttention(userId,attentionUserId);
+        return userRelatedServiceRpc.postCancelAttention(userId, attentionUserId);
     }
+
+    /**
+     * 根据uuid查询用户
+     *
+     * @param uuid
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/single/userInfo/by/uuid")
+    @PostMapping("/rpc/post/select/single/userInfo/by/uuid")
+    public UserModel postSelectSingleUserInfoByUuidRpc(@RequestParam("uuid") String uuid) {
+        return userRelatedServiceRpc.postSelectSingleUserInfoByUuid(uuid);
+    }
+
+    /**
+     * email查重
+     * @param email
+     * @return
+     */
+    @ApiOperation("/rpc/post/select/single/detect/is/exist/by/email")
+    @PostMapping("/rpc/post/select/single/detect/is/exist/by/email")
+    public int postSelectSingleDetectIsExistByEmailRpc(
+            @RequestParam("email")String email
+    ) {
+        return userRelatedServiceRpc.postSelectSingleDetectIsExistByEmail(email);
+    }
+
+
+    /**
+     * 删除物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    @ApiOperation("/rpc/post/delete/single/userResInfo")
+    @PostMapping("/rpc/post/delete/single/userResInfo")
+    public int postDeleteSingleUserResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId
+    ) {
+        return userRelatedServiceRpc.postDeleteSingleUserResInfo(userId, resId);
+    }
+
 }

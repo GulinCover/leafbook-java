@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceTopicApi.dao.ContributorModelMapper">
+    <select id="selectMultiRandomContributorInfoByTopicId" resultType="org.leafbook.api.modelApi.topicInfo.ContributorModel">
+        select * from contributor_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+        order by rand()
+        limit #{randomNumber}
+    </select>
+
+    <select id="selectUserIdAmount" resultType="java.lang.Long">
+        select count(user_id) from contributor_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiUserIds" resultType="java.lang.Long">
+        select user_id from contributor_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+</mapper>

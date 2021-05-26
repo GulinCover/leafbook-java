@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceTopicApi.dao.TopicLikedAndTreadAndBrowseModelMapper">
+    <select id="selectAllStarRankPageAmount" resultType="java.lang.Long">
+        select count(distinct topic_id) from topic_liked_and_tread_and_browse_model
+        <where>
+            is_black=0
+        </where>
+    </select>
+
+    <select id="selectByTopicId" resultType="org.leafbook.api.modelApi.topicInfo.TopicLikedAndTreadAndBrowseModel">
+        select * from topic_liked_and_tread_and_browse_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectStarRank" resultType="java.lang.Long">
+        select topic_id from topic_liked_and_tread_and_browse_model
+        <where>
+            is_black=0
+        </where>
+        order by liked_amount DESC
+        limit #{start},#{end}
+    </select>
+</mapper>

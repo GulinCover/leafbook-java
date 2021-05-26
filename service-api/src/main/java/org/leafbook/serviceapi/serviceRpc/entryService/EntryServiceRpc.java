@@ -121,18 +121,6 @@ public interface EntryServiceRpc {
     List<EntryShowModel> getSelectRandomMultiEntryInfoRpc();
 
     /**
-     * 判断词条用户是否点过赞
-     *
-     * @param userId
-     * @param entryId
-     * @return
-     */
-    @PostMapping("/rpc/post/select/isLiked/with/userId")
-    Integer postSelectIsLikedWithUserIdRpc(
-            @RequestParam("userId") Long userId,
-            @RequestParam("entryId") Long entryId);
-
-    /**
      * 随机获取2~4条热门词条
      *
      * @return
@@ -186,7 +174,7 @@ public interface EntryServiceRpc {
     @GetMapping("/rpc/get/select/random/multi/entryInfo/by/type")
     List<EntryShowModel> getSelectRandomMultiEntryInfoByTypeRpc(
             @RequestParam("type") String type,
-            @RequestParam("number") Integer number);
+            @RequestParam("number") Long number);
 
     /**
      * 搜索符合条件的词条
@@ -200,4 +188,21 @@ public interface EntryServiceRpc {
             @RequestParam("entryName") String entryName,
             @RequestParam("entryType") String entryType
     );
+
+    /**
+     * 词条查重
+     * @param entryName
+     * @return
+     */
+    @PostMapping("/rpc/post/select/detect/is/exist/by/entry")
+    int postSelectDetectIsExistByEntryContentRpc(
+            @RequestParam("entryName") String entryName
+    );
+
+    /**
+     * 词条数量
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/entryInfo/page/amount")
+    Long getSelectAllEntryInfoPageAmountRpc();
 }

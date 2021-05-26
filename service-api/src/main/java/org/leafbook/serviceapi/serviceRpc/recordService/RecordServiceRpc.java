@@ -4,6 +4,7 @@ import org.leafbook.api.modelApi.recordInfo.BrowseHistoryModel;
 import org.leafbook.api.modelApi.recordInfo.SearchHistoryModel;
 import org.leafbook.serviceapi.openfeinFallback.recordService.RecordServiceRpcFallback;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -61,6 +62,28 @@ public interface RecordServiceRpc {
     int postDeleteMultiBrowseHistoryInfoRpc(
             @RequestParam("userId") Long userId,
             @RequestParam("topicIds") List<Long> browseHistoryIds);
+
+    /**
+     * 获取topic的浏览数量
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/topic/browseInfoAmount/by/topicId")
+    Long getSelectTopicBrowseInfoAmountByTopicIdRpc(
+            @RequestParam("topicId") Long topicId
+    );
+
+    /**
+     * 查询用户是否浏览过某文章
+     * @param userId
+     * @param articleId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/user/isBrowseArticle")
+    int postSelectUserIsBrowseArticleRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("articleId") Long articleId
+    );
 
 
     //search history service rpc

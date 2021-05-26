@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceCommonApi.dao.UserBillModelMapper">
+    <select id="selectMultiUserBillByUserId" resultType="org.leafbook.api.modelApi.userInfo.UserBillModel">
+        select * from user_bill_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+            and behavior=0
+            and create_time <![CDATA[ <= ]]> #{endTime}
+            and create_time <![CDATA[ >= ]]> #{startTime}
+        </where>
+    </select>
+
+    <select id="selectMultiUserBillForStarByUserId" resultType="org.leafbook.api.modelApi.userInfo.UserBillModel">
+        select * from user_bill_model
+        <where>
+            user_id=#{userId}
+            and behavior=0
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiUserBillForTopicByUserId" resultType="org.leafbook.api.modelApi.userInfo.UserBillModel">
+        select * from user_bill_model
+        <where>
+            user_id=#{userId}
+            and behavior != 2
+            and
+            (
+                (
+                topic_id is not null
+                and topic_id != 0
+                )
+                or
+                (
+                comment_id is not null
+                and comment_id != 0
+                )
+                or
+                (
+                talk_id is not null
+                and talk_id != 0
+                )
+                or
+                (
+                talk_comment_id is not null
+                and talk_comment_id != 0
+                )
+            )
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiUserBillForBuyByUserId" resultType="org.leafbook.api.modelApi.userInfo.UserBillModel">
+        select * from user_bill_model
+        <where>
+            user_id=#{userId}
+            and behavior = 2
+            and bill_id is not null
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiBuyAndSellRelatedAmountByUserId" resultType="java.lang.Long">
+        select count(user_id) from user_bill_model
+        <where>
+            user_id=#{userId}
+            and behavior=2
+            and bill_id is not null
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiTopicRelatedAmountByUserId" resultType="java.lang.Long">
+        select count(user_id) from user_bill_model
+        <where>
+            user_id=#{userId}
+            and behavior != 2
+            and
+            (
+            (
+            topic_id is not null
+            and topic_id != 0
+            )
+            or
+            (
+            comment_id is not null
+            and comment_id != 0
+            )
+            or
+            (
+            talk_id is not null
+            and talk_id != 0
+            )
+            or
+            (
+            talk_comment_id is not null
+            and talk_comment_id != 0
+            )
+            )
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiStarRelatedAmountByUserId" resultType="java.lang.Long">
+        select count(user_id) from user_bill_model
+        <where>
+            user_id=#{userId}
+            and behavior=0
+            and is_black=0
+        </where>
+    </select>
+</mapper>

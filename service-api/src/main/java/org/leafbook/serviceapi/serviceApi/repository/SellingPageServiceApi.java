@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.respAbs.repository.sellingPage.SellingAbs;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class SellingPageServiceApi {
     @Autowired
@@ -40,11 +42,11 @@ public class SellingPageServiceApi {
                 sellingAbs.setAuctionId(auctionModel.getAuctionId());
                 sellingAbs.setCurrentPrice(auctionModel.getCurrentPrice());
                 sellingAbs.setStartPrice(auctionModel.getStartPrice());
-                sellingAbs.setType(auctionModel.getType());
+                sellingAbs.setType(auctionModel.getAuctionType());
                 sellingAbs.setPublicTime(auctionModel.getPublicTimestamp());
                 sellingAbs.setExpiredTime(auctionModel.getExpireTimestamp());
 
-                switch (auctionModel.getType()) {
+                switch (auctionModel.getAuctionType()) {
                     case 0:
                         sellingAbs.setTopicId(auctionModel.getTopicId());
                         TopicModel topicInfo = topicServiceRpc.getSelectSingleTopicInfoRpc(auctionModel.getTopicId());
@@ -65,7 +67,7 @@ public class SellingPageServiceApi {
         }
 
         Long maxPage = marketplaceServiceRpc.postSelectMultiAuctionInfoByUserIdPageRpc(userId);
-        resp.setPage((long)Math.ceil(maxPage / 20));
+        resp.setPage(maxPage);
 
         resp.setSellingAbsList(sellingAbsList);
         return resp;

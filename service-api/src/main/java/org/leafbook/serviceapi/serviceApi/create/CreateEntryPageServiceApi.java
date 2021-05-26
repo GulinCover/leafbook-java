@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.create;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.serviceapi.serviceRpc.entryService.EntryServiceRpc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class CreateEntryPageServiceApi {
     @Autowired
@@ -24,7 +26,9 @@ public class CreateEntryPageServiceApi {
         String entryDesc = form.get("entryDesc");
         if (Objects.isNull(entryDesc)) return 4000;
 
-        int ret = entryServiceRpc.postCreateSingleEntryInfoRpc(userId,entryContent,entryDesc,"nonofficial");
+        int ret = entryServiceRpc.postSelectDetectIsExistByEntryContentRpc(entryContent);
+        if (ret == 1) return 4004;
+        ret = entryServiceRpc.postCreateSingleEntryInfoRpc(userId,entryContent,entryDesc,"nonofficial");
         return ret != 0 ? 200 : 500;
     }
 }

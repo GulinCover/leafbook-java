@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.respAbs.repository.publicCommentPage.CommentInfoAbs;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class PublicCommentPageServiceApi {
     @Autowired
@@ -86,7 +88,7 @@ public class PublicCommentPageServiceApi {
         resp.setCommentInfoAbsList(commentInfoAbsList);
 
         Long maxPage = commentServiceRpc.getSelectMultiUserPublicedCommentInfoPageRpc(userId);
-        resp.setPage((long)Math.ceil(maxPage / 20));
+        resp.setPage(maxPage);
         return resp;
     }
 }

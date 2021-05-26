@@ -76,14 +76,7 @@ public class BillAndPayPageControllerApi {
     public StarRelatedIncomeAndExpenditureResp postSelectStarRelatedIncomeAndExpenditureApi(
             @RequestHeader("userId")Long userId,
             @RequestBody Map<String,Long> form) {
-        StarRelatedIncomeAndExpenditureResp resp = new StarRelatedIncomeAndExpenditureResp();
-
-        Long page = form.get("page");
-        if (Objects.isNull(page) || page <= 0) {
-            resp.setCode(403);
-            return resp;
-        }
-        resp.setStarRelatedIncomeAndExpenditureAbsList(billAndPayPageServiceApi.postSelectStarRelatedIncomeAndExpenditure(userId,page));
+        StarRelatedIncomeAndExpenditureResp resp = billAndPayPageServiceApi.postSelectStarRelatedIncomeAndExpenditure(userId,form);
         resp.setCode(200);
         return resp;
     }
@@ -145,13 +138,7 @@ public class BillAndPayPageControllerApi {
     public TopicRelatedIncomeAndExpenditureResp postSelectTopicRelatedIncomeAndExpenditureApi(
             @RequestHeader("userId")Long userId,
             @RequestBody Map<String,Long> form) {
-        TopicRelatedIncomeAndExpenditureResp resp = new TopicRelatedIncomeAndExpenditureResp();
-        Long page = form.get("page");
-        if (Objects.isNull(page) || page <= 0) {
-            resp.setCode(403);
-            return resp;
-        }
-        resp.setTopicRelatedIncomeAndExpenditureAbsList(billAndPayPageServiceApi.postSelectTopicRelatedIncomeAndExpenditure(userId,page));
+        TopicRelatedIncomeAndExpenditureResp resp = billAndPayPageServiceApi.postSelectTopicRelatedIncomeAndExpenditure(userId,form);
         resp.setCode(200);
         return resp;
     }
@@ -212,13 +199,7 @@ public class BillAndPayPageControllerApi {
     public BuyAndSellRelatedIncomeAndExpenditureResp postSelectBuyAndSellRelatedIncomeAndExpenditureApi(
             @RequestHeader("userId")Long userId,
             @RequestBody Map<String,Long> form) {
-        BuyAndSellRelatedIncomeAndExpenditureResp resp = new BuyAndSellRelatedIncomeAndExpenditureResp();
-        Long page = form.get("page");
-        if (Objects.isNull(page) || page <= 0) {
-            resp.setCode(403);
-            return resp;
-        }
-        resp.setBuyAndSellRelatedIncomeAndExpenditureAbsList(billAndPayPageServiceApi.postSelectBuyAndSellRelatedIncomeAndExpenditure(userId,page));
+        BuyAndSellRelatedIncomeAndExpenditureResp resp = billAndPayPageServiceApi.postSelectBuyAndSellRelatedIncomeAndExpenditure(userId,form);
         resp.setCode(200);
         return resp;
     }

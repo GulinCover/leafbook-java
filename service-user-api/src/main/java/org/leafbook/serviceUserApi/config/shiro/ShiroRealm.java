@@ -1,13 +1,11 @@
 package org.leafbook.serviceUserApi.config.shiro;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -17,16 +15,16 @@ public class ShiroRealm extends AuthorizingRealm {
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         String username = String.valueOf(principals.getPrimaryPrincipal());
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
-        String role = "";
-        if (username.equals("alex")) {
-            role = "admin";
-        } else {
-            role = "user";
-        }
-        Set<String> set = new HashSet<>();
-        set.add(role);
+//        String role = "";
+//        if (username.equals("alex")) {
+//            role = "admin";
+//        } else {
+//            role = "user";
+//        }
+//        Set<String> set = new HashSet<>();
+//        set.add(role);
 
-        simpleAuthorizationInfo.setRoles(set);
+//        simpleAuthorizationInfo.setRoles(set);
         return simpleAuthorizationInfo;
     }
 
@@ -45,7 +43,7 @@ public class ShiroRealm extends AuthorizingRealm {
 //            throw new AccountException("该账户不存在");
 //        }
 
-        return new SimpleAuthenticationInfo("alex",password,getName());
+        return new SimpleAuthenticationInfo(username, password, getName());
     }
 
 

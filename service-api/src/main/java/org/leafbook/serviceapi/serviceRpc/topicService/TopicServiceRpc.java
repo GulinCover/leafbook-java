@@ -1,6 +1,5 @@
 package org.leafbook.serviceapi.serviceRpc.topicService;
 
-import org.leafbook.api.dto.topicService.ArticleAbs;
 import org.leafbook.api.modelApi.topicInfo.ContributorModel;
 import org.leafbook.api.modelApi.topicInfo.DirectoryModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
@@ -240,7 +239,7 @@ public interface TopicServiceRpc {
      * @return
      */
     @GetMapping("/rpc/get/select/multi/topicInfo/by/entryId/{entryId}/page/{page}")
-    List<TopicModel> getSelectMultiTopicInfoRpcByEntryIdRpc(
+    List<TopicModel> getSelectMultiTopicInfoByEntryIdRpc(
             @PathVariable("entryId") Long entryId,
             @PathVariable("page") Long page);
 
@@ -290,12 +289,12 @@ public interface TopicServiceRpc {
      * @param userId
      * @return
      */
-    @PostMapping("/rpc/post/select/me/topic")
-    List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId);
     @PostMapping("/rpc/post/select/me/topic/by/page")
-    List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId,@RequestParam("page") Long page);
+    List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId, @RequestParam("page") Long page);
+
     /**
      * 获取数量
+     *
      * @param userId
      * @return
      */
@@ -376,15 +375,6 @@ public interface TopicServiceRpc {
     List<TopicModel> getSelectRandomMultiTopicInfoByEntryIdRpc(@RequestParam("entryId") Long entryId);
 
     /**
-     * 获取著述所有评论数量
-     *
-     * @param topicId
-     * @return
-     */
-    @GetMapping("/rpc/get/select/all/commentAmount")
-    Long getSelectAllCommentAmountRpc(@RequestParam("topicId") Long topicId);
-
-    /**
      * 更改著述点赞数量
      *
      * @param topicId
@@ -423,26 +413,26 @@ public interface TopicServiceRpc {
      * @param articleId
      * @return
      */
-    @GetMapping("/rpc/select/single/articleInfo/{articleId}/with/topicInfo/{topicId}")
+    @GetMapping("/rpc/select/single/articleInfo/{articleId}")
     ArticleModel getSelectSingleArticleInfoRpc(@PathVariable("articleId") Long articleId);
 
     /**
      * 著述拥有者提交文章
      *
-     * @param articleAbs
-     * @return code
+     * @param articleModel
+     * @return map:articleId,mainNumber
      */
     @PostMapping("/rpc/post/public/article/by/owner")
-    int postPublicArticleByOwnerRpc(@RequestParam("articleAbs") ArticleAbs articleAbs);
+    Map<String, Long> postPublicMainArticleByOtherReturnMainNumberRpc(@RequestBody ArticleModel articleModel);
 
     /**
      * 非著述拥有者提交文章
      *
-     * @param articleAbs
-     * @return code
+     * @param articleModel
+     * @return map:articleId,branchNumber
      */
     @PostMapping("/rpc/post/public/article/by/other")
-    int postPublicArticleByOtherRpc(@RequestParam("articleAbs") ArticleAbs articleAbs);
+    Map<String, Long> postPublicBranchArticleByOtherReturnBranchNumberRpc(@RequestBody ArticleModel articleModel);
 
     /**
      * 添加链接下一篇文章
@@ -569,6 +559,7 @@ public interface TopicServiceRpc {
 
     /**
      * 搜索指定著述
+     *
      * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
      * @param entryIds
      * @param content
@@ -589,6 +580,7 @@ public interface TopicServiceRpc {
 
     /**
      * 获取搜索条数
+     *
      * @param status
      * @param entryIds
      * @param content
@@ -609,6 +601,7 @@ public interface TopicServiceRpc {
 
     /**
      * 搜索指定著述
+     *
      * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
      * @param content
      * @param page
@@ -623,6 +616,7 @@ public interface TopicServiceRpc {
 
     /**
      * 指定著述数量
+     *
      * @param status://0:不可出售，可以使用,1:待出售，不可使用,2:正在拍卖,3:可以出售，可以使用
      * @param content
      * @return
@@ -635,6 +629,7 @@ public interface TopicServiceRpc {
 
     /**
      * 限定搜索
+     *
      * @param status
      * @param entryId
      * @param content
@@ -651,6 +646,7 @@ public interface TopicServiceRpc {
 
     /**
      * 根据topicIds组查entryIds
+     *
      * @param topicIds
      * @return
      */
@@ -659,15 +655,17 @@ public interface TopicServiceRpc {
 
     /**
      * 根据entryIds获取著述数量
+     *
      * @param entryIds
      * @return
      */
     @GetMapping("/rpc/get/select/entry/amount/by/entryIds")
-    Map<Long,Long> getSelectEntryAmountByEntryIdsRpc(@RequestParam("entryIds") List<Long> entryIds);
+    Map<Long, Long> getSelectEntryAmountByEntryIdsRpc(@RequestParam("entryIds") List<Long> entryIds);
 
 
     /**
      * 更改用topic拥有者,用于购买后使用时使用
+     *
      * @param userId
      * @param topicId
      * @return
@@ -680,24 +678,227 @@ public interface TopicServiceRpc {
 
     /**
      * 获取用户最新几条著述信息
+     *
      * @param userId
      * @param number
      * @return
      */
     @PostMapping("/rpc/post/select/multi/lastTopicInfo")
     List<TopicModel> postSelectMultiLastTopicInfoRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("number")Integer number
+            @RequestParam("userId") Long userId,
+            @RequestParam("number") Integer number
     );
 
     /**
      * 获取著述管理者id
+     *
      * @param topicId
      * @return
      */
     @PostMapping("/rpc/post/select/all/managerUserInfo")
     List<Long> postSelectAllManagerUserIdsRpc(
-            @RequestParam("topicId")Long topicId
+            @RequestParam("topicId") Long topicId
+    );
+
+    /**
+     * 判断topicId是否存在
+     *
+     * @param topicId
+     * @return
+     */
+    @PostMapping("/rpc/post/isExist/for/topicInfo")
+    int postIsExistForTopicInfoRpc(
+            @RequestParam("topicId") Long topicId
+    );
+
+    /**
+     * 根据mainNumber,branchNumber,topicId获取article
+     *
+     * @param topicId
+     * @param mainNumber
+     * @param branchNumber
+     * @return
+     */
+    @GetMapping("/rpc/get/select/single/articleInfo/by/topicId/and/number")
+    ArticleModel getSelectSingleArticleByTopicIdAndNumberRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("mainNumber") Long mainNumber,
+            @RequestParam("branchNumber") Long branchNumber
+    );
+
+    /**
+     * 获取著述所有文章数量
+     *
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/articleAmount/by/topicId")
+    Long getSelectArticleAmountByTopicIdRpc(@RequestParam("topicId") Long topicId);
+
+    /**
+     * 检测文章是否存在
+     *
+     * @param topicId
+     * @param mainNumber
+     * @param branchNumber
+     * @return
+     */
+    @GetMapping("/api/get/select/is/exist/topicArticleInfo")
+    int getSelectIsExistTopicArticleInfoRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("mainNumber") Long mainNumber,
+            @RequestParam("branchNumber") Long branchNumber
+    );
+
+    /**
+     * 获取当前主线下所有分支
+     *
+     * @param topicId
+     * @param mainNumber
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/branchInfo/by/mainNumber")
+    List<ArticleModel> getSelectAllBranchInfoByMainNumberRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("mainNumber") Long mainNumber
+    );
+
+    /**
+     * 获取著述下所有主线文章
+     *
+     * @param topicId
+     * @param page
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/mainInfos")
+    List<ArticleModel> getSelectMultiMainInfosRpc(
+            @RequestParam("topicId") Long topicId,
+            @RequestParam("page") Long page
+    );
+
+    /**
+     * 获取著述下所有主线文章数量
+     *
+     * @param topicId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/mainInfoAmount")
+    Long getSelectMultiMainInfoAmountRpc(@RequestParam("topicId") Long topicId);
+
+    /**
+     * 发布文章时组添加词条
+     *
+     * @param articleId
+     * @param entryIds
+     * @return
+     */
+    @PostMapping("/rpc/post/add/multi/articleEntryIds")
+    int postAddMultiArticleEntryIdsRpc(
+            @RequestParam("articleId") Long articleId,
+            @RequestParam("entryIds") List<Long> entryIds
+    );
+
+    /**
+     * 更新文章
+     *
+     * @param userId
+     * @param articleId
+     * @param content
+     * @return
+     */
+    @PostMapping("/rpc/post/update/articleInfo")
+    int postUpdateArticleInfoRpc(
+            @RequestParam("userId") Long userId,
+            @RequestParam("articleId") Long articleId,
+            @RequestParam("content") String content
+    );
+
+    /**
+     * 获取用户发布了的著述数量
+     *
+     * @param userId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/topicAmount/by/userId")
+    Long getSelectTopicAmountByUserIdRpc(@RequestParam("userId") Long userId);
+
+    /**
+     * 获取topic总数量
+     *
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/topic/page/amount")
+    Long getSelectAllTopicPageAmountRpc();
+
+    /**
+     * 获取点赞排行总数量
+     *
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/topic/by/star/rank/page/amount")
+    Long getSelectMultiTopicIdByStarRankPageAmountRpc();
+
+    /**
+     * 创建赞踩表
+     * @param topicId
+     * @return
+     */
+    @PostMapping("/rpc/post/create/topic/likedAndTread")
+    int postCreateTopicLikedAndTreadRpc(@RequestParam("topicId")Long topicId);
+
+    /**
+     * 点赞排行模糊搜索
+     * @param page
+     * @param blurry
+     * @param entry
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/blurry/search")
+    List<TopicModel> getSelectMultiBlurrySearchRpc(
+            @RequestParam("page")Long page,
+            @RequestParam("blurry")String blurry,
+            @RequestParam("entry")Long entry,
+            @RequestParam("startTime")Long startTime,
+            @RequestParam("endTime")Long endTime
+    );
+    /**
+     * 点赞排行模糊搜索数据数量
+     * @param page
+     * @param blurry
+     * @param entry
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @GetMapping("/rpc/get/select/multi/blurry/search/page")
+    Long getSelectMultiBlurrySearchPageAmountRpc(
+            @RequestParam("page")Long page,
+            @RequestParam("blurry")String blurry,
+            @RequestParam("entry")Long entry,
+            @RequestParam("startTime")Long startTime,
+            @RequestParam("endTime")Long endTime
+    );
+
+    /**
+     * 获取词条下所有topic数量
+     * @param entryId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/all/topic/page/amount/by/entryId")
+    Long getSelectAllTopicInfoPageAmountByEntryIdRpc(
+        @RequestParam("entryId")Long entryId
+    );
+
+    /**
+     * 随机获取正在拍卖的topic
+     * @param entryId
+     * @return
+     */
+    @GetMapping("/rpc/get/select/random/multi/topicIds/by/entryId/for/auction")
+    List<Long> getSelectRandomMultiTopicIdsByEntryIdForAuctionInfoRpc(
+            @RequestParam("entryId")Long entryId
     );
 }
 

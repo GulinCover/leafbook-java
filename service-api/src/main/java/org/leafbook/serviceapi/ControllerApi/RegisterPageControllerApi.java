@@ -20,6 +20,7 @@ public class RegisterPageControllerApi {
     /**
      * 注册账号
      *
+     * @param ip:
      * @param form username:
      *             email:
      *             password:
@@ -28,15 +29,19 @@ public class RegisterPageControllerApi {
      */
     @ApiOperation("/api/post/create/account")
     @PostMapping("/api/post/create/account")
-    public MessageResp postCreateAccountApi(@RequestBody Map<String, String> form) {
+    public MessageResp postCreateAccountApi(
+            @RequestHeader("ip")String ip,
+            @RequestBody Map<String, String> form
+    ) {
+        int ret = registerPageServiceApi.postCreateAccount(ip,form);
         MessageResp resp = new MessageResp();
 
-        if (registerPageServiceApi.postCreateAccount(form) == 200) {
+        if (ret == 1) {
             resp.setMsg("注册成功");
             resp.setCode(200);
         } else {
             resp.setMsg("注册失败,请重新注册");
-            resp.setCode(403);
+            resp.setCode(ret);
         }
 
         return resp;
@@ -45,7 +50,9 @@ public class RegisterPageControllerApi {
     /**
      * 发送注册码
      *
-     * @param form:根据email返回验证码,一分钟只返回一次 email:根据email返回验证码,一分钟只返回一次
+     * @param form:
+     *            type
+     *            email:根据email返回验证码,5分钟只返回一次
      * @return
      */
     @ApiOperation("/api/post/select/account/code")

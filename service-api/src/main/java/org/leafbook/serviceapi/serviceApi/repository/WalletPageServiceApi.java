@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.billInfo.BillModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.modelApi.userInfo.ResModel;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class WalletPageServiceApi {
     @Autowired
@@ -77,9 +79,9 @@ public class WalletPageServiceApi {
                 ResModel resModel = userServiceRpc.postSelectSingleResInfoByUserIdRpc(userId, billModel.getResId());
 
                 if (Objects.nonNull(resModel)) {
-                    billAbs.setType(resModel.getType());
+                    billAbs.setType(resModel.getResType());
 
-                    if (billModel.getType() == 0) {
+                    if (billModel.getBillType() == 0) {
                         billAbs.setTopicId(resModel.getTopicId());
                         TopicModel topicInfo = topicServiceRpc.getSelectSingleTopicInfoRpc(resModel.getTopicId());
 
@@ -87,7 +89,7 @@ public class WalletPageServiceApi {
                             billAbs.setTopicTitle(topicInfo.getTopicTitle());
                         }
 
-                    } else if (resModel.getType() == 1) {
+                    } else if (resModel.getResType() == 1) {
                         billAbs.setNickname(resModel.getNickname());
                     }
 
@@ -98,7 +100,7 @@ public class WalletPageServiceApi {
         }
 
         Long maxPage = marketplaceServiceRpc.postSelectMultiBillInfoByUserIdPageRpc(userId);
-        resp.setPage((long)Math.ceil(maxPage / 20));
+        resp.setPage(maxPage);
         resp.setBillAbsList(billAbsList);
         return resp;
     }

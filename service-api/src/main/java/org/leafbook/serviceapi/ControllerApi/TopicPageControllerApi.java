@@ -25,10 +25,12 @@ public class TopicPageControllerApi {
      */
     @ApiOperation("/api/get/select/recommended/entriesInfo")
     @GetMapping("/api/get/select/recommended/entriesInfo")
-    public RecommendedEntriesResp getSelectRecommendedEntriesInfoApi() {
+    public RecommendedEntriesResp getSelectRecommendedEntriesInfoApi(
+            @RequestHeader("userId") Long userId
+            ) {
         RecommendedEntriesResp resp = new RecommendedEntriesResp();
 
-        resp.setEntryAbsList(topicPageServiceApi.getSelectRecommendedEntriesInfo());
+        resp.setEntryAbsList(topicPageServiceApi.getSelectRecommendedEntriesInfo(userId));
         resp.setCode(200);
         return resp;
     }
@@ -45,9 +47,7 @@ public class TopicPageControllerApi {
     public AllEntriesResp getSelectAllEntriesInfoApi(
             @RequestHeader("userId") Long userId,
             @PathVariable("page") Long page) {
-        AllEntriesResp resp = new AllEntriesResp();
-
-        resp.setEntryAbsList(topicPageServiceApi.getSelectAllEntriesInfo(userId, page));
+        AllEntriesResp resp = topicPageServiceApi.getSelectAllEntriesInfo(userId, page);
         resp.setCode(200);
         return resp;
     }

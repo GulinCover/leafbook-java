@@ -19,7 +19,7 @@ public class CreateTopicPageControllerApi {
     private CreateTopicPageServiceApi createTopicPageServiceApi;
 
     /**
-     *
+     * 创建topic
      * @param userId
      * @param form:topicTitle?String,
      *            topicDesc?String,
@@ -28,7 +28,9 @@ public class CreateTopicPageControllerApi {
      */
     @ApiOperation("/api/post/create/topic")
     @PostMapping("/api/post/create/topic")
-    public MessageResp postCreateTopicInfoApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, Object> form) {
+    public MessageResp postCreateTopicInfoApi(
+            @RequestHeader("userId")Long userId,
+            @RequestBody Map<String, Object> form) {
         MessageResp resp = new MessageResp();
         Long topicId = createTopicPageServiceApi.postCreateTopicInfo(userId,form);
         if (topicId != 0) {

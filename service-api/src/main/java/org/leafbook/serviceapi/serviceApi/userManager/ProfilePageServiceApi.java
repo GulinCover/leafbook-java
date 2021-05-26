@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.userManager;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.serviceapi.serviceRpc.userService.UserServiceRpc;
 import org.leafbook.utils.tools.Covert2Tools;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class ProfilePageServiceApi {
     @Autowired
@@ -35,10 +37,11 @@ public class ProfilePageServiceApi {
                 Objects.isNull(userLocation) ||
                 Objects.isNull(userSex)) return 403;
 
-        if (!Covert2Tools.isDigital(userSex)) return 403;
+        if (!Covert2Tools.isDigital(userSex)) form.put("userSex", "0");
 
+        form.put("userId",String.valueOf(userId));
         int ret = userServiceRpc.postUpdateSingleUserInfoRpc(form);
         if (ret == 0) return 500;
-        return 200;
+        return ret;
     }
 }

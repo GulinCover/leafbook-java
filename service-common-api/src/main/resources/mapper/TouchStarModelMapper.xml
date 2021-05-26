@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceCommonApi.dao.TouchStarModelMapper">
+    <select id="selectDetectIsExist" resultType="java.lang.Integer">
+        select 1 from star_model
+        <where>
+            user_id=#{userId}
+            and star_type=#{type}
+            <if test="type == 'topic'">
+                and topic_id=#{objectId}
+            </if>
+            <if test="type == 'comment'">
+                and comment_id=#{objectId}
+            </if>
+            <if test="type == 'talk'">
+                and talk_id=#{objectId}
+            </if>
+            <if test="type == 'talkComment'">
+                and talk_comment_id=#{objectId}
+            </if>
+            <if test="type == 'entry'">
+                and entry_id=#{objectId}
+            </if>
+            <if test="type == 'user'">
+                and liked_user_id=#{objectId}
+            </if>
+            and is_black=0
+        </where>
+    </select>
+</mapper>

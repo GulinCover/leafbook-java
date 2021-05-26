@@ -1,19 +1,28 @@
 package org.leafbook.serviceCommonApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.common.CodeModel;
-import org.leafbook.utils.tools.RandomCodeTools;
-import org.springframework.stereotype.Service;
 
-import java.util.Random;
+@Mapper
+public interface CodeModelMapper extends BaseMapper<CodeModel> {
+    String selectEmailCode(
+            @Param("email")String email,
+            @Param("type")Integer type,
+            @Param("time")Long time
+    );
 
-@Service
-public class CodeModelMapper {
+    CodeModel selectSingleCodeByEmail(
+            @Param("email")String email,
+            @Param("type")Integer type,
+            @Param("time")Long time
+    );
 
-    public String selectCodeByEmail(String email) {
-        return RandomCodeTools.generateRandomCode();
-    }
 
-    public int insertByModel(CodeModel codeModel) {
-        return new Random().nextInt(100);
-    }
+    int deleteLogicCodeByEmail(
+            @Param("email")String email,
+            @Param("type")Integer type,
+            @Param("time")Long time
+    );
 }

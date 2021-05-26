@@ -3,47 +3,25 @@ package org.leafbook.serviceMarketplaceApi.service;
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
 import org.leafbook.api.modelApi.billInfo.BidingModel;
 import org.leafbook.api.modelApi.billInfo.BillModel;
-import org.leafbook.serviceMarketplaceApi.dao.Auction2EntryModelMapper;
-import org.leafbook.serviceMarketplaceApi.dao.AuctionModelMapper;
-import org.leafbook.serviceMarketplaceApi.dao.BidingModelMapper;
-import org.leafbook.serviceMarketplaceApi.dao.BillModelMapper;
+import org.leafbook.serviceMarketplaceApi.daoImpl.AuctionModelMapperImpl;
+import org.leafbook.serviceMarketplaceApi.daoImpl.BidingModelMapperImpl;
+import org.leafbook.serviceMarketplaceApi.daoImpl.BillModelMapperImpl;
+import org.leafbook.utils.tools.IdGeneratorTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class MarketplaceRelatedServiceRpc {
     @Autowired
-    private AuctionModelMapper auctionModelMapper;
+    private AuctionModelMapperImpl auctionModelMapperImpl;
     @Autowired
-    private BillModelMapper billModelMapper;
+    private BillModelMapperImpl billModelMapperImpl;
     @Autowired
-    private Auction2EntryModelMapper auction2EntryModelMapper;
-    @Autowired
-    private BidingModelMapper bidingModelMapper;
-
-    /**
-     * 著述结算生成 ‘物品’
-     *
-     * @param userId
-     * @param topicId
-     * @return 物品id
-     */
-    public Long postCreateSettlementSingleAuctionInfo(Long userId, Long topicId) {
-        return auctionModelMapper.insertSingleTopicForResId(userId, topicId);
-    }
-
-    /**
-     * 根据词条id搜索正在售卖的著述
-     *
-     * @param entryId
-     * @return
-     */
-    public List<AuctionModel> getSelectMultiAuctionInfoByEntryId(Long entryId, Integer page) {
-        List<Long> auctionIds = auction2EntryModelMapper.selectMultiAuctionIdByEntryId(entryId);
-        return auctionModelMapper.selectMultiByAuctionIds(auctionIds, page);
-    }
+    private BidingModelMapperImpl bidingModelMapperImpl;
 
     /**
      * 购买改名卡
@@ -52,24 +30,17 @@ public class MarketplaceRelatedServiceRpc {
      * @param uuid
      * @return code
      */
-    public int postBuySingleRenameCard(Long userId, String uuid) {
-        //生成物品
-        AuctionModel auctionModel = new AuctionModel();
-        auctionModel.setType(2);
-        auctionModel.setUserId(userId);
-        auctionModel.setStatus(0);
-        Long auctionId = auctionModelMapper.insertSingleForAuctionId(auctionModel);
-
+    public int postBuySingleRenameCard(Long userId, String uuid, Long resId) {
         //生成账单
         BillModel billModel = new BillModel();
         billModel.setBuyerId(userId);
-        billModel.setResId(auctionId);
+        billModel.setResId(IdGeneratorTools.nextId());
         billModel.setBuyerUuid(uuid);
         billModel.setPrice(50L);
         billModel.setSellerId(1L);
         billModel.setSellerUuid("1");
 
-        return billModelMapper.insert(billModel);
+        return billModelMapperImpl.insert(billModel);
     }
 
     /**
@@ -86,7 +57,7 @@ public class MarketplaceRelatedServiceRpc {
         auctionModel.setExpireTimestamp(expireTimestamp);
         auctionModel.setStartPrice(price);
         auctionModel.setStatus(2);
-        return auctionModelMapper.update(auctionModel);
+        return auctionModelMapperImpl.update(auctionModel);
     }
 
     /**
@@ -102,19 +73,19 @@ public class MarketplaceRelatedServiceRpc {
         auctionModel.setUserId(userId);
         auctionModel.setAuctionId(auctionId);
         auctionModel.setNickname(newNickname);
-        auctionModel.setType(1);
+        auctionModel.setAuctionType(1);
         auctionModel.setStatus(1);
-        return auctionModelMapper.update(auctionModel);
+        return auctionModelMapperImpl.update(auctionModel);
     }
 
     /**
-     * 查询用户下所有物品
+     * 查询用户下所有正在售卖的物品
      *
      * @param userId
      * @return
      */
-    public List<AuctionModel> postSelectMultiResInfo(Long userId) {
-        return auctionModelMapper.selectMultiAuctionInfo(userId);
+    public List<AuctionModel> postSelectMultiAuctionInfo(Long userId) {
+        return auctionModelMapperImpl.selectMultiAuctionInfo(userId);
     }
 
     /**
@@ -125,7 +96,7 @@ public class MarketplaceRelatedServiceRpc {
      * @return
      */
     public AuctionModel postSelectSingleResInfo(Long userId, Long auctionId) {
-        return auctionModelMapper.selectVerifySingleAuctionInfo(userId, auctionId);
+        return auctionModelMapperImpl.selectVerifySingleAuctionInfo(userId, auctionId);
     }
 
     /**
@@ -141,7 +112,7 @@ public class MarketplaceRelatedServiceRpc {
         bidingModel.setPrice(price);
         bidingModel.setAuctionId(auctionId);
         bidingModel.setUserId(userId);
-        return bidingModelMapper.insertSingleModel(bidingModel);
+        return bidingModelMapperImpl.insertSingleModel(bidingModel);
     }
 
     /**
@@ -151,7 +122,7 @@ public class MarketplaceRelatedServiceRpc {
      * @return
      */
     public List<AuctionModel> getSelectRandomMultiAuctionInfo(Integer number) {
-        return auctionModelMapper.selectRandomNumberAuctionInfo(number);
+        return auctionModelMapperImpl.selectRandomNumberAuctionInfo(number);
     }
 
     /**
@@ -160,7 +131,7 @@ public class MarketplaceRelatedServiceRpc {
      * @return
      */
     public List<AuctionModel> getSelectRandomMultiLatestAuction(Integer number) {
-        return auctionModelMapper.selectRandomNumberLatestAuctionInfo(number);
+        return auctionModelMapperImpl.selectNumberLatestAuctionInfo(number);
     }
 
     /**
@@ -170,7 +141,7 @@ public class MarketplaceRelatedServiceRpc {
      * @return
      */
     public AuctionModel getSelectSingleAuctionInfo(Long auctionId) {
-        return auctionModelMapper.selectSingleAuctionInfoByAuctionId(auctionId);
+        return auctionModelMapperImpl.selectSingleAuctionInfoByAuctionId(auctionId);
     }
 
     /**
@@ -180,17 +151,17 @@ public class MarketplaceRelatedServiceRpc {
      * @return
      */
     public int postSelectDetectAuctionIdLegality(Long auctionId) {
-        return auctionModelMapper.selectAuctionInfoIsExist(auctionId);
+        return auctionModelMapperImpl.selectAuctionInfoIsExist(auctionId);
     }
 
     /**
-     * 更改买拍信息当
+     * 更改买拍信息当前最高价
      *
      * @param auctionModel
      * @return
      */
     public int postUpdateAuctionInfoByAuctionInfo(AuctionModel auctionModel) {
-        return auctionModelMapper.updateAuctionInfoByAuctionInfo(auctionModel);
+        return auctionModelMapperImpl.updateAuctionInfoByAuctionInfo(auctionModel);
     }
 
     /**
@@ -209,7 +180,7 @@ public class MarketplaceRelatedServiceRpc {
             Long startTime,
             Long endTime,
             Long page) {
-        return auctionModelMapper.selectSearchMultiNickname(type, content, startTime, endTime, page);
+        return auctionModelMapperImpl.selectSearchMultiNickname(type, content, startTime, endTime, page);
     }
 
     /**
@@ -228,7 +199,7 @@ public class MarketplaceRelatedServiceRpc {
             Long startTime,
             Long endTime,
             Long page) {
-        return auctionModelMapper.selectSearchMultiNicknameAmount(type, content, startTime, endTime, page);
+        return auctionModelMapperImpl.selectSearchMultiNicknameAmount(type, content, startTime, endTime, page);
     }
 
     /**
@@ -238,93 +209,111 @@ public class MarketplaceRelatedServiceRpc {
      * @return
      */
     public List<AuctionModel> getSelectMultiAuctionInfoByTopicIds(List<Long> topicIds) {
-        return auctionModelMapper.selectMultiAuctionByTopicIds(topicIds);
+        return auctionModelMapperImpl.selectMultiAuctionByTopicIds(topicIds);
     }
 
     /**
      * 查询用户账单
+     *
      * @param userId
      * @param page
      * @return
      */
-    public List<BillModel> postSelectMultiBillInfoByUserId(Long userId,Long page) {
-        return billModelMapper.selectMultiBillInfoByUserId(userId,page);
+    public List<BillModel> postSelectMultiBillInfoByUserId(Long userId, Long page) {
+        return billModelMapperImpl.selectMultiBillInfoByUserId(userId, page);
     }
+
     /**
      * 查询用户账单总条数
+     *
      * @param userId
      * @return
      */
     public Long postSelectMultiBillInfoByUserIdPage(Long userId) {
-        return billModelMapper.selectMultiBillInfoAmountByUserId(userId);
+        return billModelMapperImpl.selectMultiBillInfoAmountByUserId(userId);
     }
+
     /**
      * 查询用户正在售卖的物品
+     *
      * @param userId
      * @param page
      * @return
      */
-    public List<AuctionModel> postSelectMultiAuctionInfoByUserId(Long userId,Long page) {
-        return auctionModelMapper.selectMultiAuctionInfo(userId,page);
+    public List<AuctionModel> postSelectMultiAuctionInfoByUserId(Long userId, Long page) {
+        return auctionModelMapperImpl.selectMultiAuctionInfo(userId, page);
     }
+
     /**
      * 获取用户正在上架总条数
+     *
      * @param userId
      * @return
      */
     public Long postSelectMultiAuctionInfoByUserIdPage(Long userId) {
-        return auctionModelMapper.selectMultiAuctionInfoAmount(userId);
+        return auctionModelMapperImpl.selectMultiAuctionInfoAmount(userId);
     }
+
     /**
      * 获取用户竞拍成功的账单
+     *
      * @param userId
      * @param page
      * @return
      */
-    public List<BillModel> postSelectMultiPhotographedBillInfoByUserId(Long userId,Long page) {
-        return billModelMapper.selectMultiPhotographedBillInfoByUserId(userId,page);
+    public List<BillModel> postSelectMultiPhotographedBillInfoByUserId(Long userId, Long page) {
+        return billModelMapperImpl.selectMultiPhotographedBillInfoByUserId(userId, page);
     }
+
     /**
      * 获取用户竞拍成功的条数
+     *
      * @param userId
      * @return
      */
     public Long postSelectMultiPhotographedBillInfoByUserIdPage(Long userId) {
-        return billModelMapper.selectMultiPhotographedBillInfoAmountByUserId(userId);
+        return billModelMapperImpl.selectMultiPhotographedBillInfoAmountByUserId(userId);
     }
 
     /**
      * 获取用户竞拍失败的信息
+     *
      * @param userId
      * @param page
      * @return
      */
-    public List<BidingModel> postSelectMultiBidingFailedInfo(Long userId,Long page) {
-        return bidingModelMapper.selectMultiUserBidingFailedInfo(userId,page);
+    public List<BidingModel> postSelectMultiBidingFailedInfo(Long userId, Long page) {
+        return bidingModelMapperImpl.selectMultiUserBidingFailedInfo(userId, page);
     }
+
     /**
      * 获取用户竞拍失败的信息数量
+     *
      * @param userId
      * @return
      */
     public Long postSelectMultiBidingFailedInfoPage(Long userId) {
-        return bidingModelMapper.selectMultiUserBidingFailedInfoAmount(userId);
+        return bidingModelMapperImpl.selectMultiUserBidingFailedInfoAmount(userId);
     }
+
     /**
      * 获取用户正在竞拍的信息
+     *
      * @param userId
      * @param page
      * @return
      */
-    public List<BidingModel> postSelectMultiBidingInfo(Long userId,Long page) {
-        return bidingModelMapper.selectMultiUserBidingInfo(userId,page);
+    public List<BidingModel> postSelectMultiBidingInfo(Long userId, Long page) {
+        return bidingModelMapperImpl.selectMultiUserBidingInfo(userId, page);
     }
+
     /**
      * 获取用户正在竞拍的信息的数量
+     *
      * @param userId
      * @return
      */
     public Long postSelectMultiBidingInfoPage(Long userId) {
-        return bidingModelMapper.selectMultiUserBidingInfoAmount(userId);
+        return bidingModelMapperImpl.selectMultiUserBidingInfoAmount(userId);
     }
 }

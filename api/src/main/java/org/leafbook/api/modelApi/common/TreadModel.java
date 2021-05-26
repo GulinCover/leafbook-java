@@ -8,8 +8,9 @@ public class TreadModel {
     private Long userId;
     private Long topicId;
     private Long commentId;
+    private Long talkId;
     private Long talkCommentId;
     private Long entryId;
     private Long likedUserId;
-    private String type;
+    private String treadType;
 }

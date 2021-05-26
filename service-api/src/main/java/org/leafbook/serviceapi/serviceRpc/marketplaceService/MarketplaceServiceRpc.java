@@ -14,26 +14,6 @@ import java.util.List;
         fallbackFactory = MarketplaceServiceRpcFallback.class
 )
 public interface MarketplaceServiceRpc {
-    /**
-     * 著述结算生成 ‘物品’
-     * @param userId
-     * @param topicId
-     * @return 物品id
-     */
-    @PostMapping("/rpc/post/create/settlement/single/auctionInfo")
-    Long postCreateSettlementSingleAuctionInfoRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("topicId")Long topicId);
-
-    /**
-     * 根据词条id搜索正在售卖的著述
-     * @param entryId
-     * @return
-     */
-    @GetMapping("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}/{page}")
-    List<AuctionModel> getSelectMultiAuctionInfoByEntryIdRpc(
-            @PathVariable("entryId")Long entryId,
-            @PathVariable("page")Long page);
 
     /**
      * 购买改名卡
@@ -44,7 +24,9 @@ public interface MarketplaceServiceRpc {
     @PostMapping("/rpc/post/buy/single/renameCard")
     int postBuySingleRenameCardRpc(
             @RequestParam("userId")Long userId,
-            @RequestParam("uuid")String uuid);
+            @RequestParam("uuid")String uuid,
+            @RequestParam("resId")Long resId
+    );
 
     /**
      * 上架物品
@@ -75,13 +57,14 @@ public interface MarketplaceServiceRpc {
             @RequestParam("newNickname")String newNickname);
 
     /**
-     * 查询用户下所有物品
+     * 查询用户下所有正在售卖的物品
      * @param userId
      * @return
      */
-    @PostMapping("/rpc/post/select/multi/resInfo/by/userId")
-    List<AuctionModel> postSelectMultiResInfoRpc(
-            @RequestParam("userId")Long userId);
+    @PostMapping("/rpc/post/select/multi/auctionInfo/by/userId")
+    List<AuctionModel> postSelectMultiAuctionInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("page")Long page);
 
     /**
      * 查询校验
@@ -138,7 +121,7 @@ public interface MarketplaceServiceRpc {
     int postSelectDetectAuctionIdLegalityRpc(@RequestParam("auctionId")Long auctionId);
 
     /**
-     * 更改买拍信息当
+     * 更改买拍信息当前最高价
      * @param auctionModel
      * @return
      */

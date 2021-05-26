@@ -1,11 +1,4 @@
 package org.leafbook.api.respAbs.marketplacePage;
 
-import lombok.Data;
-
-@Data
-public class EntryAbs {
-    private Long entryId;
-    private String entryName;
-    private String entryDesc;
-    private String entryAvatar;
+public class EntryAbs extends org.leafbook.api.respAbs.common.EntryAbs {
 }

@@ -35,8 +35,6 @@ public class RocketMQEmail {
         consumer.registerMessageListener(new MessageListenerConcurrently() {
             @Override
             public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
-
-
                 StringBuilder stringBuilder = new StringBuilder();
                 for (byte b : list.get(0).getBody()) {
                     stringBuilder.append((char)b);

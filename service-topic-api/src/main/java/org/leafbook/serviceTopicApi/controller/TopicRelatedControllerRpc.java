@@ -307,16 +307,6 @@ public class TopicRelatedControllerRpc {
      * @param userId
      * @return
      */
-    @ApiOperation("/rpc/post/select/me/topic")
-    @PostMapping("/rpc/post/select/me/topic")
-    public List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId")Long userId) {
-        return topicRelatedServiceRpc.postSelectMeTopicInfo(userId);
-    }
-    /**
-     * 获取用户发布的著述
-     * @param userId
-     * @return
-     */
     @ApiOperation("/rpc/post/select/me/topic/by/page")
     @PostMapping("/rpc/post/select/me/topic/by/page")
     public List<TopicModel> postSelectMeTopicInfoRpc(@RequestParam("userId") Long userId,@RequestParam("page") Long page) {
@@ -351,7 +341,7 @@ public class TopicRelatedControllerRpc {
     }
 
     /**
-     * 获取点赞排行著述id,每页15条
+     * 获取点赞排行著述id,每页20条
      * @param page
      * @return
      */
@@ -359,6 +349,16 @@ public class TopicRelatedControllerRpc {
     @GetMapping("/rpc/get/select/multi/topicId/by/star/rank/page/{page}")
     public List<Long> getSelectMultiTopicIdByStarRankRpc(@PathVariable("page")Long page) {
         return topicRelatedServiceRpc.getSelectMultiTopicIdByStarRank(page);
+    }
+
+    /**
+     * 获取topic总数量
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/topic/page/amount")
+    @GetMapping("/rpc/get/select/all/topic/page/amount")
+    public Long getSelectAllTopicPageAmountRpc() {
+        return topicRelatedServiceRpc.getSelectAllTopicPageAmount();
     }
 
     /**
@@ -392,10 +392,10 @@ public class TopicRelatedControllerRpc {
      * @param topicId
      * @return
      */
-    @ApiOperation("/rpc/post/select/multi/contributorId/by/topicId/page")
-    @PostMapping("/rpc/post/select/multi/contributorId/by/topicId/page")
-    public Long postSelectMultiContributorIdByTopicIdPageRpc(
-            @RequestParam("topicId") Long topicId) {
+    @ApiOperation("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
+    @GetMapping("/rpc/get/select/contributorAmount/by/topicId/{topicId}")
+    public Long getSelectContributorAmountByTopicIdRpc(
+            @PathVariable("topicId") Long topicId) {
         return topicRelatedServiceRpc.postSelectMultiContributorIdByTopicIdPage(topicId);
     }
 
@@ -410,16 +410,6 @@ public class TopicRelatedControllerRpc {
         return topicRelatedServiceRpc.getSelectRandomMultiTopicInfoByEntryId(entryId);
     }
 
-    /**
-     * 获取著述所有评论数量
-     * @param topicId
-     * @return
-     */
-    @ApiOperation("/rpc/get/select/all/commentAmount")
-    @GetMapping("/rpc/get/select/all/commentAmount")
-    public Long getSelectAllCommentAmountRpc(@RequestParam("topicId")Long topicId) {
-        return topicRelatedServiceRpc.getSelectAllCommentAmount(topicId);
-    }
 
     /**
      * 更改著述点赞数量
@@ -621,6 +611,122 @@ public class TopicRelatedControllerRpc {
         return topicRelatedServiceRpc.postSelectAllManagerUserIds(topicId);
     }
 
+    /**
+     * 判断topicId是否存在
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/isExist/for/topicInfo")
+    @PostMapping("/rpc/post/isExist/for/topicInfo")
+    public int postIsExistForTopicInfoRpc(
+            @RequestParam("topicId") Long topicId
+    ) {
+        return topicRelatedServiceRpc.postIsExistForTopicInfo(topicId);
+    }
+
+
+    /**
+     * 获取用户发布了的著述数量
+     * @param userId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/topicAmount/by/userId")
+    @GetMapping("/rpc/get/select/topicAmount/by/userId")
+    public Long getSelectTopicAmountByUserIdRpc(@RequestParam("userId")Long userId) {
+        return topicRelatedServiceRpc.getSelectTopicAmountByUserId(userId);
+    }
+
+    /**
+     * 获取点赞排行总数量
+     *
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/topic/by/star/rank/page/amount")
+    @GetMapping("/rpc/get/select/all/topic/by/star/rank/page/amount")
+    public Long getSelectMultiTopicIdByStarRankPageAmountRpc() {
+        return topicRelatedServiceRpc.getSelectMultiTopicIdByStarRankPageAmount();
+    }
+
+    /**
+     * 创建赞踩表
+     * @param topicId
+     * @return
+     */
+    @ApiOperation("/rpc/post/create/topic/likedAndTread")
+    @PostMapping("/rpc/post/create/topic/likedAndTread")
+    public int postCreateTopicLikedAndTreadRpc(
+            @RequestParam("topicId")Long topicId) {
+        return topicRelatedServiceRpc.postCreateTopicLikedAndTread(topicId);
+    }
+
+    /**
+     * 点赞排行模糊搜索
+     * @param page
+     * @param blurry
+     * @param entry
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/blurry/search")
+    @GetMapping("/rpc/get/select/multi/blurry/search")
+    public List<TopicModel> getSelectMultiBlurrySearchRpc(
+            @RequestParam("page")Long page,
+            @RequestParam("blurry")String blurry,
+            @RequestParam("entry")Long entry,
+            @RequestParam("startTime")Long startTime,
+            @RequestParam("endTime")Long endTime
+    ) {
+        return topicRelatedServiceRpc.getSelectMultiBlurrySearchRpc(page,blurry,entry,startTime,endTime);
+    }
+    /**
+     * 点赞排行模糊搜索数据数量
+     * @param page
+     * @param blurry
+     * @param entry
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/multi/blurry/search/page")
+    @GetMapping("/rpc/get/select/multi/blurry/search/page")
+    public Long getSelectMultiBlurrySearchPageAmountRpc(
+            @RequestParam("page")Long page,
+            @RequestParam("blurry")String blurry,
+            @RequestParam("entry")Long entry,
+            @RequestParam("startTime")Long startTime,
+            @RequestParam("endTime")Long endTime
+    ) {
+        return topicRelatedServiceRpc.getSelectMultiBlurrySearchPageAmountRpc(page,blurry,entry,startTime,endTime);
+
+    }
+
+
+    /**
+     * 获取词条下所有topic数量
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/all/topic/page/amount/by/entryId")
+    @GetMapping("/rpc/get/select/all/topic/page/amount/by/entryId")
+    public Long getSelectAllTopicInfoPageAmountByEntryIdRpc(
+            @RequestParam("entryId")Long entryId
+    ) {
+        return topicRelatedServiceRpc.getSelectAllTopicInfoPageAmountByEntryId(entryId);
+    }
+
+    /**
+     * 随机获取正在拍卖的topic
+     * @param entryId
+     * @return
+     */
+    @ApiOperation("/rpc/get/select/random/multi/topicIds/by/entryId/for/auction")
+    @GetMapping("/rpc/get/select/random/multi/topicIds/by/entryId/for/auction")
+    public List<Long> getSelectRandomMultiTopicIdsByEntryIdForAuctionInfoRpc(
+            @RequestParam("entryId")Long entryId
+    ) {
+        return topicRelatedServiceRpc.getSelectRandomMultiTopicIdsByEntryIdForAuctionInfo(entryId);
+    }
 }
 
 

@@ -1,114 +1,56 @@
 package org.leafbook.serviceUserApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.userInfo.UserModel;
-import org.leafbook.api.testModel.indexPage.TestModel;
-import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.List;
 
-@Service
-public class UserModelMapper {
+@Mapper
+public interface UserModelMapper extends BaseMapper<UserModel> {
+    UserModel selectSingleUserInfoByEmail(@Param("email")String email);
 
-    /**
-     * 检测用户合法性
-     * @param userId
-     * @return
-     */
-    public int selectSingleUserInfoIsExist(Long userId) {
-        return 1;
-    }
+    String selectPwdByEmail(@Param("email")String email);
 
-    /**
-     * 检测用户合法性
-     * @param userId
-     * @return
-     */
-    public int selectSingleUserLoginIdIsExist(Long userId,Long loginId) {
-        return 1;
-    }
+    UserModel selectByUuid(@Param("uuid") String uuid);
 
-    public UserModel selectSingleUserInfo(Long userId) {
-        UserModel userModel = new UserModel();
-        userModel.setId(userId);
-        userModel.setBalance(145200L);
-        userModel.setEmail("958803486@qq.com");
-        userModel.setLevel(4001);
-        userModel.setDesc(TestModel.randomWord());
-        userModel.setLocation("shanghai");
-        userModel.setLoginMark(";1;2;");
-        userModel.setPhone("130123456789");
-        userModel.setSex(1);
-        userModel.setUsername("Alex");
-        userModel.setUsedName(";Alex;");
-        userModel.setUuid("acfd-1234-3456-cdfb");
-        return userModel;
-    }
+    Integer selectSingleUserIsExist(@Param("userId")Long userId);
 
-    public String selectSingleUserInfoLoginMark(Long userId) {
-        return ";1;2;3;4;5;";
-    }
+    Integer selectSingleEmailIsExist(@Param("email")String email);
 
-    public Long createSingleUserInfo(String username, String email, String password) {
-        return (long) new Random().nextInt(1000)+1000;
-    }
+    String selectForLoginMarkByUserId(@Param("userId")Long userId);
 
-    /**
-     * 用户数据更新
-     * @param desc
-     * @param location
-     * @param sex
-     * @param avatar
-     * @param backdrop
-     * @return
-     */
-    public int updateSingleUserInfo(String desc, String location, Integer sex, String avatar, String backdrop) {
-        return 1;
-    }
+    List<UserModel> selectMultiUserInfoByUserIds(@Param("userIds")List<Long> userIds);
 
-    public int updateSingleUserInfoUsername(UserModel userModel) {
-        return 1;
-    }
-
-    public int updateSingleUserInfoPassword(Long userId, String password) {
-        return 1;
-    }
-
-    public int updateSingleUserInfoPhone(Long userId, String phone) {
-        return 1;
-    }
-
-    public int updateSingleUserInfoEmail(Long userId, String email) {
-        return 1;
-    }
-
-    public int updateSingleUserInfoLoginMark(Long userId, String loginMark) {
-        return 1;
-    }
-    /**
-     * 更改用户信息
-     * @param userModel
-     * @return
-     */
-    public int updateSingleUserInfoByUserInfo(UserModel userModel) {
-        return 1;
-    }
-    /**
-     * 更新用户余额
-     * @param userId
-     * @param balance
-     * @return
-     */
-    public int updateSingleUserInfoBalance(Long userId,Long balance) {
-        return 1;
-    }
-
-    /**
-     * 添加关注
-     * @param userId
-     * @param attentionUserId
-     * @return
-     */
-    public int insertAttentionUserForUserId(Long userId,Long attentionUserId) {
-        return 1;
-    }
+    int updateUserPassword(
+            @Param("userId")Long userId,
+            @Param("password")String password,
+            @Param("time")Long time
+    );
+    int updateUserPasswordByEmail(
+            @Param("email")String email,
+            @Param("password")String password,
+            @Param("time")Long time
+    );
+    int updateUserPhone(
+            @Param("userId")Long userId,
+            @Param("phone")String phone,
+            @Param("time")Long time
+    );
+    int updateUserEmail(
+            @Param("userId")Long userId,
+            @Param("email")String email,
+            @Param("time")Long time
+    );
+    int updateUserLoginMark(
+            @Param("userId")Long userId,
+            @Param("loginMark")String loginMark,
+            @Param("time")Long time
+    );
+    int updateUserBalance(
+            @Param("userId")Long userId,
+            @Param("balance")Long balance,
+            @Param("time")Long time
+    );
 }

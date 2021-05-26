@@ -1,5 +1,10 @@
 package org.leafbook.serviceapi.serviceApi;
 
+import io.seata.common.util.StringUtils;
+import io.seata.core.context.RootContext;
+import io.seata.core.exception.TransactionException;
+import io.seata.spring.annotation.GlobalTransactional;
+import io.seata.tm.api.GlobalTransactionContext;
 import org.leafbook.api.modelApi.billInfo.AuctionModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
@@ -7,7 +12,6 @@ import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.api.respAbs.marketplaceDetailPage.ArticleInfoResp;
 import org.leafbook.api.respAbs.marketplaceDetailPage.EntryAbs;
 import org.leafbook.api.respAbs.marketplaceDetailPage.ManagerAbs;
-import org.leafbook.api.testModel.marketplacePage.MarketplaceTestModel;
 import org.leafbook.serviceapi.serviceRpc.entryService.EntryServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.marketplaceService.MarketplaceServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.topicService.TopicServiceRpc;
@@ -20,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class MarketplaceDetailPageServiceApi {
     @Autowired
@@ -36,7 +41,7 @@ public class MarketplaceDetailPageServiceApi {
      * @param auctionId
      * @return
      */
-    public ArticleInfoResp getSelectArticleInfo(Long auctionId) {
+    public ArticleInfoResp getSelectArticleInfo(Long userId, Long auctionId) {
         ArticleInfoResp articleInfoResp = new ArticleInfoResp();
         //获取拍卖物品信息
         AuctionModel auctionModel = marketplaceServiceRpc.getSelectSingleAuctionInfoRpc(auctionId);
@@ -45,14 +50,14 @@ public class MarketplaceDetailPageServiceApi {
             articleInfoResp.setBidTime(auctionModel.getExpireTimestamp());
             articleInfoResp.setMaxPrice(auctionModel.getCurrentPrice());
             articleInfoResp.setStartPrice(auctionModel.getStartPrice());
-            articleInfoResp.setUploadTime(auctionModel.getPublicTime());
+            articleInfoResp.setUploadTime(auctionModel.getUpdateTime());
 
             //获取售卖者信息
             UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(auctionModel.getUserId());
             if (Objects.nonNull(userModel)) {
                 articleInfoResp.setSellerUserId(userModel.getId());
                 articleInfoResp.setSellerUserAvatar(userModel.getAvatar());
-                articleInfoResp.setSellerUserDesc(userModel.getDesc());
+                articleInfoResp.setSellerUserDesc(userModel.getUserDesc());
                 articleInfoResp.setSellerUserLevel(userModel.getLevel());
                 articleInfoResp.setSellerUuid(userModel.getUuid());
                 articleInfoResp.setSellerSex(userModel.getSex());
@@ -62,10 +67,10 @@ public class MarketplaceDetailPageServiceApi {
             articleInfoResp.setMaxPriceUserId(auctionModel.getCurrentPriceUserId());
             articleInfoResp.setMaxPriceUserUuid(auctionModel.getCurrentPriceUserUuid());
 
-            articleInfoResp.setType(auctionModel.getType());
+            articleInfoResp.setType(auctionModel.getAuctionType());
 
             //根据类型获取信息
-            switch (auctionModel.getType()) {
+            switch (auctionModel.getAuctionType()) {
                 case 0:
                     TopicModel topicInfo = topicServiceRpc.getSelectSingleTopicInfoRpc(auctionModel.getTopicId());
                     if (Objects.nonNull(topicInfo)) {
@@ -151,7 +156,7 @@ public class MarketplaceDetailPageServiceApi {
 
         //比较出价和现最高价格
         AuctionModel auctionInfo = marketplaceServiceRpc.getSelectSingleAuctionInfoRpc(auctionId);
-        if (price <= auctionInfo.getCurrentPrice()) return 4000;
+        if (price <= auctionInfo.getCurrentPrice() || price <= auctionInfo.getStartPrice()) return 4000;
 
         //存储竞拍信息
         ret = marketplaceServiceRpc.postBidingSingleAuctionInfoRpc(userId, auctionId, price);
@@ -168,6 +173,7 @@ public class MarketplaceDetailPageServiceApi {
         auctionInfo.setCurrentPrice(price);
         auctionInfo.setCurrentPriceUserId(userId);
         auctionInfo.setCurrentPriceUserUuid(userModel.getUuid());
+
         ret = marketplaceServiceRpc.postUpdateAuctionInfoByAuctionInfoRpc(auctionInfo);
         if (ret == 0) return 500;
 

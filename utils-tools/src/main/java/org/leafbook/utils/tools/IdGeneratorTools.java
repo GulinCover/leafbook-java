@@ -2,9 +2,11 @@ package org.leafbook.utils.tools;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.IdGenerator;
 
 @Data
+@Component
 public class IdGeneratorTools {
     @Value("${snowflake.datacenterId}")
     private long datacenterId;

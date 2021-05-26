@@ -1,0 +1,32 @@
+{
+  "groups": [
+    {
+      "name": "custom-mybatis-plus.datasource",
+      "type": "org.leafbook.serviceUserApi.config.MybatisPlusConfig",
+      "sourceType": "org.leafbook.serviceUserApi.config.MybatisPlusConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "custom-mybatis-plus.datasource.driver-class-name",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceUserApi.config.MybatisPlusConfig"
+    },
+    {
+      "name": "custom-mybatis-plus.datasource.password",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceUserApi.config.MybatisPlusConfig"
+    },
+    {
+      "name": "custom-mybatis-plus.datasource.url",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceUserApi.config.MybatisPlusConfig"
+    },
+    {
+      "name": "custom-mybatis-plus.datasource.username",
+      "type": "java.lang.String",
+      "sourceType": "org.leafbook.serviceUserApi.config.MybatisPlusConfig"
+    }
+  ],
+  "hints": []
+}

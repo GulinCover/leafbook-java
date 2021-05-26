@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceTopicApi.dao.TopicEntryInfoShowModelMapper">
+    <select id="selectMultiEntryIdsByTopicIds" resultType="java.lang.Long">
+        select entry_id from topic_entry_info_show_model
+        <where>
+            topic_id in
+            <foreach collection="topicIds" item="topicId" open="(" close=")" index="index" separator=",">
+                #{topicId}
+            </foreach>
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectTopicAmountByEntryId" resultType="java.lang.Long">
+         select count(topic_id) from topic_entry_info_show_model
+         <where>
+             entry_id=#{entryId}
+             and is_black=0
+         </where>
+    </select>
+
+    <select id="selectMultiEntryIdsByTopicId" resultType="java.lang.Long">
+         select entry_id from topic_entry_info_show_model
+         <where>
+             topic_id=#{topicId}
+             and is_black=0
+         </where>
+    </select>
+
+
+    <select id="selectMultiTopicIdsByEntryId" resultType="java.lang.Long">
+        select topic_id from topic_entry_info_show_model
+        <where>
+            entry_id=#{entryId}
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectRandomTopicIdsByEntryId" resultType="java.lang.Long">
+        select topic_id from topic_entry_info_show_model
+        <where>
+            entry_id=#{entryId}
+            and is_black=0
+        </where>
+        order by rand()
+    </select>
+
+    <insert id="insertBatchByModels">
+        insert into topic_entry_info_show_model(
+            topic_entry_info_show_model_id,
+            topic_id,
+            entry_id,
+            is_black,
+            version,
+            create_time,
+            update_time
+        ) values
+        <foreach collection="models" item="model" index="index" close=";" separator=",">
+            (
+                #{model.topicEntryInfoShowModelId},
+                #{model.topicId},
+                #{model.entryId},
+                #{model.isBlack},
+                #{model.version},
+                #{model.createTime},
+                #{model.updateTime}
+            )
+        </foreach>
+    </insert>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+

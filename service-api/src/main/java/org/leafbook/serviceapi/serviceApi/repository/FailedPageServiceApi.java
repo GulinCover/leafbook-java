@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.billInfo.BidingModel;
 import org.leafbook.api.respAbs.repository.failedPage.FailedAbs;
 import org.leafbook.api.respAbs.repository.failedPage.FailedInfoResp;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class FailedPageServiceApi {
     @Autowired
@@ -34,7 +36,7 @@ public class FailedPageServiceApi {
             for (BidingModel bidingModel:bidingModelList) {
                 FailedAbs failedAbs = new FailedAbs();
                 failedAbs.setAuctionId(bidingModel.getAuctionId());
-                failedAbs.setBidTime(bidingModel.getPublicTime());
+                failedAbs.setBidTime(bidingModel.getCreateTime());
                 failedAbs.setPrice(bidingModel.getPrice());
 
                 failedAbsList.add(failedAbs);
@@ -44,7 +46,7 @@ public class FailedPageServiceApi {
         resp.setFailedAbsList(failedAbsList);
 
         Long maxPage = marketplaceServiceRpc.postSelectMultiBidingFailedInfoPageRpc(userId);
-        resp.setPage((long)Math.ceil(maxPage / 20));
+        resp.setPage(maxPage);
         return resp;
     }
 }

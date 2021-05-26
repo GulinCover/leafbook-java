@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceUserApi.dao.ResModelMapper">
+    <select id="selectByUserIdAndResId" resultType="org.leafbook.api.modelApi.userInfo.ResModel">
+        select * from res_model
+        <where>
+            user_id=#{userId}
+            and res_id=#{resId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiByUserId" resultType="org.leafbook.api.modelApi.userInfo.ResModel">
+        select * from res_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiAmountByUserId" resultType="java.lang.Long">
+        select count(res_id) from res_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+        </where>
+    </select>
+
+    <update id="deleteByLogic">
+        update res_model
+        <set>
+            is_black=1
+        </set>
+        <where>
+            user_id=#{userId}
+            and res_id=#{resId}
+            and is_black=0
+        </where>
+    </update>
+</mapper>

@@ -15,7 +15,7 @@ public class BillModel extends Model {
     private Long buyerId;
     private String buyerUuid;
 
-    private Integer type;
+    private Integer billType;
     private Long publicTime;
     private Long buyTime;
 

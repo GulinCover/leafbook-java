@@ -79,12 +79,14 @@ public interface UserServiceRpc {
     Long postCreateSingleUserInfoRpc(
             @RequestParam("username") String username,
             @RequestParam("email") String email,
-            @RequestParam("password") String password);
+            @RequestParam("password") String password,
+            @RequestParam("ip") String ip
+    );
 
     /**
      * 用户数据更新
      *
-     * @param form form: desc,location,sex,avatar,backdrop
+     * @param form:userId,userAvatar,userDesc,userLocation,userSex,backdrop
      * @return code
      */
     @PostMapping("/rpc/post/update/single/userInfo")
@@ -116,15 +118,18 @@ public interface UserServiceRpc {
     /**
      * 邮箱更改密码
      *
-     * @param userId
+     * @param email
      * @param password
      * @return code
      */
     @PostMapping("/rpc/post/update/single/userInfo/password/by/email")
     int postUpdateSingleUserInfoPasswordByEmailRpc(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password);
+    @PostMapping("/rpc/post/update/single/userInfo/password/by/userId")
+    int postUpdateSingleUserInfoPasswordByUserIdRpc(
             @RequestParam("userId") Long userId,
             @RequestParam("password") String password);
-
     /**
      * 更改手机号
      *
@@ -181,7 +186,9 @@ public interface UserServiceRpc {
     @PostMapping("/rpc/post/login")
     String postLoginRpc(
             @RequestParam("email") String email,
-            @RequestParam("password") String password);
+            @RequestParam("password") String password,
+            @RequestParam("ip") String ip
+    );
 
     /**
      * 检测用户合法性
@@ -243,6 +250,15 @@ public interface UserServiceRpc {
             @RequestParam("page")Long page);
 
     /**
+     * 查询用户所有可用物品数量
+     * @param userId
+     * @return
+     */
+    @PostMapping("/rpc/post/select/multi/user/resInfo/amount/by/userId/page")
+    Long postSelectMultiUserResInfoAmountByUserIdRpc(
+            @RequestParam("userId")Long userId);
+
+    /**
      * 使用nickname物品
      * @param userId
      * @param resId
@@ -286,5 +302,33 @@ public interface UserServiceRpc {
     int postCancelAttentionRpc(
             @RequestParam("userId")Long userId,
             @RequestParam("attentionUserId")Long attentionUserId
+    );
+
+    /**
+     * 根据uuid查询用户
+     * @param uuid
+     * @return
+     */
+    @PostMapping("/rpc/post/select/single/userInfo/by/uuid")
+    UserModel postSelectSingleUserInfoByUuidRpc(@RequestParam("uuid")String uuid);
+
+    /**
+     * email查重
+     * @param email
+     * @return
+     */
+    @PostMapping("/rpc/post/select/single/detect/is/exist/by/email")
+    int postSelectSingleDetectIsExistByEmailRpc(@RequestParam("email")String email);
+
+    /**
+     * 删除物品
+     * @param userId
+     * @param resId
+     * @return
+     */
+    @PostMapping("/rpc/post/delete/single/userResInfo")
+    int postDeleteSingleUserResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("resId")Long resId
     );
 }

@@ -20,13 +20,17 @@ public class MarketplaceDetailPageControllerApi {
 
     /**
      * 获取拍卖品信息
+     * @param userId
      * @param auctionId
      * @return
      */
     @ApiOperation("/api/get/select/auctionInfo/{auctionId}")
     @GetMapping("/api/get/select/auctionInfo/{auctionId}")
-    public ArticleInfoResp getSelectAuctionInfoApi(@PathVariable("auctionId")Long auctionId) {
-        ArticleInfoResp resp = marketplaceDetailPageServiceApi.getSelectArticleInfo(auctionId);
+    public ArticleInfoResp getSelectAuctionInfoApi(
+            @RequestHeader("userId")Long userId,
+            @PathVariable("auctionId")Long auctionId
+    ) {
+        ArticleInfoResp resp = marketplaceDetailPageServiceApi.getSelectArticleInfo(userId,auctionId);
         resp.setCode(200);
         return resp;
     }

@@ -101,7 +101,7 @@ public class IndexPageControllerApi {
      * @return
      */
     @ApiOperation("/api/post/select/search/me/topics")
-    @PostMapping(value = "/api/post/select/search/me/topics")
+    @PostMapping("/api/post/select/search/me/topics")
     public LeftTopicResp postSelectMeTopicsApi(@RequestHeader("userId")Long userId, @RequestBody Map<String, String> form) {
         LeftTopicResp resp = new LeftTopicResp();
 

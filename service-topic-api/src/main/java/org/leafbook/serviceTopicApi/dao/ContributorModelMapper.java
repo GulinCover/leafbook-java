@@ -1,30 +1,21 @@
 package org.leafbook.serviceTopicApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.topicInfo.ContributorModel;
-import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
 import java.util.List;
 
-@Service
-public class ContributorModelMapper {
-    /**
-     * 随机获取贡献者信息
-     * @param topicId
-     * @param randomNumber
-     * @return
-     */
-    public List<ContributorModel> selectRandomContributorInfoByTopicId(Long topicId,Integer randomNumber) {
-        List<ContributorModel> contributorModelList = new LinkedList<>();
+@Mapper
+public interface ContributorModelMapper extends BaseMapper<ContributorModel> {
+    List<ContributorModel> selectMultiRandomContributorInfoByTopicId(@Param("topicId")Long topicId,@Param("randomNumber")Integer randomNumber);
 
-        for (int i = 0; i < randomNumber; ++i) {
-            ContributorModel contributorModel = new ContributorModel();
-            contributorModel.setContributorModelId((long) i);
-            contributorModel.setTopicId(topicId);
-            contributorModel.setUserId(46L);
+    Long selectUserIdAmount(@Param("topicId")Long topicId);
 
-            contributorModelList.add(contributorModel);
-        }
-        return contributorModelList;
-    }
+    List<Long> selectMultiUserIds(
+            @Param("topicId")Long topicId,
+            @Param("start")Long start,
+            @Param("end")Long end
+    );
 }

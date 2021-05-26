@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.recordInfo.BrowseHistoryModel;
 import org.leafbook.api.modelApi.recordInfo.SearchHistoryModel;
@@ -23,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class IndexPageServiceApi {
     @Autowired
@@ -37,7 +39,7 @@ public class IndexPageServiceApi {
      * @return
      */
     public List<TopicAbs> postSelectUserTopics(Long userId) {
-        List<TopicModel> topicModelList = topicServiceRpc.postSelectMeTopicInfoRpc(userId);
+        List<TopicModel> topicModelList = topicServiceRpc.postSelectMeTopicInfoRpc(userId, 1L);
         List<TopicAbs> topicAbsList = new LinkedList<>();
 
         if (Objects.nonNull(topicModelList) && !topicModelList.isEmpty()) {

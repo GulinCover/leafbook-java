@@ -19,32 +19,6 @@ public class MarketplaceRelatedControllerRpc {
     private MarketplaceRelatedServiceRpc marketplaceRelatedServiceRpc;
 
     /**
-     * 著述结算生成 ‘物品’
-     * @param userId
-     * @param topicId
-     * @return 物品id
-     */
-    @ApiOperation("/rpc/post/create/settlement/single/auctionInfo")
-    @PostMapping("/rpc/post/create/settlement/single/auctionInfo")
-    public Long postCreateSettlementSingleAuctionInfoRpc(
-            @RequestParam("userId")Long userId,
-            @RequestParam("topicId")Long topicId
-    ) {
-        return marketplaceRelatedServiceRpc.postCreateSettlementSingleAuctionInfo(userId,topicId);
-    }
-
-    /**
-     * 根据词条id搜索正在售卖的著述
-     * @param entryId
-     * @return
-     */
-    @ApiOperation("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}/{page}")
-    @GetMapping("/rpc/get/select/multi/auctionInfo/by/entryId/{entryId}/{page}")
-    public List<AuctionModel> getSelectMultiAuctionInfoByEntryIdRpc(@PathVariable("entryId")Long entryId,@PathVariable("page")Integer page) {
-        return marketplaceRelatedServiceRpc.getSelectMultiAuctionInfoByEntryId(entryId,page);
-    }
-
-    /**
      * 购买改名卡
      * @param userId
      * @param uuid
@@ -52,8 +26,12 @@ public class MarketplaceRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/buy/single/renameCard")
     @PostMapping("/rpc/post/buy/single/renameCard")
-    public int postBuySingleRenameCardRpc(@RequestParam("userId")Long userId,@RequestParam("uuid")String uuid) {
-        return marketplaceRelatedServiceRpc.postBuySingleRenameCard(userId,uuid);
+    public int postBuySingleRenameCardRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("uuid")String uuid,
+            @RequestParam("resId")Long resId
+    ) {
+        return marketplaceRelatedServiceRpc.postBuySingleRenameCard(userId,uuid,resId);
     }
 
     /**
@@ -66,7 +44,12 @@ public class MarketplaceRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/auction/single/resInfo")
     @PostMapping("/rpc/post/auction/single/resInfo")
-    public int postAuctionSingleResInfoRpc(@RequestParam("userId")Long userId,@RequestParam("auctionId")Long auctionId,@RequestParam("price")Long price,@RequestParam("expireTimestamp")Long expireTimestamp) {
+    public int postAuctionSingleResInfoRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("auctionId")Long auctionId,
+            @RequestParam("price")Long price,
+            @RequestParam("expireTimestamp")Long expireTimestamp
+    ) {
         return marketplaceRelatedServiceRpc.postAuctionSingleResInfo(userId,auctionId,price,expireTimestamp);
     }
 
@@ -79,19 +62,12 @@ public class MarketplaceRelatedControllerRpc {
      */
     @ApiOperation("/rpc/post/use/single/renameCard")
     @PostMapping("/rpc/post/use/single/renameCard")
-    public int postUseSingleRenameCardRpc(@RequestParam("userId")Long userId,@RequestParam("auctionId")Long auctionId,@RequestParam("newNickname")String newNickname) {
+    public int postUseSingleRenameCardRpc(
+            @RequestParam("userId")Long userId,
+            @RequestParam("auctionId")Long auctionId,
+            @RequestParam("newNickname")String newNickname
+    ) {
         return marketplaceRelatedServiceRpc.postUseSingleRenameCard(userId,auctionId,newNickname);
-    }
-
-    /**
-     * 查询用户下所有物品
-     * @param userId
-     * @return
-     */
-    @ApiOperation("/rpc/post/select/multi/resInfo/by/userId")
-    @PostMapping("/rpc/post/select/multi/resInfo/by/userId")
-    public List<AuctionModel> postSelectMultiResInfoRpc(@RequestParam("userId")Long userId) {
-        return marketplaceRelatedServiceRpc.postSelectMultiResInfo(userId);
     }
 
     /**
@@ -167,13 +143,14 @@ public class MarketplaceRelatedControllerRpc {
     }
 
     /**
-     * 更改买拍信息当
+     * 更改买拍信息当前最高价
      * @param auctionModel
      * @return
      */
     @ApiOperation("/rpc/post/update/auctionInfo/by/auctionInfo")
     @PostMapping("/rpc/post/update/auctionInfo/by/auctionInfo")
-    public int postUpdateAuctionInfoByAuctionInfoRpc(@RequestBody AuctionModel auctionModel) {
+    public int postUpdateAuctionInfoByAuctionInfoRpc(
+            @RequestBody AuctionModel auctionModel) {
         return marketplaceRelatedServiceRpc.postUpdateAuctionInfoByAuctionInfo(auctionModel);
     }
 

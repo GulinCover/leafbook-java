@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.billInfo.BillModel;
 import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.respAbs.repository.successPage.SuccessAbs;
@@ -14,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class SuccessPageServiceApi {
     @Autowired
@@ -38,7 +40,7 @@ public class SuccessPageServiceApi {
             for (BillModel billModel:billModelList) {
                 SuccessAbs successAbs = new SuccessAbs();
                 successAbs.setBillId(billModel.getBillId());
-                successAbs.setType(billModel.getType());
+                successAbs.setType(billModel.getBillType());
 
                 successAbs.setStartPrice(billModel.getStartPrice());
                 successAbs.setPhotographedPrice(billModel.getPrice());
@@ -47,7 +49,7 @@ public class SuccessPageServiceApi {
                 ResModel resModel = userServiceRpc.postSelectSingleResInfoByUserIdRpc(userId, billModel.getResId());
                 if (Objects.isNull(resModel)) return resp;
 
-                switch (billModel.getType()) {
+                switch (billModel.getBillType()) {
                     case 0:
                         successAbs.setTopicId(resModel.getTopicId());
                         break;
@@ -65,7 +67,7 @@ public class SuccessPageServiceApi {
         resp.setSuccessAbsList(successAbsList);
 
         Long maxPage = marketplaceServiceRpc.postSelectMultiPhotographedBillInfoByUserIdPageRpc(userId);
-        resp.setPage((long)Math.ceil(maxPage / 20));
+        resp.setPage(maxPage);
         return resp;
     }
 }

@@ -22,22 +22,45 @@ public class CodeRelatedControllerRpc {
     /**
      * 发送验证码
      * @param email
+     * @param type
      * @return
      */
     @ApiOperation("/rpc/post/send/code/by/email")
     @PostMapping("/rpc/post/send/code/by/email")
-    public int postSendCodeRpc(@RequestParam("email")String email) throws InterruptedException, RemotingException, MQClientException, MQBrokerException {
-        return codeRelatedServiceRpc.postSendCode(email);
+    public int postSendCodeRpc(
+            @RequestParam("email")String email,
+            @RequestParam("type")Integer type
+    ) {
+        return codeRelatedServiceRpc.postSendCode(email, type);
     }
 
     /**
      * 获取验证码
      * @param email
+     * @param type
      * @return
      */
     @ApiOperation("/rpc/post/acquire/code/by/email")
     @PostMapping("/rpc/post/acquire/code/by/email")
-    public String postAcquireCodeRpc(@RequestParam("email")String email) {
-        return codeRelatedServiceRpc.postAcquireCode(email);
+    public String postAcquireCodeRpc(
+            @RequestParam("email")String email,
+            @RequestParam("type")Integer type
+    ) {
+        return codeRelatedServiceRpc.postAcquireCode(email,type);
+    }
+
+    /**
+     * 删除验证码
+     * @param email
+     * @param type
+     * @return
+     */
+    @ApiOperation("/rpc/post/delete/code/by/email")
+    @PostMapping("/rpc/post/delete/code/by/email")
+    public int postDeleteCodeRpc(
+            @RequestParam("email")String email,
+            @RequestParam("type")Integer type
+    ) {
+        return codeRelatedServiceRpc.postDeleteCode(email,type);
     }
 }

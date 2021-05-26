@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceTopicApi.dao.TopicModelMapper">
+    <select id="selectAllTopicInfoPageAmount" resultType="java.lang.Long">
+        select count(topic_id) from topic_model
+        <where>
+            is_black=0
+        </where>
+    </select>
+
+    <select id="selectIsExistTopicId" resultType="java.lang.Integer">
+        select 1 from topic_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiTopicInfoByUserId" resultType="org.leafbook.api.modelApi.topicInfo.TopicModel">
+        select * from topic_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiTopicInfoAmountByUserId" resultType="java.lang.Long">
+        select count(topic_id) from topic_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSearchMeMultiTopicInfo" resultType="org.leafbook.api.modelApi.topicInfo.TopicModel">
+        select * from topic_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+            and
+            (
+            topic_title like concat(concat('%',#{blurry}),'%')
+            or topic_desc like concat(concat('%',#{blurry}),'%')
+            )
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectSingleForOwnerId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select user_id from topic_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectDecideForTopicIdByUserId" parameterType="java.lang.Long" resultType="int">
+        select 1 from topic_model
+        <where>
+            user_id=#{userId}
+            and topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectByTopicId" resultType="org.leafbook.api.modelApi.topicInfo.TopicModel">
+        select * from topic_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiTopicInfoByTopicIds" resultType="org.leafbook.api.modelApi.topicInfo.TopicModel">
+        select * from topic_model
+        <where>
+            topic_id in
+            <foreach collection="topicIds" item="topicId" index="index" open="(" close=")" separator=",">
+                #{topicId}
+            </foreach>
+        </where>
+    </select>
+
+    <select id="selectMultiMeLastTopicInfo" resultType="org.leafbook.api.modelApi.topicInfo.TopicModel">
+        select * from topic_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+        </where>
+        order by create_time DESC
+        limit #{number}
+    </select>
+
+
+    <select id="selectSearchMultiTopicInfo" resultType="org.leafbook.api.modelApi.topicInfo.TopicModel">
+        select * from topic_model
+        <where>
+            (
+            topic_title like concat(concat('%',#{content}),'%')
+            or topic_desc like concat(concat('%',#{content}),'%')
+            )
+            and
+            (
+            create_time <![CDATA[ <= ]]> #{endTime}
+            and create_time <![CDATA[ >= ]]> #{startTime}
+            )
+        </where>
+        limit #{start},#{end}
+    </select>
+
+
+    <select id="selectSearchMultiTopicInfoAmount" resultType="java.lang.Long">
+        select count(topic_id) from topic_model
+        <where>
+            (
+            topic_title like concat(concat('%',#{content}),'%')
+            or topic_desc like concat(concat('%',#{content}),'%')
+            )
+            and
+            (
+            create_time <![CDATA[ <= ]]> #{endTime}
+            and create_time <![CDATA[ >= ]]> #{startTime}
+            )
+        </where>
+    </select>
+
+    
+    <select id="joinSelectMultiTopic" resultType="java.lang.Long">
+        (
+        select
+        distinct
+        a.topic_id
+        from topic_model a
+        inner join topic_entry_info_show_model b
+        on a.topic_id=b.topic_id
+        and b.entry_id in
+        <foreach collection="entryIds" separator="," index="index" close=")" open="(" item="entryId">
+            #{entryId}
+        </foreach>
+        where
+        (
+        a.topic_title like concat(concat('%',#{content}),'%')
+        or a.topic_desc like concat(concat('%',#{content}),'%')
+        )
+        and
+        (
+        a.create_time <![CDATA[ <= ]]> #{endTime}
+        and a.create_time <![CDATA[ >= ]]> #{startTime}
+        )
+        )
+        limit #{start},#{end}
+    </select>
+
+
+    <select id="joinSelectMultiTopicAmount" resultType="java.lang.Long">
+        select
+        count(a.topic_id)
+        from topic_model a
+        inner join topic_entry_info_show_model b
+        on a.topic_id=b.topic_id
+        and b.entry_id in
+        <foreach collection="list" separator="," index="index" close=")" open="(" item="entryId">
+            #{entryId}
+        </foreach>
+        <where>
+            (
+            a.topic_title like concat(concat('%',#{content}),'%')
+            or a.topic_desc like concat(concat('%',#{content}),'%')
+            )
+            and
+            (
+            a.create_time <![CDATA[ <= ]]> #{endTime}
+            and a.create_time <![CDATA[ >= ]]> #{startTime}
+            )
+        </where>
+    </select>
+
+    <select id="jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfo" resultType="org.leafbook.api.modelApi.topicInfo.TopicModel">
+        select
+        a.topic_id,a.topic_title,a.topic_avatar,a.topic_type,a.topic_desc,
+        a.status,a.update_time,a.create_time,a.user_id,a.version,a.is_black
+        from topic_model as a
+        inner join topic_liked_and_tread_and_browse_model as b
+        on a.topic_id=b.topic_id
+        inner join topic_entry_info_show_model as cc
+        on a.topic_id=cc.topic_id
+        <where>
+            (
+            a.topic_title like concat(concat('%',#{blurry}),'%')
+            or a.topic_desc like concat(concat('%',#{blurry}),'%')
+            )
+            <if test="entry != null and entry != ''">
+                and cc.entry_id=#{entry}
+                and cc.is_black=0
+            </if>
+            and
+            (
+            a.create_time <![CDATA[ <= ]]> #{endTime}
+            and a.create_time <![CDATA[ >= ]]> #{startTime}
+            )
+            and a.is_black=0
+        </where>
+        order by b.liked_amount desc
+        limit #{start},#{end}
+    </select>
+
+    <select id="jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfoPageAmount" resultType="java.lang.Long">
+        select
+        count(distinct a.topic_id)
+        from topic_model as a
+        inner join topic_liked_and_tread_and_browse_model as b
+        on a.topic_id=b.topic_id
+        inner join topic_entry_info_show_model as cc
+        on a.topic_id=cc.topic_id
+        <where>
+            (
+            a.topic_title like concat(concat('%',#{blurry}),'%')
+            or a.topic_desc like concat(concat('%',#{blurry}),'%')
+            )
+            <if test="entry != null and entry != ''">
+                and cc.entry_id=#{entry}
+                and cc.is_black=0
+            </if>
+            and
+            (
+            a.create_time <![CDATA[ <= ]]> #{endTime}
+            and a.create_time <![CDATA[ >= ]]> #{startTime}
+            )
+            and a.is_black=0
+        </where>
+        order by b.liked_amount desc
+        limit #{start},#{end}
+    </select>
+
+    <select id="joinSelectTopicAmountByEntryId" resultType="java.lang.Long">
+        select
+        count(distinct a.topic_id)
+        from topic_model as a
+        inner join topic_entry_info_show_model as b
+        on a.topic_id=b.topic_id
+        <where>
+            b.entry_id=#{entryId}
+            and a.is_black=0
+            and b.is_black=0
+        </where>
+    </select>
+
+    <select id="joinSelectRandomTopicIdsByEntryIdForAuction" resultType="java.lang.Long">
+        select a.topic_id from topic_model as a
+        inner join topic_entry_info_show_model as b
+        on a.topic_id=b.topic_id
+        <where>
+            b.entry_id=#{entryId}
+            a.status=1
+            and a.is_black=0
+            and b.is_black=0
+        </where>
+        order by rand()
+        limit #{start},#{end}
+    </select>
+
+    <update id="updateSingleTopicInfoOwner" parameterType="java.lang.Long">
+        update topic_model
+        <set>
+            user_id=#{userId}
+        </set>
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateSingleTopicDesc" parameterType="java.lang.Long">
+        update topic_model
+        <set>
+            topic_desc=#{desc}
+        </set>
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateSingleTopicCover" parameterType="java.lang.Long">
+        update topic_model
+        <set>
+            topic_avatar=#{cover}
+        </set>
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </update>
+</mapper>
+
+
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.respAbs.repository.publicTopicPage.EntryAbs;
@@ -17,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class PublicTopicPageServiceApi {
     @Autowired
@@ -80,7 +82,7 @@ public class PublicTopicPageServiceApi {
         //获取最大页数
 
         Long maxPage = topicServiceRpc.postSelectMeTopicInfoPageRpc(userId);
-        resp.setPage((long)Math.ceil(maxPage/20));
+        resp.setPage(maxPage);
 
         return resp;
     }

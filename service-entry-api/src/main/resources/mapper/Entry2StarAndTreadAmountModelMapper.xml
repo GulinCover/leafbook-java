@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceEntryApi.dao.Entry2StarAndTreadAmountModelMapper">
+    <select id="selectSingleEntryStarAndTreadAmountByEntryId" resultType="org.leafbook.api.modelApi.entryInfo.Entry2StarAndTreadAmountModel">
+        select * from entry_2_star_and_tread_amount_model
+        <where>
+            entry_id=#{entryId}
+            and is_black=0
+        </where>
+    </select>
+    <select id="selectMultiEntryStarAndTreadAmountByEntryId" resultType="org.leafbook.api.modelApi.entryInfo.Entry2StarAndTreadAmountModel">
+        select * from entry_2_star_and_tread_amount_model
+        <where>
+            is_black=0
+            and entry_id in
+            <foreach collection="entryIds" item="entryId" index="index" open="(" close=")" separator=",">
+                #{entryId}
+            </foreach>
+        </where>
+    </select>
+
+    <update id="updateStarIncreaseByEntryId">
+        update entry_2_star_and_tread_amount_model
+        <set>
+            entry_star_amount=entry_star_amount+1,
+            update_time=#{time}
+        </set>
+        <where>
+            entry_id=#{entryId}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateTreadIncreaseByEntryId">
+        update entry_2_star_and_tread_amount_model
+        <set>
+            entry_tread_amount=entry_tread_amount+1,
+            update_time=#{time}
+        </set>
+        <where>
+            entry_id=#{entryId}
+            and is_black=0
+        </where>
+    </update>
+</mapper>

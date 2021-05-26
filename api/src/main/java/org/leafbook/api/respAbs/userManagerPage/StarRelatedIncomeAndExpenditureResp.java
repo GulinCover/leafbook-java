@@ -7,5 +7,6 @@ import java.util.List;
 @Data
 public class StarRelatedIncomeAndExpenditureResp {
     private Integer code;
+    private Long page;
     private List<StarRelatedIncomeAndExpenditureAbs> starRelatedIncomeAndExpenditureAbsList;
 }

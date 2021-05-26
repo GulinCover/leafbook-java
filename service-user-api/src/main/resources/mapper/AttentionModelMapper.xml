@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceUserApi.dao.AttentionModelMapper">
+    <select id="selectMultiAttentionUserIds" resultType="java.lang.Long">
+        select attention_model_id from attention_model
+        <where>
+            user_id=#{userId}
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectDetectIsExistAttention" resultType="java.lang.Integer">
+        select attention_model_id from attention_model
+        <where>
+            user_id=#{userId}
+            and attention_user_id=#{attentionId}
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+
+    <update id="deleteByLogic">
+        update attention_model set is_black=1
+        <where>
+            user_id=#{userId} and attention_user_id=#{attentionId}
+        </where>
+    </update>
+</mapper>

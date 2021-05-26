@@ -1,10 +1,12 @@
 package org.leafbook.serviceapi.serviceApi.topicPage;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.commentInfo.CommentModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.api.respAbs.topicPublicPage.comment.*;
 import org.leafbook.serviceapi.serviceRpc.commentService.CommentServiceRpc;
+import org.leafbook.serviceapi.serviceRpc.commonService.CommonServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.entryService.EntryServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.topicService.TopicServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.userService.UserServiceRpc;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class CommentPageServiceApi {
     @Autowired
@@ -27,6 +30,8 @@ public class CommentPageServiceApi {
     private CommentServiceRpc commentServiceRpc;
     @Autowired
     private EntryServiceRpc entryServiceRpc;
+    @Autowired
+    private CommonServiceRpc commonServiceRpc;
     /**
      * 获取普通一级评论
      * @param userId
@@ -56,9 +61,9 @@ public class CommentPageServiceApi {
 
                 comment1Abs.setCommentAmount(commentServiceRpc.postSelectComment2InfoAmountByComment1IdRpc(commentModel.getComment1Id()));
 
-                comment1Abs.setIsStar(commentServiceRpc.postSelectIsStarForComment1InfoRpc(userId,commentModel.getComment1Id()));
+                comment1Abs.setIsStar(commonServiceRpc.postSelectTouchedStarRpc(userId,commentModel.getComment1Id(),"comment"));
 
-                comment1Abs.setIsTread(commentServiceRpc.postSelectIsTreadForComment1InfoRpc(userId,commentModel.getComment1Id()));
+                comment1Abs.setIsTread(commonServiceRpc.postSelectTouchedTreadRpc(userId,commentModel.getComment1Id(),"comment"));
 
                 List<Long> entryIds = commentServiceRpc.getSelectEntryInfoForComment1InfoRpc(commentModel.getComment1Id());
                 if (Objects.nonNull(entryIds) && !entryIds.isEmpty()) {
@@ -115,7 +120,7 @@ public class CommentPageServiceApi {
                 TopicComment2Abs topicComment2Abs = new TopicComment2Abs();
                 topicComment2Abs.setComment2Id(commentModel.getComment2Id());
                 topicComment2Abs.setCommentContent(commentModel.getContent());
-                topicComment2Abs.setCommentTime(commentModel.getPublicTime());
+                topicComment2Abs.setCommentTime(commentModel.getCreateTime());
 
                 UserModel userModel = userServiceRpc.postSelectSingleUserInfoRpc(commentModel.getUserId());
                 if (Objects.nonNull(userModel)) {

@@ -1,9 +1,11 @@
 package org.leafbook.serviceapi.serviceApi;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.respAbs.hotPage.SearchTopicsResp;
 import org.leafbook.api.respAbs.hotPage.TopicInfoAbs;
+import org.leafbook.api.respAbs.topicPage.AllEntriesResp;
 import org.leafbook.api.respAbs.topicPage.EntryAbs;
 import org.leafbook.api.respAbs.topicSearch.SearchEntryAbs;
 import org.leafbook.api.testModel.indexPage.TestModel;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class TopicPageServiceApi {
     @Autowired
@@ -39,9 +42,27 @@ public class TopicPageServiceApi {
      *
      * @return
      */
-    public List<EntryAbs> getSelectRecommendedEntriesInfo() {
+    public List<EntryAbs> getSelectRecommendedEntriesInfo(Long userId) {
+        List<EntryAbs> entryAbsList = new LinkedList<>();
+        List<EntryShowModel> entryInfoList = entryServiceRpc.getSelectRandomMultiEntryInfoByTypeRpc("official", 3L);
+        if (Objects.nonNull(entryInfoList) && !entryInfoList.isEmpty()) {
+            for (EntryShowModel entryShowModel:entryInfoList) {
+                EntryAbs entryAbs = new EntryAbs();
+                entryAbs.setEntryId(entryShowModel.getEntryId());
+                entryAbs.setEntryName(entryShowModel.getEntryName());
+                entryAbs.setEntryDesc(entryShowModel.getEntryDesc());
+                entryAbs.setEntryAvatar(entryShowModel.getEntryAvatar());
 
-        return TestModel.createRecommendedEntryAbsList();
+                entryAbs.setLikeNumber(entryServiceRpc.getSelectEntryInfoStarAmountRpc(entryShowModel.getEntryId()));
+
+                if (userId != 0) {
+                    entryAbs.setIsLiked(commonServiceRpc.postSelectTouchedStarRpc(userId, entryAbs.getEntryId(), "entry"));
+                }
+
+                entryAbsList.add(entryAbs);
+            }
+        }
+        return entryAbsList;
     }
 
     /**
@@ -50,9 +71,12 @@ public class TopicPageServiceApi {
      * @param page
      * @return
      */
-    public List<EntryAbs> getSelectAllEntriesInfo(Long userId, Long page) {
+    public AllEntriesResp getSelectAllEntriesInfo(Long userId, Long page) {
+        if (page <= 0) page = 1L;
+
+        AllEntriesResp resp = new AllEntriesResp();
         List<EntryShowModel> entryShowModelList = entryServiceRpc.getSelectAllEntryInfoRpc(page);
-        if (Objects.isNull(entryShowModelList)) return null;
+        if (Objects.isNull(entryShowModelList)) return resp;
 
         List<EntryAbs> entryAbsList = new LinkedList<>();
 
@@ -74,7 +98,10 @@ public class TopicPageServiceApi {
 
             entryAbsList.add(entryAbs);
         }
-        return entryAbsList;
+
+        resp.setPage(entryServiceRpc.getSelectAllEntryInfoPageAmountRpc());
+        resp.setEntryAbsList(entryAbsList);
+        return resp;
     }
 
     /**

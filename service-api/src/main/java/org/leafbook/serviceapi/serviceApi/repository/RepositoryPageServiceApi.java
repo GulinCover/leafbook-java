@@ -1,9 +1,11 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.topicInfo.TopicModel;
 import org.leafbook.api.modelApi.userInfo.ResModel;
 import org.leafbook.api.modelApi.userInfo.UserModel;
 import org.leafbook.api.respAbs.repository.repositoryPage.ConsumableInfoAbs;
+import org.leafbook.api.respAbs.repository.repositoryPage.ConsumableInfosResp;
 import org.leafbook.api.testModel.repositoryPage.RepositoryTestModel;
 import org.leafbook.serviceapi.serviceRpc.topicService.TopicServiceRpc;
 import org.leafbook.serviceapi.serviceRpc.userService.UserServiceRpc;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class RepositoryPageServiceApi {
     @Autowired
@@ -28,7 +31,9 @@ public class RepositoryPageServiceApi {
      * @param form:page
      * @return
      */
-    public List<ConsumableInfoAbs> postSelectConsumableInfos(Long userId, Map<String,Long> form) {
+    public ConsumableInfosResp postSelectConsumableInfos(Long userId, Map<String,Long> form) {
+        ConsumableInfosResp resp = new ConsumableInfosResp();
+
         Long page = form.get("page");
         if (Objects.isNull(page) || page <= 0) page = 1L;
 
@@ -40,12 +45,12 @@ public class RepositoryPageServiceApi {
                 ConsumableInfoAbs consumableInfoAbs = new ConsumableInfoAbs();
 
                 consumableInfoAbs.setBuyPrice(resModel.getPrice());
-                consumableInfoAbs.setBuyTime(resModel.getPublicTime());
+                consumableInfoAbs.setBuyTime(resModel.getCreateTime());
                 consumableInfoAbs.setBillId(resModel.getBillId());
                 consumableInfoAbs.setResId(resModel.getResId());
-                consumableInfoAbs.setType(resModel.getType());
+                consumableInfoAbs.setType(resModel.getResType());
 
-                if (resModel.getType() == 0) {
+                if (resModel.getResType() == 0) {
                     consumableInfoAbs.setTopicId(resModel.getTopicId());
                     TopicModel topicInfo = topicServiceRpc.getSelectSingleTopicInfoRpc(resModel.getTopicId());
                     if (Objects.nonNull(topicInfo)) {
@@ -60,7 +65,10 @@ public class RepositoryPageServiceApi {
 
         }
 
-        return consumableInfoAbsList;
+        resp.setConsumableInfoAbsList(consumableInfoAbsList);
+
+        resp.setPage(userServiceRpc.postSelectMultiUserResInfoAmountByUserIdRpc(userId));
+        return resp;
     }
 
     /**
@@ -87,7 +95,7 @@ public class RepositoryPageServiceApi {
         Long balance = userModel.getBalance();
 
         int ret = 0;
-        switch (resModel.getType()) {
+        switch (resModel.getResType()) {
             case 0:
                 ret = topicServiceRpc.postUpdateSingleTopicInfoWithOwnerRpc(userId,resModel.getTopicId());
                 if (ret == 0) return 0;
@@ -116,6 +124,9 @@ public class RepositoryPageServiceApi {
 
         //更新余额
         ret = userServiceRpc.postUpdateSingleUserBalanceRpc(userId,balance);
+
+        //删除该物品
+        userServiceRpc.postDeleteSingleUserResInfoRpc(userId, resId);
         return ret;
     }
 }

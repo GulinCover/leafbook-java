@@ -1,30 +1,33 @@
 package org.leafbook.serviceTopicApi.service;
 
 import org.leafbook.api.modelApi.topicInfo.*;
-import org.leafbook.serviceTopicApi.dao.*;
+import org.leafbook.serviceTopicApi.dao.Topic2EntryModelMapper;
+import org.leafbook.serviceTopicApi.daoImpl.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Random;
 
+@Transactional
 @Service
 public class TopicRelatedServiceRpc {
     @Autowired
-    private TopicModelMapper topicModelMapper;
+    private TopicModelMapperImpl topicModelMapperImpl;
 
     @Autowired
-    private ManagerModelMapper managerModelMapper;
+    private ManagerModelMapperImpl managerModelMapperImpl;
 
     @Autowired
-    private Topic2EntryModelMapper topic2EntryModelMapper;
+    private Topic2EntryModelMapperImpl topic2EntryModelMapperImpl;
 
     @Autowired
-    private TopicEntryInfoShowModelMapper topicEntryInfoShowModelMapper;
+    private TopicEntryInfoShowModelMapperImpl topicEntryInfoShowModelMapperImpl;
 
     @Autowired
-    private TopicLikedAndTreadAndBrowseModelMapper topicLikedAndTreadAndBrowseModelMapper;
+    private TopicLikedAndTreadAndBrowseModelMapperImpl topicLikedAndTreadAndBrowseModelMapperImpl;
 
     @Autowired
     private DirectoryModelMapper directoryModelMapper;
@@ -33,7 +36,7 @@ public class TopicRelatedServiceRpc {
     private DirectoryModifyModelMapper directoryModifyModelMapper;
 
     @Autowired
-    private ContributorModelMapper contributorModelMapper;
+    private ContributorModelMapperImpl contributorModelMapperImpl;
 
     /**
      * 获取著述拥有者id
@@ -41,7 +44,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long getSelectTopicOwner(Long topicId) {
-        return topicModelMapper.selectSingleForOwnerId(topicId);
+        return topicModelMapperImpl.selectSingleForOwnerId(topicId);
     }
     /**
      * 获取所有著述管理者id
@@ -49,7 +52,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<Long> getSelectTopicManager(Long topicId) {
-        return managerModelMapper.selectMultiForManagerId(topicId);
+        return managerModelMapperImpl.selectMultiForManagerId(topicId);
     }
     /**
      * 添加管理者
@@ -57,13 +60,13 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postAddTopicManager(Long userId,Long topicId,Long managerId) {
-        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        int ret = topicModelMapperImpl.selectDecideByUserIdAndTopicId(userId,topicId);
         if (ret == 0) return 403;
 
         ManagerModel managerModel = new ManagerModel();
         managerModel.setUserId(managerId);
         managerModel.setTopicId(topicId);
-        return managerModelMapper.insertByModel(managerModel);
+        return managerModelMapperImpl.insertByModel(managerModel);
     }
     /**
      * 删除管理者
@@ -71,10 +74,10 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postDeleteTopicManager(Long userId,Long topicId,Long managerId) {
-        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        int ret = topicModelMapperImpl.selectDecideByUserIdAndTopicId(userId,topicId);
         if (ret == 0) return 403;
 
-        return managerModelMapper.deleteSingleByManagerUserId(managerId);
+        return managerModelMapperImpl.deleteSingleByManagerUserId(managerId,topicId);
     }
 
 
@@ -85,7 +88,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postTopicOwnerAuthorityDecide(Long userId,Long topicId) {
-        return topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        return topicModelMapperImpl.selectDecideByUserIdAndTopicId(userId,topicId);
     }
 
     /**
@@ -95,7 +98,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postTopicManagerAuthorityDecide(Long userId,Long topicId) {
-        return managerModelMapper.selectDecideByManagerUserIdAndTopicId(userId,topicId);
+        return managerModelMapperImpl.selectDecideByManagerUserIdAndTopicId(userId,topicId);
     }
 
     /**
@@ -104,7 +107,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public TopicModel getSelectSingleTopicInfo(Long topicId) {
-        return topicModelMapper.selectById(topicId);
+        return topicModelMapperImpl.selectById(topicId);
     }
 
     /**
@@ -113,7 +116,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<TopicModel> getSelectMultiTopicInfo(List<Long> topicIds) {
-        return topicModelMapper.selectByIds(topicIds);
+        return topicModelMapperImpl.selectByIds(topicIds);
     }
     /**
      * 创建著述
@@ -129,9 +132,9 @@ public class TopicRelatedServiceRpc {
         topicModel.setTopicDesc(topicDesc);
         topicModel.setUserId(userId);
 
-        Long topicId = topicModelMapper.insert(topicModel);
+        Long topicId = topicModelMapperImpl.insert(topicModel);
         if (topicId == 0) return 0L;
-        if (topicEntryInfoShowModelMapper.insertByIds(topicId,entryIds) == 0) return 0L;
+        if (topicEntryInfoShowModelMapperImpl.insertByIds(topicId,entryIds) == 0) return 0L;
 
         return topicId;
     }
@@ -143,10 +146,10 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postUpdateSingleTopicInfoForCover(Long userId,Long topicId,String cover) {
-        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        int ret = topicModelMapperImpl.selectDecideByUserIdAndTopicId(userId,topicId);
         if (ret == 0) return 403;
 
-        return topicModelMapper.updateCover(topicId,cover);
+        return topicModelMapperImpl.updateCover(topicId,cover);
     }
 
     /**
@@ -157,10 +160,10 @@ public class TopicRelatedServiceRpc {
      * @return code
      */
     public int postUpdateTopicInfoDesc(Long userId,Long topicId,String topicDesc) {
-        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
+        int ret = topicModelMapperImpl.selectDecideByUserIdAndTopicId(userId,topicId);
         if (ret == 0) return 403;
 
-        return topicModelMapper.updateDesc(topicId,topicDesc);
+        return topicModelMapperImpl.updateDesc(topicId,topicDesc);
     }
     /**
      * 查询著述下默认文章目录顺序
@@ -180,8 +183,8 @@ public class TopicRelatedServiceRpc {
      * @return code
      */
     public int postUpdateDirectoryInfo( Long userId, Long topicId,Long pageId, Long articleId) {
-        int ret = topicModelMapper.selectDecideByUserIdAndTopicId(userId,topicId);
-        int ret2 = topicModelMapper.selectDecideByManagerUserIdAndTopicId(userId,topicId);
+        int ret = topicModelMapperImpl.selectDecideByUserIdAndTopicId(userId,topicId);
+        int ret2 = managerModelMapperImpl.selectDecideByManagerUserIdAndTopicId(userId,topicId);
         if (ret == 0 && ret2 == 0) return 403;
 
         DirectoryModifyModel directoryModifyModel = new DirectoryModifyModel();
@@ -210,7 +213,7 @@ public class TopicRelatedServiceRpc {
      * @return code
      */
     public int postAddTopicInfoEntry(Long userId,Long topicId,Long entryId) {
-        return topic2EntryModelMapper.insertById(userId,topicId,entryId);
+        return topic2EntryModelMapperImpl.insertById(userId,topicId,entryId);
     }
 
     /**
@@ -219,7 +222,7 @@ public class TopicRelatedServiceRpc {
      * @return entryIds
      */
     public List<Long> getSelectSingleTopicInfoForEntryIds(Long topicId) {
-        return topicEntryInfoShowModelMapper.selectMultiById(topicId);
+        return topicEntryInfoShowModelMapperImpl.selectMultiEntryIdsById(topicId);
     }
     /**
      * 给著述点赞，著述赞数加1
@@ -227,10 +230,10 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postInsertTouchTopicStar(Long topicId) {
-        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapper.selectSingleByTopicId(topicId);
+        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapperImpl.selectSingleByTopicId(topicId);
         Long likedAmount = model.getLikedAmount()+ 1;
         model.setLikedAmount(likedAmount);
-        return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.updateByModel(model);
     }
 
     /**
@@ -239,10 +242,10 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postInsertTouchTopicTread(Long topicId) {
-        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapper.selectSingleByTopicId(topicId);
+        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapperImpl.selectSingleByTopicId(topicId);
         Long treadAmount = model.getTreadAmount()+ 1;
         model.setLikedAmount(treadAmount);
-        return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.updateByModel(model);
     }
     /**
      * 浏览著述，浏览量加1
@@ -250,10 +253,10 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postInsertTouchTopicBrowse(Long topicId) {
-        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapper.selectSingleByTopicId(topicId);
+        TopicLikedAndTreadAndBrowseModel model = topicLikedAndTreadAndBrowseModelMapperImpl.selectSingleByTopicId(topicId);
         Long browseAmount = model.getBrowseAmount()+ 1;
         model.setBrowseAmount(browseAmount);
-        return topicLikedAndTreadAndBrowseModelMapper.updateByModel(model);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.updateByModel(model);
     }
     /**
      * 获取某词条下的著述数量
@@ -261,7 +264,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long getSelectMultiTopicInfoAmountByEntryInfo(Long entryId) {
-        return topicEntryInfoShowModelMapper.selectTopicInfoAmountByEntryId(entryId);
+        return topicEntryInfoShowModelMapperImpl.selectTopicInfoAmountByEntryId(entryId);
     }
     /**
      * 获取某词条下的所有著述
@@ -269,7 +272,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<TopicModel> getSelectMultiTopicInfoRpcByEntryId(Long entryId,Long page) {
-        return topicEntryInfoShowModelMapper.selectMultiTopicInfoByEntryId(entryId,page);
+        return topicEntryInfoShowModelMapperImpl.joinSelectMultiTopicInfoByEntryId(entryId,page);
     }
 
     /**
@@ -278,7 +281,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long getSelectTopicStarAmount(Long topicId) {
-        return topicLikedAndTreadAndBrowseModelMapper.selectTopicStarAmountByTopicId(topicId);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.selectTopicStarAmountByTopicId(topicId);
     }
     /**
      * 获取著述踩数量
@@ -286,7 +289,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long getSelectTopicTreadAmount(Long topicId) {
-        return topicLikedAndTreadAndBrowseModelMapper.selectTopicTreadAmountByTopicId(topicId);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.selectTopicTreadAmountByTopicId(topicId);
     }
     /**
      * 获取著述浏览数量
@@ -294,7 +297,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long getSelectTopicBrowseAmount(Long topicId) {
-        return topicLikedAndTreadAndBrowseModelMapper.selectTopicBrowseAmountByTopicId(topicId);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.selectTopicBrowseAmountByTopicId(topicId);
     }
     /**
      * 随机获取贡献者信息
@@ -303,23 +306,16 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<ContributorModel> getSelectRandomContributorInfo(Long topicId,Integer randomNumber) {
-        return contributorModelMapper.selectRandomContributorInfoByTopicId(topicId,randomNumber);
+        return contributorModelMapperImpl.selectRandomContributorInfoByTopicId(topicId,randomNumber);
     }
-    /**
-     * 获取用户发布的著述
-     * @param userId
-     * @return
-     */
-    public List<TopicModel> postSelectMeTopicInfo(Long userId) {
-        return topicModelMapper.selectMultiTopicInfoByUserId(userId);
-    }
+
     /**
      * 获取用户发布的著述
      * @param userId
      * @return
      */
     public List<TopicModel> postSelectMeTopicInfo(Long userId,Long page) {
-        return topicModelMapper.selectMultiTopicInfoByUserId(userId,page);
+        return topicModelMapperImpl.selectMultiTopicInfoByUserId(userId,page);
     }
     /**
      * 获取数量
@@ -327,7 +323,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long postSelectMeTopicInfoPage(Long userId) {
-        return topicModelMapper.selectTopicInfoAmount(userId);
+        return topicModelMapperImpl.selectTopicInfoAmount(userId);
     }
 
     /**
@@ -338,16 +334,23 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<TopicModel> postSelectMultiTopicInfoByUserIdRpc(Long userId,String blurry,Long page) {
-        return topicModelMapper.selectMultiTopicInfoByUserId(userId,blurry,page);
+        return topicModelMapperImpl.selectMultiTopicInfoByUserId(userId,blurry,page);
     }
 
     /**
-     * 获取点赞排行著述id,每页15条
+     * 获取点赞排行著述id,每页20条
      * @param page
      * @return
      */
     public List<Long> getSelectMultiTopicIdByStarRank(Long page) {
-        return topicModelMapper.selectStarRank(page);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.selectStarRank(page);
+    }
+    /**
+     * 获取topic总数量
+     * @return
+     */
+    public Long getSelectAllTopicPageAmount() {
+        return topicModelMapperImpl.selectAllTopicInfoPageAmount();
     }
 
     /**
@@ -356,7 +359,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long getSelectManagerAmountByTopicId(Long topicId) {
-        return topicModelMapper.selectManagerAmount(topicId);
+        return managerModelMapperImpl.selectManagerAmount(topicId);
     }
     /**
      * 获取著述的贡献者id
@@ -366,7 +369,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<Long> postSelectMultiContributorIdByTopicId(Long topicId,Long page) {
-        return topicModelMapper.selectMultiContributorId(topicId, page);
+        return contributorModelMapperImpl.selectMultiContributorId(topicId, page);
     }
 
     /**
@@ -375,7 +378,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Long postSelectMultiContributorIdByTopicIdPage(Long topicId) {
-        return topicModelMapper.selectContributorAmount(topicId);
+        return contributorModelMapperImpl.selectContributorAmount(topicId);
     }
 
     /**
@@ -384,23 +387,18 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<TopicModel> getSelectRandomMultiTopicInfoByEntryId(Long entryId) {
-        return topicModelMapper.selectRandomMultiTopicInfoByEntryId(entryId);
+        Long number = (long)(new Random().nextInt(4)+5);
+        List<Long> topicIds = topicEntryInfoShowModelMapperImpl.selectRandomTopicIdsByEntryId(entryId,number);
+        return topicModelMapperImpl.selectByIds(topicIds);
     }
-    /**
-     * 获取著述所有评论数量
-     * @param topicId
-     * @return
-     */
-    public Long getSelectAllCommentAmount(Long topicId) {
-        return topicModelMapper.selectCommentAmount(topicId);
-    }
+
     /**
      * 更改著述点赞数量
      * @param topicId
      * @return
      */
     public int postUpdateTopicStarAmount(Long topicId) {
-        return topicLikedAndTreadAndBrowseModelMapper.updateStarAmountByTopicId(topicId);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.updateStarAmountByTopicId(topicId);
     }
     /**
      * 更改著述点踩数量
@@ -408,7 +406,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postUpdateTopicTreadAmount(Long topicId) {
-        return topicLikedAndTreadAndBrowseModelMapper.updateTreadAmountByTopicId(topicId);
+        return topicLikedAndTreadAndBrowseModelMapperImpl.updateTreadAmountByTopicId(topicId);
     }
 
     /**
@@ -429,7 +427,7 @@ public class TopicRelatedServiceRpc {
             Long endTime,
             Long page
     ) {
-        return topicModelMapper.jointTopicShowEntryTableSelectSearchMultiTopicInfo(status,entryIds,content,startTime,endTime,page);
+        return topicModelMapperImpl.jointTopicShowEntryTableSelectSearchMultiTopicInfo(status,entryIds,content,startTime,endTime,page);
     }
     /**
      * 获取搜索条数
@@ -449,7 +447,7 @@ public class TopicRelatedServiceRpc {
             Long endTime,
             Long page
     ) {
-        return topicModelMapper.jointTopicShowEntryTableSelectSearchMultiTopicInfoAmount(status,entryIds,content,startTime,endTime,page);
+        return topicModelMapperImpl.jointTopicShowEntryTableSelectSearchMultiTopicInfoAmount(status,entryIds,content,startTime,endTime,page);
     }
 
     /**
@@ -459,7 +457,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<TopicModel> getSelectSearchMultiTopicInfoByContent(Integer status,String content,Long page) {
-        return topicModelMapper.jointTopicShowEntryTableSelectSearchMultiTopicInfo(status,content,page);
+        return topicModelMapperImpl.jointTopicShowEntryTableSelectSearchMultiTopicInfo(status,content,page);
     }
     /**
      * 指定著述数量
@@ -471,7 +469,7 @@ public class TopicRelatedServiceRpc {
             Integer status,
             String content
     ) {
-        return topicModelMapper.jointTopicShowEntryTableSelectSearchMultiTopicInfoAmount(status,content);
+        return topicModelMapperImpl.jointTopicShowEntryTableSelectSearchMultiTopicInfoAmount(status,content);
     }
     /**
      * 限定搜索
@@ -482,7 +480,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<TopicModel> getSelectSearchMultiTopicInfoByContentAndEntryId(Integer status,Long entryId, String content,Long page) {
-        return topicModelMapper.jointTopicShowEntryTableSelectSearchMultiTopicInfo(status,entryId,content,page);
+        return topicModelMapperImpl.jointTopicShowEntryTableSelectSearchMultiTopicInfo(status,entryId,content,page);
     }
     /**
      * 根据topicIds组查entryIds
@@ -490,7 +488,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<Long> getSelectEntryIdsByTopicIds(List<Long> topicIds) {
-        return topicEntryInfoShowModelMapper.selectMultiByTopicIds(topicIds);
+        return topicEntryInfoShowModelMapperImpl.selectMultiByTopicIds(topicIds);
     }
     /**
      * 根据entryIds获取著述数量
@@ -498,7 +496,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public Map<Long,Long> getSelectEntryAmountByEntryIds(List<Long> entryIds) {
-        return topicEntryInfoShowModelMapper.selectTopicAmountByEntryIds(entryIds);
+        return topicEntryInfoShowModelMapperImpl.selectTopicAmountByEntryIds(entryIds);
     }
 
     /**
@@ -508,7 +506,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public int postUpdateSingleTopicInfoWithOwner(Long userId,Long topicId) {
-        return topicModelMapper.updateSingleTopicInfoByTopicIdWithOwner(userId,topicId);
+        return topicModelMapperImpl.updateSingleTopicInfoByTopicIdWithOwner(userId,topicId);
     }
 
     /**
@@ -518,7 +516,7 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<TopicModel> postSelectMultiLastTopicInfo(Long userId,Integer number) {
-        return topicModelMapper.selectMultiLastTopicInfo(userId,number);
+        return topicModelMapperImpl.selectMultiLastTopicInfo(userId,number);
     }
     /**
      * 获取著述管理者ids
@@ -526,6 +524,88 @@ public class TopicRelatedServiceRpc {
      * @return
      */
     public List<Long> postSelectAllManagerUserIds(Long topicId) {
-        return managerModelMapper.selectAllManagerUserIds(topicId);
+        return managerModelMapperImpl.selectAllManagerUserIds(topicId);
+    }
+    /**
+     * 判断topicId是否存在
+     * @param topicId
+     * @return
+     */
+    public int postIsExistForTopicInfo(Long topicId) {
+        return topicModelMapperImpl.selectDetectTopicInfoByTopicId(topicId);
+    }
+
+    /**
+     * 获取用户发布了的著述数量
+     * @param userId
+     * @return
+     */
+    public Long getSelectTopicAmountByUserId(Long userId) {
+        return topicModelMapperImpl.selectTopicInfoAmount(userId);
+    }
+
+    /**
+     * 获取点赞排行总数量
+     *
+     * @return
+     */
+    public Long getSelectMultiTopicIdByStarRankPageAmount() {
+        return topicLikedAndTreadAndBrowseModelMapperImpl.selectAllStarRankPageAmount();
+    }
+
+    /**
+     * 创建赞踩表
+     * @param topicId
+     * @return
+     */
+    public int postCreateTopicLikedAndTread(Long topicId) {
+        return topicLikedAndTreadAndBrowseModelMapperImpl.insertByTopicId(topicId);
+    }
+
+    /**
+     * 点赞排行模糊搜索
+     * @param page
+     * @param blurry
+     * @param entry
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public List<TopicModel> getSelectMultiBlurrySearchRpc(
+            Long page,String blurry,Long entry,Long startTime,Long endTime
+    ) {
+        return topicModelMapperImpl.jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfo(page,blurry,entry,startTime,endTime);
+    }
+
+    /**
+     * 点赞排行模糊搜索数据数量
+     * @param page
+     * @param blurry
+     * @param entry
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    public Long getSelectMultiBlurrySearchPageAmountRpc(
+            Long page,String blurry,Long entry,Long startTime,Long endTime
+    ) {
+        return topicModelMapperImpl.jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfoPageAmount(page,blurry,entry,startTime,endTime);
+    }
+
+    /**
+     * 获取词条下所有topic数量
+     * @param entryId
+     * @return
+     */
+    public Long getSelectAllTopicInfoPageAmountByEntryId(Long entryId) {
+        return topicModelMapperImpl.joinSelectTopicAmountByEntryId(entryId);
+    }
+    /**
+     * 随机获取正在拍卖的topic
+     * @param entryId
+     * @return
+     */
+    public List<Long> getSelectRandomMultiTopicIdsByEntryIdForAuctionInfo(Long entryId) {
+        return topicModelMapperImpl.selectRandomTopicIdsByEntryIdForAuction(entryId);
     }
 }

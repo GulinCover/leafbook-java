@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceTopicApi.dao.ArticleModelMapper">
+    <select id="selectMainArticleAmount" resultType="java.lang.Long">
+        select count(article_id) from article_model
+        <where>
+            topic_id=#{topicId}
+            and branch_number=1
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiMainArticleByTopicId"
+            resultType="org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel">
+        select * from article_model
+        <where>
+            topic_id=#{topicId}
+            and main_number IS NOT NULL
+            and main_number != ''
+            and branch_number=1
+            and is_black=0
+        </where>
+        limit #{start},#{end}
+    </select>
+
+    <select id="selectMultiBranchByMainNumber"
+            resultType="org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel">
+        select * from article_model
+        <where>
+            topic_id=#{topicId}
+            and main_number=#{mainNumber}
+            and branch_number IS NOT NULL
+            and branch_number != ''
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectDetectIsExistArticleByNumber"
+            resultType="java.lang.Integer">
+        select 1 from article_model
+        <where>
+            topic_id=#{topicId}
+            and main_number=#{mainNumber}
+            and branch_number=#{branchNumber}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectAllArticleAmountByTopicId" resultType="java.lang.Long">
+        select count(article_id) from article_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleArticleByNumber"
+            resultType="org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel">
+        select * from article_model
+        <where>
+            topic_id=#{topicId}
+            and main_number=#{mainNumber}
+            and branch_number=#{branchNumber}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectDetectAuthorityForTopicIdWithArticleId"
+            resultType="java.lang.Integer">
+        select 1 from article_model
+        <where>
+            topic_id=#{topicId}
+            and article_id=#{articleId}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectMultiRandomArticleByTopicId"
+            resultType="org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel">
+        select * from article_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+        order by rand()
+        limit #{randomNumber}
+    </select>
+
+    <select id="selectSingleLatestArticleByTopicId"
+            resultType="org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel">
+        select * from article_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+        order by create_time DESC
+    </select>
+
+    <select id="selectDetectIsExistMainNumber" resultType="java.lang.Integer">
+        select 1 from article_model
+        <where>
+            topic_id=#{topicId}
+            and main_number=#{mainNumber}
+            and is_black=0
+        </where>
+    </select>
+
+    <select id="selectSingleMaxMainNumberByTopicId" resultType="java.lang.Long">
+        select main_number from article_model
+        <where>
+            topic_id=#{topicId}
+            and is_black=0
+        </where>
+        order by main_number DESC
+    </select>
+
+    <select id="selectSingleMaxBranchNumberByMainNumber" resultType="java.lang.Long">
+        select branch_number from article_model
+        <where>
+            topic_id=#{topicId}
+            and main_number=#{mainNumber}
+            and is_black=0
+        </where>
+        order by branch_number DESC
+    </select>
+
+    <select id="selectSingleArticleById" resultType="org.leafbook.api.modelApi.topicInfo.articleInfo.ArticleModel">
+        select * from article_model
+        <where>
+            article_id=#{articleId}
+            and is_black=0
+        </where>
+    </select>
+
+
+    <update id="updateArticleNextId">
+        update article_model
+        set next_article_id=#{nextArticleId},
+        update_time=#{updateTime}
+        <where>
+            article_id=#{articleId}
+            and is_black=0
+        </where>
+    </update>
+
+    <update id="updateArticleContent">
+        update article_model
+        set content=#{content},
+        update_time=#{updateTime}
+        <where>
+            user_id=#{userId}
+            and article_id=#{articleId}
+            and is_black=0
+        </where>
+    </update>
+</mapper>
+
+
+
+
+
+
+
+
+

@@ -4,14 +4,20 @@ import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authc.credential.SimpleCredentialsMatcher;
+import org.leafbook.serviceUserApi.daoImpl.UserModelMapperImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Objects;
 
 @Component
 public class ShiroCredentialsMatcher extends SimpleCredentialsMatcher {
+    @Autowired
+    private UserModelMapperImpl userModelMapper;
+
     @Override
     public boolean doCredentialsMatch(AuthenticationToken authcToken, AuthenticationInfo info) {
         UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
@@ -21,6 +27,10 @@ public class ShiroCredentialsMatcher extends SimpleCredentialsMatcher {
 
         StringBuilder password = new StringBuilder();
         password.append(token.getPassword());
-        return bCryptPasswordEncoder.matches(password, "$2a$31$LcXnP9OEqLjzhUt98pKiJudlVbujX.9TXQAQrvoS0M57zYILRMiHu");
+        String pwd = userModelMapper.selectSingleUserPwdByEmail(token.getUsername());
+        if (Objects.isNull(pwd)) {
+            return false;
+        }
+        return bCryptPasswordEncoder.matches(password, pwd);
     }
 }

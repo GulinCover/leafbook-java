@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.repository;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.billInfo.BidingModel;
 import org.leafbook.api.respAbs.repository.bidingPage.BidingAbs;
 import org.leafbook.api.respAbs.repository.bidingPage.BidingInfoResp;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class BidingPageServiceApi {
     @Autowired
@@ -34,7 +36,7 @@ public class BidingPageServiceApi {
             for (BidingModel bidingModel:bidingModelList) {
                 BidingAbs bidingAbs = new BidingAbs();
                 bidingAbs.setAuctionId(bidingAbs.getAuctionId());
-                bidingAbs.setBidTime(bidingModel.getPublicTime());
+                bidingAbs.setBidTime(bidingModel.getCreateTime());
                 bidingAbs.setPrice(bidingModel.getPrice());
 
                 bidingAbsList.add(bidingAbs);

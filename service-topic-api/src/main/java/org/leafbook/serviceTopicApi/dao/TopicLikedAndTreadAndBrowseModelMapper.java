@@ -1,50 +1,20 @@
 package org.leafbook.serviceTopicApi.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.leafbook.api.modelApi.topicInfo.TopicLikedAndTreadAndBrowseModel;
-import org.springframework.stereotype.Service;
 
-import java.util.Random;
+import java.util.List;
 
-@Service
-public class TopicLikedAndTreadAndBrowseModelMapper {
+@Mapper
+public interface TopicLikedAndTreadAndBrowseModelMapper extends BaseMapper<TopicLikedAndTreadAndBrowseModel> {
+    Long selectAllStarRankPageAmount();
 
-    public TopicLikedAndTreadAndBrowseModel selectSingleByTopicId(Long topicId) {
-        TopicLikedAndTreadAndBrowseModel model = new TopicLikedAndTreadAndBrowseModel();
-        model.setTopicId(topicId);
-        model.setLikedAmount((long)new Random().nextInt(1200));
-        model.setTreadAmount((long)new Random().nextInt(1200));
-        model.setBrowseAmount((long)new Random().nextInt(1200));
-        return model;
-    }
+    TopicLikedAndTreadAndBrowseModel selectByTopicId(
+            @Param("topicId")Long topicId);
 
-    public Long selectTopicStarAmountByTopicId(Long topicId) {
-        return (long)new Random().nextInt(1562);
-    }
-    public Long selectTopicTreadAmountByTopicId(Long topicId) {
-        return (long)new Random().nextInt(1562);
-    }
-    public Long selectTopicBrowseAmountByTopicId(Long topicId) {
-        return (long)new Random().nextInt(1562);
-    }
-
-    /**
-     * 更改著述点赞数量
-     * @param topicId
-     * @return
-     */
-    public int updateStarAmountByTopicId(Long topicId) {
-        return 1;
-    }
-    /**
-     * 更改著述点踩数量
-     * @param topicId
-     * @return
-     */
-    public int updateTreadAmountByTopicId(Long topicId) {
-        return 1;
-    }
-
-    public int updateByModel(TopicLikedAndTreadAndBrowseModel model) {
-        return new Random().nextInt(100);
-    }
+    List<Long> selectStarRank(
+            @Param("start")Long start,
+            @Param("end")Long end);
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceCommentApi.dao.Comment2EntryShowModelMapper">
+    <select id="selectMultiEntryIdByComment1Id" resultType="java.lang.Long">
+        select entry_id from comment_2_entry_show_model
+        <where>
+            comment_1_id=#{comment1Id}
+            and is_black=0
+        </where>
+    </select>
+    <select id="selectMultiEntryIdByTalkId" resultType="java.lang.Long">
+        select entry_id from comment_2_entry_show_model
+        <where>
+            talk_id=#{talkId}
+            and is_black=0
+        </where>
+    </select>
+    <select id="selectMultiEntryIdByTalkComment1Id" resultType="java.lang.Long">
+        select entry_id from comment_2_entry_show_model
+        <where>
+            talk_comment_1_id=#{talkComment1Id}
+            and is_black=0
+        </where>
+    </select>
+
+</mapper>

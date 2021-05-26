@@ -1,5 +1,6 @@
 package org.leafbook.serviceapi.serviceApi.create;
 
+import io.seata.spring.annotation.GlobalTransactional;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
 import org.leafbook.api.respAbs.createTopicPage.EntryAbs;
 import org.leafbook.api.testModel.createTopicPage.CreateTopicTestModel;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+@GlobalTransactional
 @Service
 public class CreateTopicPageServiceApi {
     @Autowired
@@ -38,7 +40,7 @@ public class CreateTopicPageServiceApi {
         if (Objects.isNull(topicTitle) || Objects.isNull(topicDesc)) return 0L;
 
         //检测用户合法性
-        if (userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId) != 200) {
+        if (userServiceRpc.postSelectDetectLegalityWithUserIdRpc(userId) != 1) {
             return 0L;
         }
 
@@ -46,15 +48,18 @@ public class CreateTopicPageServiceApi {
         List<Long> topicEntryList = new LinkedList<>();
         if (form.get("topicEntryList") instanceof List<?>) {
             for (Object o:(List<?>) form.get("topicEntryList")) {
-                topicEntryList.add(Integer.class.cast(o).longValue());
+                topicEntryList.add(Long.parseLong(o.toString()));
             }
         }
 
-        if (entryServiceRpc.postSelectDetectLegalityWithEntryIdsRpc(topicEntryList) != 200) {
+        if (entryServiceRpc.postSelectDetectLegalityWithEntryIdsRpc(topicEntryList) != 1) {
             return 0L;
         }
 
-        return topicServiceRpc.postCreateTopicInfoRpc(userId, topicTitle,topicDesc,topicEntryList);
+        Long topicId = topicServiceRpc.postCreateTopicInfoRpc(userId, topicTitle,topicDesc,topicEntryList);
+        if (topicId == 0) return 0L;
+
+        return topicServiceRpc.postCreateTopicLikedAndTreadRpc(topicId) == 1 ? topicId : 0L;
     }
     /**
      * 获取官方词条

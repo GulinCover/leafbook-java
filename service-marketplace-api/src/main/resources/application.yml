@@ -1,13 +1,30 @@
-server:
-  port: 15000
-spring:
-  application:
-    name: service-marketplace-api
-  cloud:
-    nacos:
-      discovery:
-        server-addr: ${HOSTS:localhost:8848}
-    sentinel:
-      transport:
-        dashboard: localhost:30000
-        port: 25000
+#server:
+#  port: 15000
+#spring:
+#  application:
+#    name: service-marketplace-api
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: localhost:8848
+#    sentinel:
+#      transport:
+#        dashboard: localhost:30000
+#        port: 25000
+#  datasource:
+#    username: root
+#    password: ACDCacdc120
+#    type: com.alibaba.druid.pool.DruidDataSource
+#    url: jdbc:mysql://127.0.0.1:3306/leafbook?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#swagger:
+#  title: service-marketplace-api
+#  version: 1.0.0
+#  base-package: org.leafbook.serviceMarketplaceApi
+#  description: "service marketplace api"
+#  group-name: service-marketplace-api
+#snowflake:
+#  datacenterId: 1
+#  workId: 4
+#mybatis-plus:
+#  mapper-locations: classpath*:/mapper/**

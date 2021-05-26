@@ -1,24 +1,25 @@
 package org.leafbook.serviceEntryApi.service;
 
 import org.leafbook.api.modelApi.entryInfo.Entry2StarAndTreadAmountModel;
-import org.leafbook.api.modelApi.entryInfo.EntryModel;
 import org.leafbook.api.modelApi.entryInfo.EntryShowModel;
-import org.leafbook.serviceEntryApi.dao.Entry2StarAndTreadAmountModelMapper;
-import org.leafbook.serviceEntryApi.dao.EntryModelMapper;
-import org.leafbook.serviceEntryApi.dao.EntryShowModelMapper;
+import org.leafbook.serviceEntryApi.daoImpl.Entry2StarAndTreadAmountModelMapperImpl;
+import org.leafbook.serviceEntryApi.daoImpl.EntryModelMapperImpl;
+import org.leafbook.serviceEntryApi.daoImpl.EntryShowModelMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class EntryRelatedServiceRpc {
     @Autowired
-    private EntryModelMapper entryModelMapper;
+    private EntryModelMapperImpl entryModelMapperImpl;
     @Autowired
-    private EntryShowModelMapper entryShowModelMapper;
+    private EntryShowModelMapperImpl entryShowModelMapperImpl;
     @Autowired
-    private Entry2StarAndTreadAmountModelMapper entry2StarAndTreadAmountModelMapper;
+    private Entry2StarAndTreadAmountModelMapperImpl entry2StarAndTreadAmountModelMapperImpl;
 
     /**
      * 用户申请词条，默认nonofficial类型，
@@ -30,9 +31,11 @@ public class EntryRelatedServiceRpc {
      */
     public int postCreateSingleEntryInfo(Long userId,String entryName,String entryDesc,String type) {
         if ("hot".equals(type)) {
-            return entryModelMapper.insert(userId,entryName,entryDesc,"hot");
+            return entryModelMapperImpl.insert(userId,entryName,entryDesc,"hot");
+        } else if ("official".equals(type)) {
+            return entryModelMapperImpl.insert(userId,entryName,entryDesc,"official");
         } else {
-            return entryModelMapper.insert(userId,entryName,entryDesc,"nonofficial");
+            return entryModelMapperImpl.insert(userId,entryName,entryDesc,"nonofficial");
         }
     }
     /**
@@ -41,7 +44,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public EntryShowModel getSelectSingleEntryInfo(Long entryId) {
-        return entryShowModelMapper.selectSingleByEntryId(entryId);
+        return entryShowModelMapperImpl.selectSingleByEntryId(entryId);
     }
     /**
      * 组查询词条信息
@@ -49,7 +52,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public List<EntryShowModel> getSelectMultiEntryInfo(List<Long> entryIds) {
-        return entryShowModelMapper.selectMultiByEntryId(entryIds);
+        return entryShowModelMapperImpl.selectMultiByEntryIds(entryIds);
     }
     /**
      * 获取全部entryInfo通过页号
@@ -57,7 +60,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public List<EntryShowModel> getSelectAllEntryInfo(Long page) {
-        return entryShowModelMapper.selectAllByPage(page);
+        return entryShowModelMapperImpl.selectAllByPage(page);
     }
 
     /**
@@ -65,7 +68,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public List<EntryShowModel> getSelectAllEntryInfo() {
-        return entryShowModelMapper.selectAllEntryInfo();
+        return entryShowModelMapperImpl.selectAllEntryInfo();
     }
 
     /**
@@ -74,10 +77,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public int postUpdateEntryInfoStarAmount(Long entryId) {
-        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
-        Long entryStarAmount = model.getEntryStarAmount();
-        model.setEntryStarAmount(entryStarAmount + 1);
-        return entry2StarAndTreadAmountModelMapper.updateByModel(model);
+        return entry2StarAndTreadAmountModelMapperImpl.updateStarByEntryId(entryId);
     }
 
     /**
@@ -86,10 +86,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public int postUpdateEntryInfoTreadAmount(Long entryId) {
-        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
-        Long entryTreadAmount = model.getEntryTreadAmount();
-        model.setEntryTreadAmount(entryTreadAmount + 1);
-        return entry2StarAndTreadAmountModelMapper.updateByModel(model);
+        return entry2StarAndTreadAmountModelMapperImpl.updateTreadByEntryId(entryId);
     }
     /**
      * 获取entryInfo点赞量
@@ -97,7 +94,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public Long getSelectEntryInfoStarAmount(Long entryId) {
-        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
+        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapperImpl.selectSingleByEntryId(entryId);
         return model.getEntryStarAmount();
     }
     /**
@@ -106,7 +103,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public Long getSelectEntryInfoTreadAmount(Long entryId) {
-        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapper.selectByEntryId(entryId);
+        Entry2StarAndTreadAmountModel model = entry2StarAndTreadAmountModelMapperImpl.selectSingleByEntryId(entryId);
         return model.getEntryTreadAmount();
     }
 
@@ -115,31 +112,22 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public List<EntryShowModel> getSelectAllHotEntryInfo() {
-        return entryModelMapper.selectAllHotEntryInfo();
+        return entryShowModelMapperImpl.selectAllEntryInfoByType("hot");
     }
     /**
      * 随机获取3~8条词条信息
      * @return
      */
     public List<EntryShowModel> getSelectRandomMultiEntryInfo() {
-        return entryModelMapper.selectRandomMultiEntryInfo();
+        return entryShowModelMapperImpl.selectRandomMultiEntryInfo();
     }
 
-    /**
-     * 判断词条用户是否点过赞
-     * @param userId
-     * @param entryId
-     * @return
-     */
-    public Integer postSelectIsLikedWithUserId(Long userId,Long entryId) {
-        return entryModelMapper.selectIsLikedWithUserId(userId,entryId);
-    }
     /**
      * 随机获取2~4条热门词条
      * @return
      */
     public List<EntryShowModel> getSelectRandomHotMultiEntryInfo() {
-        return entryModelMapper.selectRandomMultiHotEntryInfo();
+        return entryShowModelMapperImpl.selectRandomMultiHotEntryInfo();
     }
     /**
      * 获取官方词条
@@ -147,7 +135,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public List<EntryShowModel> getSelectAllEntryInfoWithType(String type) {
-        return entryModelMapper.selectAllEntryInfoByType(type);
+        return entryShowModelMapperImpl.selectAllEntryInfoByType(type);
     }
     /**
      * 单检测词条合法性
@@ -155,7 +143,7 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public int postSelectDetectLegalityWithEntryId(Long entryId) {
-        int ret = entryModelMapper.selectSingleEntryInfoIsExist(entryId);
+        int ret = entryShowModelMapperImpl.selectSingleEntryInfoIsExist(entryId);
         return ret == 1 ? 200 : 0;
     }
     /**
@@ -164,8 +152,8 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public int postSelectDetectLegalityWithEntryIds(List<Long> entryIds) {
-        int ret = entryModelMapper.selectMultiEntryInfoIsExist(entryIds);
-        return ret == entryIds.size() ? 200 : 0;
+        int ret = entryShowModelMapperImpl.selectMultiEntryInfoIsExist(entryIds);
+        return ret == entryIds.size() ? 1 : 0;
     }
     /**
      * 随机获取number条词条
@@ -173,8 +161,8 @@ public class EntryRelatedServiceRpc {
      * @param number
      * @return
      */
-    public List<EntryShowModel> getSelectRandomMultiEntryInfoByType(String type,Integer number) {
-        return entryModelMapper.selectRandomMultiEntryInfoByType(type,number);
+    public List<EntryShowModel> getSelectRandomMultiEntryInfoByType(String type,Long number) {
+        return entryShowModelMapperImpl.selectRandomMultiEntryInfoByType(type, number);
     }
     /**
      * 搜索符合条件的词条
@@ -183,7 +171,22 @@ public class EntryRelatedServiceRpc {
      * @return
      */
     public List<EntryShowModel> getSelectSearchMultiEntryInfoRpc(String entryName,String entryType) {
-        return entryModelMapper.selectSearchMultiEntryShowInfo(entryName,entryType);
+        return entryShowModelMapperImpl.selectSearchMultiEntryShowInfo(entryName,entryType);
+    }
+    /**
+     * 词条查重
+     * @param entryName
+     * @return
+     */
+    public int postSelectDetectIsExistByEntryContent(String entryName) {
+        return entryModelMapperImpl.selectDetectIsExistByEntry(entryName);
+    }
+    /**
+     * 词条数量
+     * @return
+     */
+    public Long getSelectAllEntryInfoPageAmount() {
+        return entryShowModelMapperImpl.selectAllEntryAmount();
     }
 
 //    /**

@@ -1,16 +1,18 @@
 package org.leafbook.serviceRecordApi.service;
 
 import org.leafbook.api.modelApi.recordInfo.BrowseHistoryModel;
-import org.leafbook.serviceRecordApi.dao.BrowseHistoryModelMapper;
+import org.leafbook.serviceRecordApi.daoImpl.BrowseHistoryModelMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class BrowseHistoryRelatedServiceRpc {
     @Autowired
-    private BrowseHistoryModelMapper browseHistoryModelMapper;
+    private BrowseHistoryModelMapperImpl browseHistoryModelMapperImpl;
 
     /**
      * 查询浏览历史
@@ -18,8 +20,8 @@ public class BrowseHistoryRelatedServiceRpc {
      * @param page
      * @return
      */
-    public List<BrowseHistoryModel> postSelectBrowseHistoryInfos(Long userId,Integer page) {
-        return browseHistoryModelMapper.selectMultiBrowseHistoryByUserIdAndPage(userId,page);
+    public List<BrowseHistoryModel> postSelectBrowseHistoryInfos(Long userId,Long page) {
+        return browseHistoryModelMapperImpl.selectMultiBrowseHistoryByUserIdAndPage(userId,page);
     }
 
     /**
@@ -29,7 +31,7 @@ public class BrowseHistoryRelatedServiceRpc {
      * @return code
      */
     public int postDeleteSingleBrowseHistoryInfo(Long userId,Long browseHistoryId) {
-        return browseHistoryModelMapper.deleteSingleBrowseHistoryByBrowseHistoryId(userId,browseHistoryId);
+        return browseHistoryModelMapperImpl.deleteSingleBrowseHistoryByBrowseHistoryId(userId,browseHistoryId);
     }
 
     /**
@@ -42,7 +44,7 @@ public class BrowseHistoryRelatedServiceRpc {
         BrowseHistoryModel browseHistoryModel = new BrowseHistoryModel();
         browseHistoryModel.setUserId(userId);
         browseHistoryModel.setTopicId(topicId);
-        return browseHistoryModelMapper.insert(browseHistoryModel);
+        return browseHistoryModelMapperImpl.insert(browseHistoryModel);
     }
 
     /**
@@ -52,7 +54,24 @@ public class BrowseHistoryRelatedServiceRpc {
      * @return code
      */
     public int postDeleteMultiBrowseHistoryInfo(Long userId,List<Long> browseHistoryIds) {
-        return browseHistoryModelMapper.deleteMultiBrowseHistoryByBrowseHistoryIds(userId,browseHistoryIds);
+        return browseHistoryModelMapperImpl.deleteMultiBrowseHistoryByBrowseHistoryIds(userId,browseHistoryIds);
+    }
+    /**
+     * 获取topic的浏览数量
+     * @param topicId
+     * @return
+     */
+    public Long getSelectTopicBrowseInfoAmountByTopicId(Long topicId) {
+        return browseHistoryModelMapperImpl.selectTopicInfoAmount(topicId);
+    }
+    /**
+     * 查询用户是否浏览过某文章
+     * @param userId
+     * @param articleId
+     * @return
+     */
+    public int postSelectUserIsBrowseArticle(Long userId,Long articleId) {
+        return browseHistoryModelMapperImpl.selectUserIdBrowseArticle(userId, articleId);
     }
 
 }

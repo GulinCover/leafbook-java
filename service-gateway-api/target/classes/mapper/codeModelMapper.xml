@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.leafbook.serviceGatewayApi.dao.CodeModelMapper">
+    <select id="selectDetectIsExist" resultType="java.lang.Integer">
+        select 1 from c_s_r_f_code_model
+        <where>
+            code=#{csrf}
+            and is_black=0
+            and create_time <![CDATA[ <= ]]> #{endTime}
+            and create_time <![CDATA[ >= ]]> #{startTime}
+        </where>
+    </select>
+</mapper>

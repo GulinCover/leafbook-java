@@ -1,14 +1,9 @@
 package org.leafbook.serviceTopicApi.dao;
 
-import org.springframework.stereotype.Service;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
+import org.leafbook.api.modelApi.topicInfo.Topic2EntryModel;
 
-import java.util.List;
-import java.util.Random;
-
-@Service
-public class Topic2EntryModelMapper {
-
-    public int insertById(Long userId, Long topicId, Long entryId) {
-        return new Random().nextInt(100);
-    }
+@Mapper
+public interface Topic2EntryModelMapper extends BaseMapper<Topic2EntryModel> {
 }

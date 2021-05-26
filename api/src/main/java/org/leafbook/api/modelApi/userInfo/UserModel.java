@@ -12,7 +12,7 @@ public class UserModel extends Model implements Serializable {
     private String usedName;//;alex;babo;
     private String uuid;
 
-    private String desc;
+    private String userDesc;
     private String avatar = "https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=387264399,2368088084&fm=26&gp=0.jpg";
     private Integer level;
     private Integer sex;//0:男,1:女
