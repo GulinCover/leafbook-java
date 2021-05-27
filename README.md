@@ -1,5 +1,4 @@
-# leafbook-java
-这是一个springboot项目
+# 项目leafbook后端工程
 
 ## 基础信息
   **springboot:2.3.2.RELEASE**
