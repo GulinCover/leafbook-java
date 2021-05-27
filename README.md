@@ -1,6 +1,12 @@
 # leafbook-java
 这是一个springboot项目
 
+## 基础信息
+**springboot:2.3.2.RELEASE**
+**springcloud:Hoxton.SR6**
+**alibabacloud:2.2.3.RELEASE**
+**java:1.8**
+
 ## 使用到的功能
 **spring-gateway**
 *全局网关,解析前端所有请求所带有的jwt加密串。提取当中的userId,csrf等数据,并添加到请求头传递给对外api服务。*
