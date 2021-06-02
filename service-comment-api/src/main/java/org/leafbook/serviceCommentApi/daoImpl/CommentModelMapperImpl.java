@@ -120,8 +120,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiTalkInfoByTopicId(Long topicId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiTalkInfoByTopicId(topicId,start,end);
     }
     /**
@@ -131,8 +131,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiComment1InfoByTopicId(Long topicId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiComment1InfoByTopicId(topicId,start,end);
     }
     /**
@@ -142,8 +142,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiComment2InfoByTopicId(Long topicId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiComment2InfoByTopicId(topicId,start,end);
     }
     /**
@@ -153,8 +153,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiTalkComment1InfoByTopicId(Long topicId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiTalkComment1InfoByTopicId(topicId,start,end);
     }
     /**
@@ -164,8 +164,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiTalkComment2InfoByTopicId(Long topicId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiTalkComment2InfoByTopicId(topicId,start,end);
     }
 
@@ -178,8 +178,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiComment2InfoByComment1Id(Long comment1Id,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiComment2InfoByComment1Id(comment1Id,start,end);
     }
     /**
@@ -189,8 +189,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiTalkComment2InfoByTalkComment1Id(Long talkComment1Id,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiTalkComment2InfoByTalkComment1Id(talkComment1Id,start,end);
     }
 
@@ -260,8 +260,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiTalkComment1InfoByTalkId(Long talkId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiTalkComment1InfoByTalkId(talkId,start,end);
     }
     /**
@@ -271,8 +271,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiTalkComment2InfoByTalkId(Long talkId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiTalkComment2InfoByTalkId(talkId,start,end);
     }
     /**
@@ -282,8 +282,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectAllTalkCommentInfoByTalkId(Long talkId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectAllTalkCommentInfoByTalkId(talkId,start,end);
     }
 
@@ -308,8 +308,8 @@ public class CommentModelMapperImpl {
      * @return
      */
     public List<CommentModel> selectMultiCommentInfoByUserId(Long userId, Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return commentModelMapper.selectMultiCommentInfoByUserId(userId,start,end);
     }
 

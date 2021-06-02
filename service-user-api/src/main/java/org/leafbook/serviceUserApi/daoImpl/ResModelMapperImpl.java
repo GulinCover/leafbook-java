@@ -27,8 +27,8 @@ public class ResModelMapperImpl {
      * @return
      */
     public List<ResModel> selectMultiResInfoByUserId(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return resModelMapper.selectMultiByUserId(userId, start, end);
     }
 

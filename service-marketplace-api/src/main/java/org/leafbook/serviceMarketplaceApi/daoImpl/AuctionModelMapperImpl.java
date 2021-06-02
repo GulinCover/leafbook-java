@@ -43,8 +43,8 @@ public class AuctionModelMapperImpl {
             Long endTime,
             Long page
     ) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return auctionModelMapper.selectSearchMultiAuctionForNickname(content,startTime,endTime,start,end);
     }
     /**
@@ -122,8 +122,8 @@ public class AuctionModelMapperImpl {
      * @return
      */
     public List<AuctionModel> selectMultiAuctionInfo(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return auctionModelMapper.selectMultiAuctionByUserId(userId,start,end);
     }
     /**

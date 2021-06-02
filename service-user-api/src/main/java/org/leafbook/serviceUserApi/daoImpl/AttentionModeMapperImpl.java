@@ -17,14 +17,14 @@ public class AttentionModeMapperImpl {
     private AttentionModelMapper attentionModelMapper;
 
     public List<Long> selectMultiAttentionUserInfoByUserId(Long userId, Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return attentionModelMapper.selectMultiAttentionUserIds(userId,start, end);
     }
 
     public List<Long> selectMultiFollowedUserInfoByUserId(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return attentionModelMapper.selectMultiAttentionUserIds(userId,start, end);
     }
 

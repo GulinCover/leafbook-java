@@ -45,8 +45,8 @@ public class EntryShowModelMapperImpl {
      * @return
      */
     public List<EntryShowModel> selectAllByPage(Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return entryShowModelMapper.selectMultiEntryByPage(start,end);
     }
     /**

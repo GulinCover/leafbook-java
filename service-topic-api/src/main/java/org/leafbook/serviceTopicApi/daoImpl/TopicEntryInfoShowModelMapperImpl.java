@@ -73,8 +73,8 @@ public class TopicEntryInfoShowModelMapperImpl {
      */
     @RemainingProblem
     public List<TopicModel> joinSelectMultiTopicInfoByEntryId(Long entryId, Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         List<Long> topicIds = topicEntryInfoShowModelMapper.selectMultiTopicIdsByEntryId(entryId,start,end);
         return topicModelMapper.selectMultiTopicInfoByTopicIds(topicIds);
     }

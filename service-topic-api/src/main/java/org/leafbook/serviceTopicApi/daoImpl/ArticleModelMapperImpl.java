@@ -37,8 +37,8 @@ public class ArticleModelMapperImpl {
      * @return
      */
     public List<ArticleModel> selectMultiMainArticleInfo(Long topicId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return articleModelMapper.selectMultiMainArticleByTopicId(topicId,start,end);
     }
     /**

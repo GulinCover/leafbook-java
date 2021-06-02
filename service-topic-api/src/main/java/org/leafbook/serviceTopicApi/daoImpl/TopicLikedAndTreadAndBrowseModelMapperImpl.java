@@ -50,8 +50,8 @@ public class TopicLikedAndTreadAndBrowseModelMapperImpl {
      * @return
      */
     public List<Long> selectStarRank(Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return topicLikedAndTreadAndBrowseModelMapper.selectStarRank(start,end);
     }
 

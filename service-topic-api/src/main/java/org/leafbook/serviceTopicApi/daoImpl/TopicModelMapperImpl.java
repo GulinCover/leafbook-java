@@ -36,8 +36,8 @@ public class TopicModelMapperImpl {
      * @return
      */
     public List<TopicModel> selectMultiTopicInfoByUserId(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return topicModelMapper.selectMultiTopicInfoByUserId(userId,start, end);
     }
     /**
@@ -57,8 +57,8 @@ public class TopicModelMapperImpl {
      * @return
      */
     public List<TopicModel> selectMultiTopicInfoByUserId(Long userId,String blurry,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = 20;
         return topicModelMapper.selectSearchMeMultiTopicInfo(userId,blurry,start,end);
     }
 
@@ -166,8 +166,8 @@ public class TopicModelMapperImpl {
             Long startTime,
             Long endTime,
             Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         List<Long> topicIds = topicModelMapper.joinSelectMultiTopic(entryIds, content, startTime, endTime, start,end);
         return selectByIds(topicIds);
     }
@@ -177,8 +177,8 @@ public class TopicModelMapperImpl {
             Long entryId,
             String content,
             Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         Long startTime = 0L;
         Long endTime = new Date().getTime();
         List<Long> entryIds = new LinkedList<>();
@@ -217,8 +217,8 @@ public class TopicModelMapperImpl {
             Integer status,
             String content,
             Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         Long startTime = 0L;
         Long endTime = new Date().getTime();
         return topicModelMapper.selectSearchMultiTopicInfo(content, startTime, endTime, start,end);
@@ -251,8 +251,8 @@ public class TopicModelMapperImpl {
     public List<TopicModel> jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfo(
             Long page,String blurry,Long entry,Long startTime,Long endTime
     ) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return topicModelMapper.jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfo(start,end,blurry,entry,startTime,endTime);
     }
 
@@ -268,8 +268,8 @@ public class TopicModelMapperImpl {
     public Long jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfoPageAmount(
             Long page,String blurry,Long entry,Long startTime,Long endTime
     ) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return topicModelMapper.jointTopicLikedAndTreadModelTableSelectSearchMultiTopicInfoPageAmount(start,end,blurry,entry,startTime,endTime);
     }
 

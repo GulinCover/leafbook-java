@@ -30,8 +30,8 @@ public class UserBillModelMapperImpl {
      * @return
      */
     public List<UserBillModel> selectMultiStarRelatedByUserId(Long userId, Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return userBillModelMapper.selectMultiUserBillForStarByUserId(userId, start, end);
     }
 
@@ -43,8 +43,8 @@ public class UserBillModelMapperImpl {
      * @return
      */
     public List<UserBillModel> selectMultiTopicRelatedByUserId(Long userId, Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return userBillModelMapper.selectMultiUserBillForTopicByUserId(userId, start, end);
     }
 
@@ -56,8 +56,8 @@ public class UserBillModelMapperImpl {
      * @return
      */
     public List<UserBillModel> selectMultiBuyAndSellRelatedByUserId(Long userId, Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return userBillModelMapper.selectMultiUserBillForBuyByUserId(userId, start, end);
     }
 

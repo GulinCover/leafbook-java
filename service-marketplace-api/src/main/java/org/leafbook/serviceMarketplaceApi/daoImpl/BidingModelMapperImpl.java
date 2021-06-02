@@ -22,8 +22,8 @@ public class BidingModelMapperImpl {
      * @return
      */
     public List<BidingModel> selectMultiUserBidingFailedInfo(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return bidingModelMapper.selectMultiBidingFailedByUserId(userId,start,end);
     }
     /**
@@ -41,8 +41,8 @@ public class BidingModelMapperImpl {
      * @return
      */
     public List<BidingModel> selectMultiUserBidingInfo(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return bidingModelMapper.selectMultiBidingByUserId(userId,start,end);
     }
     /**
@@ -61,8 +61,8 @@ public class BidingModelMapperImpl {
      * @return
      */
     public List<BidingModel> selectMultiUserBidingSuccessInfo(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return bidingModelMapper.selectMultiBidingSuccessByUserId(userId,start,end);
     }
     /**

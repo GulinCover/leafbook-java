@@ -41,8 +41,8 @@ public class ContributorModelMapperImpl {
      * @return
      */
     public List<Long> selectMultiContributorId(Long topicId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return contributorModelMapper.selectMultiUserIds(topicId,start,end);
     }
 }

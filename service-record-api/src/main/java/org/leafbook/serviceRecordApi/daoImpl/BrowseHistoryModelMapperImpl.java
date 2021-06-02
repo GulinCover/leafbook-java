@@ -33,8 +33,8 @@ public class BrowseHistoryModelMapperImpl {
     }
 
     public List<BrowseHistoryModel> selectMultiBrowseHistoryByUserIdAndPage(Long userId,Long page) {
-        Long end = page * 20;
-        Long start = end - 20;
+        Long end = 20;
+        Long start = page * 20;
         return browseHistoryModelMapper.selectMultiBrowseHistoryByUserId(userId,start,end);
     }
 
